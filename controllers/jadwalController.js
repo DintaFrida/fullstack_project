@@ -1,6 +1,5 @@
 let jadwal = [];
 
-// ➕ Tambah Jadwal
 exports.tambahJadwal = (req, res) => {
     const { lapangan_id, tanggal, jam_mulai, jam_selesai } = req.body;
 
@@ -24,7 +23,6 @@ exports.tambahJadwal = (req, res) => {
     });
 };
 
-// 📄 Get Semua Jadwal
 exports.getJadwal = (req, res) => {
     res.json(jadwal);
 };
