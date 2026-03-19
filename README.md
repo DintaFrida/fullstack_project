@@ -39,16 +39,49 @@ Constraint bisnis yang menjadi fokus:
 - Tidak boleh double booking untuk slot yang sama (lapangan + tanggal + jam)
 - Jadwal yang sudah dibooking otomatis dianggap unavailable untuk booking berikutnya
 
-## Endpoint API yang sudah ada (foundation)
+## Endpoint API yang sudah ada
 
-Backend saat ini sudah menyediakan fondasi endpoint:
+Backend saat ini sudah menyediakan endpoint untuk:
+
+### Health & Auth
 - `GET /api/ping` - health check
 - `POST /api/auth/register`
 - `POST /api/auth/login`
 - `POST /api/auth/logout`
 - `GET /api/auth/me`
 
-Endpoint CRUD lapangan/jadwal serta flow booking/pembayaran akan ditambahkan bertahap di fase berikutnya.
+### Lapangan & Jadwal
+- User:
+  - `GET /api/fields` (list lapangan, supports `q` dan `jenis_lapangan`)
+  - `GET /api/fields/{id}`
+  - `GET /api/schedules/available?tanggal=YYYY-MM-DD&lapangan_id=...` (slot tersedia saja)
+- Admin:
+  - `POST /api/admin/fields`
+  - `PUT /api/admin/fields/{id}`
+  - `DELETE /api/admin/fields/{id}`
+  - `GET /api/admin/schedules` (CRUD listing jadwal dengan pagination/filter)
+  - `POST /api/admin/schedules`
+  - `PUT /api/admin/schedules/{id}`
+  - `DELETE /api/admin/schedules/{id}`
+
+### Booking & Pembayaran
+Booking menggunakan transaksi + locking untuk mencegah double booking.
+
+- User:
+  - `POST /api/bookings` (body: `id_jadwal`)
+  - `GET /api/bookings` (riwayat booking user)
+  - `GET /api/bookings/{id}` (detail booking milik user)
+  - `PUT /api/bookings/{id}/cancel`
+  - `POST /api/payments` (body: `id_booking`, `metode_pembayaran`)
+  - `GET /api/payments`
+  - `GET /api/payments/{id}`
+- Admin:
+  - `GET /api/admin/bookings`
+  - `GET /api/admin/bookings/{id}`
+  - `PUT /api/admin/bookings/{id}/status` (body: `status_booking`)
+  - `GET /api/admin/payments`
+  - `GET /api/admin/payments/{id}`
+  - `PUT /api/admin/payments/{id}/status` (body: `status_pembayaran`)
 
 ## Cara Menjalankan Lokal
 
