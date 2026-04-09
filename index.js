@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const PORT = 5000;
 
+require('./backend/config/db.cjs');
+
 app.use(express.json());
 
 // import routes
