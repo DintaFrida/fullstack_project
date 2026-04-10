@@ -25,4 +25,4 @@ app.get('/', (req, res) => {
     res.send("Backend Futsal Booking Jalan!");
 });
 
-app.listen(PORT, () => console.log(`Server jalan di port ${PORT}`));    
+app.listen(PORT, () => console.log(`Server jalan di port ${PORT}`));
