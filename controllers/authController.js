@@ -1,16 +1,53 @@
-let users = []; // mock users
+const db = require("../backend/config/db.cjs");
 
+// REGISTER
 exports.register = (req, res) => {
-    const newUser = { id: users.length + 1, ...req.body };
-    users.push(newUser);
-    res.json({ message: "User berhasil dibuat (mock)", userId: newUser.id });
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        return res.status(400).json({
+            message: "Data tidak lengkap"
+        });
+    }
+
+    const sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+
+    db.query(sql, [username, password], (err, result) => {
+        if (err) return res.status(500).json(err);
+
+        res.json({
+            message: "User berhasil register",
+            id: result.insertId
+        });
+    });
 };
 
+// LOGIN
 exports.login = (req, res) => {
-    const user = users.find(u => u.email === req.body.email && u.password === req.body.password);
-    if(user){
-        res.json({ message: "Login berhasil (mock)", userId: user.id, name: user.name });
-    } else {
-        res.status(401).json({ message: "Email atau password salah" });
-    }
+    const { username, password } = req.body;
+
+    const sql = "SELECT * FROM users WHERE username = ?";
+
+    db.query(sql, [username], (err, result) => {
+        if (err) return res.status(500).json(err);
+
+        if (result.length === 0) {
+            return res.status(404).json({
+                message: "User tidak ditemukan"
+            });
+        }
+
+        const user = result[0];
+
+        if (password !== user.password) {
+            return res.status(401).json({
+                message: "Password salah"
+            });
+        }
+
+        res.json({
+            message: "Login berhasil",
+            user: user
+        });
+    });
 };
