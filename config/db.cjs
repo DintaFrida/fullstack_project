@@ -1,18 +1,15 @@
 const mysql = require("mysql2");
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "futsal_booking"
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "futsal_booking"
 });
 
 db.connect((err) => {
-  if (err) {
-    console.error("Koneksi gagal:", err);
-  } else {
+    if (err) throw err;
     console.log("Database connected!");
-  }
 });
 
 module.exports = db;

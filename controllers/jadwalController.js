@@ -1,4 +1,4 @@
-const db = require("../backend/config/db.cjs");
+const db = require("../config/db.cjs");
 
 // ✅ CREATE
 exports.tambahJadwal = (req, res) => {
