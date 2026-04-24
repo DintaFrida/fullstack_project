@@ -13,12 +13,13 @@ Monorepo untuk website booking lapangan futsal. Sistem menyediakan:
 - `frontend/` - Frontend Web App (Next.js App Router) untuk UI user/admin
 - `docs/` - Dokumentasi arsitektur, relasi data, flow user/admin, dan spesifikasi status
 
-## Tech Stack (saat ini)
+- ## Tech Stack
 
-- Backend: Laravel API + session-based auth (Laravel Sanctum, cookie)
-- Frontend: Next.js (App Router) + Tailwind CSS
-- State client: TanStack Query (server-state)
-- Database: MySQL (skema disediakan via migration Laravel)
+- Backend: Express.js (Node.js)
+- Authentication: JWT (JSON Web Token)
+- Database: MySQL
+- File Upload: Multer
+- API Testing: Postman
 
 ## Skema Data (inti)
 
