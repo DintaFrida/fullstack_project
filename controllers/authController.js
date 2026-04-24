@@ -1,22 +1,18 @@
 const db = require("../config/db.cjs");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
+// =======================
 // REGISTER
+// =======================
 exports.register = (req, res) => {
   try {
     const { nama, email, password } = req.body;
 
-    // Validasi input
     if (!nama || !email || !password) {
       return res.status(400).json({
         status: "error",
         message: "Semua field wajib diisi"
-      });
-    }
-
-    if (typeof nama !== "string" || typeof email !== "string" || typeof password !== "string") {
-      return res.status(400).json({
-        status: "error",
-        message: "Input harus berupa string"
       });
     }
 
@@ -27,10 +23,9 @@ exports.register = (req, res) => {
       });
     }
 
-    // Cek email sudah ada atau belum
     db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
       if (err) {
-        console.log(err);
+        console.log("ERROR CEK USER:", err);
         return res.status(500).json({
           status: "error",
           message: "Error cek user"
@@ -44,12 +39,13 @@ exports.register = (req, res) => {
         });
       }
 
-      // Insert user
+      const hashedPassword = bcrypt.hashSync(password, 10);
+
       const sql = "INSERT INTO users (nama, email, password, role) VALUES (?, ?, ?, ?)";
 
-      db.query(sql, [nama, email, password, "user"], (err, insertResult) => {
+      db.query(sql, [nama, email, hashedPassword, "user"], (err, insertResult) => {
         if (err) {
-          console.log(err);
+          console.log("ERROR INSERT:", err);
           return res.status(500).json({
             status: "error",
             message: "Gagal register user"
@@ -69,6 +65,7 @@ exports.register = (req, res) => {
     });
 
   } catch (error) {
+    console.log("ERROR REGISTER:", error);
     res.status(500).json({
       status: "error",
       message: "Internal server error"
@@ -77,12 +74,16 @@ exports.register = (req, res) => {
 };
 
 
-// LOGIN
+// =======================
+// LOGIN + JWT
+// =======================
 exports.login = (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Validasi input
+    // 🔥 DEBUG ENV
+    console.log("JWT SECRET:", process.env.JWT_SECRET);
+
     if (!email || !password) {
       return res.status(400).json({
         status: "error",
@@ -90,11 +91,9 @@ exports.login = (req, res) => {
       });
     }
 
-    const sql = "SELECT * FROM users WHERE email = ?";
-
-    db.query(sql, [email], (err, result) => {
+    db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
       if (err) {
-        console.log(err);
+        console.log("DB ERROR:", err);
         return res.status(500).json({
           status: "error",
           message: "Database error"
@@ -110,26 +109,42 @@ exports.login = (req, res) => {
 
       const user = result[0];
 
-      if (user.password !== password) {
+      const isMatch = bcrypt.compareSync(password, user.password);
+
+      if (!isMatch) {
         return res.status(401).json({
           status: "error",
           message: "Password salah"
         });
       }
 
+      // ❗ CEK SECRET DULU BIAR GA CRASH
+      if (!process.env.JWT_SECRET) {
+        console.log("JWT SECRET TIDAK ADA!");
+        return res.status(500).json({
+          status: "error",
+          message: "JWT_SECRET belum diset di .env"
+        });
+      }
+
+      const token = jwt.sign(
+        {
+          id: user.id_user || user.id,
+          role: user.role
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: "1h" }
+      );
+
       res.json({
         status: "success",
         message: "Login berhasil",
-        data: {
-          id_user: user.id_user,
-          nama: user.nama,
-          email: user.email,
-          role: user.role
-        }
+        token: token
       });
     });
 
   } catch (error) {
+    console.log("ERROR LOGIN:", error);
     res.status(500).json({
       status: "error",
       message: "Internal server error"
