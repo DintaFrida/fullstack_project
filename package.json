@@ -1,13 +1,19 @@
 {
   "name": "futsal-backend",
   "version": "1.0.0",
+  "description": "Backend API for Futsal Booking App",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "express",
+    "api",
+    "futsal",
+    "backend"
+  ],
+  "author": "Your Name",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -17,5 +23,8 @@
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.1.1",
     "mysql2": "^3.21.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }

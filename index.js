@@ -1,50 +1,59 @@
 require("dotenv").config();
-const express = require('express');
+const express = require("express");
 const app = express();
-const PORT = 5000;
 
-require('./config/db.cjs');
+// ========================
+// CONFIG
+// ========================
+const PORT = process.env.PORT || 5000;
+require("./config/db.cjs");
 
+// ========================
+// MIDDLEWARE
+// ========================
 app.use(express.json());
 
-// ========================
-// IMPORT ROUTES (SESUAI FOLDER routes)
-// ========================
-const authRoutes = require('./routes/auth');
-const lapanganRoutes = require('./routes/lapangan');
-const jadwalRoutes = require('./routes/jadwal');
-const bookingRoutes = require('./routes/booking');
-const pembayaranRoutes = require('./routes/pembayaran');
+// serve folder uploads (akses gambar via browser)
+app.use("/uploads", express.static("uploads"));
 
 // ========================
-// USE ROUTES
+// IMPORT ROUTES
 // ========================
-app.use('/auth', authRoutes);
-app.use('/lapangan', lapanganRoutes);
-app.use('/jadwal', jadwalRoutes);
-app.use('/booking', bookingRoutes);
-app.use('/pembayaran', pembayaranRoutes);
+const authRoutes = require("./routes/auth");
+const lapanganRoutes = require("./routes/lapangan");
+const jadwalRoutes = require("./routes/jadwal");
+const bookingRoutes = require("./routes/booking");
+const pembayaranRoutes = require("./routes/pembayaran");
+
+// ========================
+// REGISTER ROUTES (PREFIX /api)
+// ========================
+app.use("/api", authRoutes);
+app.use("/api/lapangan", lapanganRoutes);
+app.use("/api/jadwal", jadwalRoutes);
+app.use("/api/booking", bookingRoutes);
+app.use("/api/pembayaran", pembayaranRoutes);
 
 // ========================
 // ROOT TEST
 // ========================
-app.get('/', (req, res) => {
-    res.send("Backend Futsal Booking Jalan!");
+app.get("/", (req, res) => {
+  res.send("Backend Futsal Booking Jalan 🚀");
 });
 
 // ========================
 // 404 HANDLER
 // ========================
 app.use((req, res) => {
-    res.status(404).json({
-        status: "error",
-        message: "Route tidak ditemukan"
-    });
+  res.status(404).json({
+    status: "error",
+    message: "Route tidak ditemukan",
+  });
 });
 
 // ========================
 // START SERVER
 // ========================
 app.listen(PORT, () => {
-    console.log(`Server jalan di port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

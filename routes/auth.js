@@ -1,53 +1,62 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 // =======================
 // CONTROLLERS
 // =======================
-const { register, login } = require('../controllers/authController');
-const { uploadFoto } = require('../controllers/userController');
+const { register, login } = require("../controllers/authController");
+const { uploadFoto } = require("../controllers/userController");
 
 // =======================
 // MIDDLEWARE
 // =======================
-const authMiddleware = require('../middleware/auth');
-const authorize = require('../middleware/authorize');
-const upload = require('../middleware/upload');
+const authMiddleware = require("../middleware/auth");
+const authorize = require("../middleware/authorize");
+const uploadSingleImage = require("../middleware/upload");
 
 // =======================
-// AUTH
+// AUTH ROUTES
 // =======================
-router.post('/register', register);
-router.post('/login', login);
+
+// Register user
+router.post("/register", register);
+
+// Login user
+router.post("/login", login);
 
 // =======================
-// PROTECTED (USER)
+// PROTECTED ROUTE (USER)
 // =======================
-router.get('/profile', authMiddleware, (req, res) => {
+router.get("/profile", authMiddleware, (req, res) => {
   res.json({
     status: "success",
     message: "Berhasil akses protected route",
-    user: req.user
+    user: req.user,
   });
 });
 
 // =======================
-// ADMIN ONLY
+// ADMIN ONLY ROUTE
 // =======================
-router.get('/admin', authMiddleware, authorize("admin"), (req, res) => {
-  res.json({
-    status: "success",
-    message: "Selamat datang admin"
-  });
-});
+router.get(
+  "/admin",
+  authMiddleware,
+  authorize("admin"),
+  (req, res) => {
+    res.json({
+      status: "success",
+      message: "Selamat datang admin",
+    });
+  }
+);
 
 // =======================
-// UPLOAD FOTO
+// UPLOAD FOTO USER (PROTECTED)
 // =======================
 router.post(
-  '/upload-foto',
+  "/upload-foto",
   authMiddleware,
-  upload.single('foto'),
+  uploadSingleImage("foto"), // middleware upload + validation
   uploadFoto
 );
 
