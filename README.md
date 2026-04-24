@@ -9,7 +9,7 @@ Monorepo untuk website booking lapangan futsal. Sistem menyediakan:
 
 ## Struktur Repo
 
-- `backend/` - Backend API (Laravel) untuk manajemen data, validasi, dan otorisasi berbasis role
+- `backend/` - Backend API (Express.js + Node.js) untuk manajemen data, validasi, dan otorisasi berbasis role
 - `frontend/` - Frontend Web App (Next.js App Router) untuk UI user/admin
 - `docs/` - Dokumentasi arsitektur, relasi data, flow user/admin, dan spesifikasi status
 
