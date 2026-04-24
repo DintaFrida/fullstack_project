@@ -3,17 +3,17 @@ const db = require("../config/db.cjs");
 // REGISTER
 exports.register = (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { nama, email, password } = req.body;
 
     // Validasi input
-    if (!username || !password) {
+    if (!nama || !email || !password) {
       return res.status(400).json({
         status: "error",
-        message: "Username dan password wajib diisi"
+        message: "Semua field wajib diisi"
       });
     }
 
-    if (typeof username !== "string" || typeof password !== "string") {
+    if (typeof nama !== "string" || typeof email !== "string" || typeof password !== "string") {
       return res.status(400).json({
         status: "error",
         message: "Input harus berupa string"
@@ -27,9 +27,10 @@ exports.register = (req, res) => {
       });
     }
 
-    // Cek username sudah ada atau belum
-    db.query("SELECT * FROM users WHERE username = ?", [username], (err, result) => {
+    // Cek email sudah ada atau belum
+    db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
       if (err) {
+        console.log(err);
         return res.status(500).json({
           status: "error",
           message: "Error cek user"
@@ -39,15 +40,16 @@ exports.register = (req, res) => {
       if (result.length > 0) {
         return res.status(400).json({
           status: "error",
-          message: "Username sudah digunakan"
+          message: "Email sudah digunakan"
         });
       }
 
       // Insert user
-      const sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+      const sql = "INSERT INTO users (nama, email, password, role) VALUES (?, ?, ?, ?)";
 
-      db.query(sql, [username, password], (err, insertResult) => {
+      db.query(sql, [nama, email, password, "user"], (err, insertResult) => {
         if (err) {
+          console.log(err);
           return res.status(500).json({
             status: "error",
             message: "Gagal register user"
@@ -59,7 +61,8 @@ exports.register = (req, res) => {
           message: "User berhasil register",
           data: {
             id_user: insertResult.insertId,
-            username
+            nama,
+            email
           }
         });
       });
@@ -77,20 +80,21 @@ exports.register = (req, res) => {
 // LOGIN
 exports.login = (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     // Validasi input
-    if (!username || !password) {
+    if (!email || !password) {
       return res.status(400).json({
         status: "error",
-        message: "Username dan password wajib diisi"
+        message: "Email dan password wajib diisi"
       });
     }
 
-    const sql = "SELECT * FROM users WHERE username = ?";
+    const sql = "SELECT * FROM users WHERE email = ?";
 
-    db.query(sql, [username], (err, result) => {
+    db.query(sql, [email], (err, result) => {
       if (err) {
+        console.log(err);
         return res.status(500).json({
           status: "error",
           message: "Database error"
@@ -118,7 +122,9 @@ exports.login = (req, res) => {
         message: "Login berhasil",
         data: {
           id_user: user.id_user,
-          username: user.username
+          nama: user.nama,
+          email: user.email,
+          role: user.role
         }
       });
     });

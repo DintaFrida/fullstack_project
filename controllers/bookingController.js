@@ -1,11 +1,12 @@
 const db = require("../config/db.cjs");
 
-//  CREATE BOOKING
+// ========================
+// CREATE BOOKING
+// ========================
 exports.tambahBooking = (req, res) => {
   try {
     const { id_user, id_jadwal, tanggal_booking, status } = req.body;
 
-    // VALIDASI INPUT
     if (!id_user || !id_jadwal || !tanggal_booking || !status) {
       return res.status(400).json({
         status: "error",
@@ -20,68 +21,78 @@ exports.tambahBooking = (req, res) => {
       });
     }
 
-    //  VALIDASI RELASI USER
-    db.query("SELECT * FROM users WHERE id_user = ?", [id_user], (err, userResult) => {
-      if (err) {
-        return res.status(500).json({
-          status: "error",
-          message: "Error cek user"
-        });
-      }
-
-      if (userResult.length === 0) {
-        return res.status(404).json({
-          status: "error",
-          message: "User tidak ditemukan"
-        });
-      }
-
-      //  VALIDASI RELASI JADWAL
-      db.query("SELECT * FROM jadwal WHERE id_jadwal = ?", [id_jadwal], (err, jadwalResult) => {
+    // VALIDASI USER
+    db.query(
+      "SELECT * FROM users WHERE id_user = ?",
+      [id_user],
+      (err, userResult) => {
         if (err) {
           return res.status(500).json({
             status: "error",
-            message: "Error cek jadwal"
+            message: "Error cek user"
           });
         }
 
-        if (jadwalResult.length === 0) {
+        if (userResult.length === 0) {
           return res.status(404).json({
             status: "error",
-            message: "Jadwal tidak ditemukan"
+            message: "User tidak ditemukan"
           });
         }
 
-        //  INSERT BOOKING
-        const sql = `
-          INSERT INTO booking (id_user, id_jadwal, tanggal_booking, status)
-          VALUES (?, ?, ?, ?)
-        `;
-
-        db.query(sql, [id_user, id_jadwal, tanggal_booking, status], (err, result) => {
-          if (err) {
-            return res.status(500).json({
-              status: "error",
-              message: "Gagal membuat booking"
-            });
-          }
-
-          res.status(201).json({
-            status: "success",
-            message: "Booking berhasil dibuat",
-            data: {
-              id_booking: result.insertId,
-              id_user,
-              id_jadwal,
-              tanggal_booking,
-              status
+        // VALIDASI JADWAL
+        db.query(
+          "SELECT * FROM jadwal WHERE id_jadwal = ?",
+          [id_jadwal],
+          (err, jadwalResult) => {
+            if (err) {
+              return res.status(500).json({
+                status: "error",
+                message: "Error cek jadwal"
+              });
             }
-          });
-        });
 
-      });
-    });
+            if (jadwalResult.length === 0) {
+              return res.status(404).json({
+                status: "error",
+                message: "Jadwal tidak ditemukan"
+              });
+            }
 
+            // INSERT BOOKING
+            const sql = `
+              INSERT INTO booking (id_user, id_jadwal, tanggal_booking, status)
+              VALUES (?, ?, ?, ?)
+            `;
+
+            db.query(
+              sql,
+              [id_user, id_jadwal, tanggal_booking, status],
+              (err, result) => {
+                if (err) {
+                  return res.status(500).json({
+                    status: "error",
+                    message: "Gagal membuat booking"
+                  });
+                }
+
+                res.status(201).json({
+                  status: "success",
+                  message: "Booking berhasil dibuat",
+                  data: {
+                    id_booking: result.insertId,
+                    id_user,
+                    id_jadwal,
+                    tanggal_booking,
+                    status
+                  }
+                });
+              }
+            );
+          }
+        );
+      }
+    );
   } catch (error) {
     res.status(500).json({
       status: "error",
@@ -90,8 +101,9 @@ exports.tambahBooking = (req, res) => {
   }
 };
 
-
-// READ ALL BOOKING (JOIN)
+// ========================
+// READ BOOKING
+// ========================
 exports.getBooking = (req, res) => {
   try {
     const sql = `
@@ -115,11 +127,90 @@ exports.getBooking = (req, res) => {
         data: result
       });
     });
-
   } catch (error) {
     res.status(500).json({
       status: "error",
       message: "Internal server error"
     });
   }
+};
+
+// ========================
+// UPDATE BOOKING (FIX DEBUG)
+// ========================
+exports.updateBooking = (req, res) => {
+  const id = req.params.id;
+  const { id_user, id_jadwal, tanggal_booking, status } = req.body;
+
+  if (!id_user || !id_jadwal || !tanggal_booking || !status) {
+    return res.status(400).json({
+      status: "error",
+      message: "Semua field wajib diisi"
+    });
+  }
+
+  const sql = `
+    UPDATE booking
+    SET id_user = ?, id_jadwal = ?, tanggal_booking = ?, status = ?
+    WHERE id_booking = ?
+  `;
+
+  db.query(
+    sql,
+    [id_user, id_jadwal, tanggal_booking, status, id],
+    (err, result) => {
+      if (err) {
+        console.log(err); // 👈 penting buat lihat error asli di terminal
+
+        return res.status(500).json({
+          status: "error",
+          message: err.sqlMessage // 👈 tampilkan error asli
+        });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          status: "error",
+          message: "Booking tidak ditemukan"
+        });
+      }
+
+      res.json({
+        status: "success",
+        message: "Booking berhasil diupdate"
+      });
+    }
+  );
+};
+
+// ========================
+// DELETE BOOKING
+// ========================
+exports.deleteBooking = (req, res) => {
+  const id = req.params.id;
+
+  db.query(
+    "DELETE FROM booking WHERE id_booking = ?",
+    [id],
+    (err, result) => {
+      if (err) {
+        return res.status(500).json({
+          status: "error",
+          message: "Gagal menghapus booking"
+        });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          status: "error",
+          message: "Booking tidak ditemukan"
+        });
+      }
+
+      res.json({
+        status: "success",
+        message: "Booking berhasil dihapus"
+      });
+    }
+  );
 };
