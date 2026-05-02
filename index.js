@@ -13,7 +13,7 @@ require("./config/db.cjs");
 // ========================
 app.use(express.json());
 
-// serve folder uploads (akses gambar via browser)
+// akses folder uploads
 app.use("/uploads", express.static("uploads"));
 
 // ========================
@@ -26,16 +26,16 @@ const bookingRoutes = require("./routes/booking");
 const pembayaranRoutes = require("./routes/pembayaran");
 
 // ========================
-// REGISTER ROUTES (PREFIX /api)
+// REGISTER ROUTES
 // ========================
-app.use("/api", authRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api/lapangan", lapanganRoutes);
 app.use("/api/jadwal", jadwalRoutes);
 app.use("/api/booking", bookingRoutes);
 app.use("/api/pembayaran", pembayaranRoutes);
 
 // ========================
-// ROOT TEST
+// ROOT
 // ========================
 app.get("/", (req, res) => {
   res.send("Backend Futsal Booking Jalan 🚀");
