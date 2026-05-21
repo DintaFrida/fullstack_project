@@ -1,18 +1,27 @@
-import Navbar from "./components/Navbar/Navbar";
-import Footer from "./components/Footer/Footer";
+import Navbar from "./components/Navbar/Navbar"
 
-function App() {
-  return (
-    <>
-      <Navbar />
+import Login from "./pages/Login/Login"
 
-      <main>
-        <h1>Sistem Booking Lapangan Futsal</h1>
-      </main>
+import Register from "./pages/Register/Register"
 
-      <Footer />
-    </>
-  );
+function App(){
+
+return(
+
+<>
+
+<Navbar/>
+
+<Login/>
+
+<hr/>
+
+<Register/>
+
+</>
+
+)
+
 }
 
-export default App;
+export default App
