@@ -1,4 +1,5 @@
 import LapanganList from "../components/LapanganList.jsx"
+import BookingForm from "../components/BookingForm/BookingForm"
 
 export default function Home() {
   return (
@@ -7,6 +8,11 @@ export default function Home() {
 
       <LapanganList />
 
+      <hr />
+
+      <h2>Jadwal Booking</h2>
+
+      <BookingForm />
     </div>
   )
 }
