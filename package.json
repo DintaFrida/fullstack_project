@@ -1,30 +1,27 @@
 {
-  "name": "futsal-backend",
-  "version": "1.0.0",
-  "description": "Backend API for Futsal Booking App",
-  "main": "index.js",
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
   },
-  "keywords": [
-    "express",
-    "api",
-    "futsal",
-    "backend"
-  ],
-  "author": "Your Name",
-  "license": "ISC",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^2.2.2",
-    "dotenv": "^16.6.1",
-    "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.2",
-    "multer": "^2.1.1",
-    "mysql2": "^3.21.0"
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "@eslint/js": "^10.0.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^10.3.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.6.0",
+    "vite": "^8.0.12"
   }
 }
