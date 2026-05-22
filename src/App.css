@@ -1,63 +1,72 @@
 body{
+background:linear-gradient(
+to right,
+#dbeafe,
+#bfdbfe
+);
+
+font-family:Arial,sans-serif;
+
 margin:0;
 padding:0;
-font-family:Arial,sans-serif;
-background:#f5f5f5;
 }
 
 .container{
 width:90%;
 margin:auto;
-text-align:center;
 }
 
 .section{
+
 background:white;
-padding:20px;
-margin:20px 0;
-border-radius:10px;
+
+padding:30px;
+
+margin-top:25px;
+
+border-radius:15px;
 
 box-shadow:
-0 2px 8px rgba(0,0,0,0.1);
+0 4px 12px rgba(0,0,0,0.1);
+
 }
 
-.cardContainer{
-display:flex;
-justify-content:center;
-gap:20px;
-flex-wrap:wrap;
+h1{
+
+text-align:center;
+
+font-weight:bold;
+
+margin-bottom:30px;
+
 }
 
 .card{
-background:white;
-width:250px;
-padding:20px;
-border-radius:10px;
 
-box-shadow:
-0 2px 8px rgba(0,0,0,0.1);
+border:none!important;
+
+border-radius:15px!important;
+
+transition:.3s;
 }
 
-button{
+.card:hover{
 
-padding:10px 15px;
+transform:translateY(-5px);
 
-border:none;
+}
 
-background:#2563eb;
+footer{
+
+background:#0d6efd;
 
 color:white;
 
-border-radius:5px;
+padding:20px;
 
-cursor:pointer;
-}
+text-align:center;
 
-input{
+margin-top:20px;
 
-padding:10px;
-
-width:250px;
-
-margin:8px;
+border-radius:15px;
 }

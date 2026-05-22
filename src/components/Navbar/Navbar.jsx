@@ -1,24 +1,39 @@
-import styles from "./Navbar.module.css"
-
 function Navbar(){
 
 return(
 
-<nav className={styles.nav}>
+<nav className="navbar navbar-expand-lg navbar-dark bg-primary rounded mt-3">
 
-<h2>Booking Futsal</h2>
+<div className="container">
 
-<ul>
+<a
+className="navbar-brand fw-bold"
+href="#"
+>
+Booking Futsal
+</a>
 
-<li>Home</li>
+<ul className="navbar-nav ms-auto">
 
-<li>Lapangan</li>
+<li className="nav-item">
+<a className="nav-link text-white">Home</a>
+</li>
 
-<li>Booking</li>
+<li className="nav-item">
+<a className="nav-link text-white">Lapangan</a>
+</li>
 
-<li>Profile</li>
+<li className="nav-item">
+<a className="nav-link text-white">Booking</a>
+</li>
+
+<li className="nav-item">
+<a className="nav-link text-white">Profile</a>
+</li>
 
 </ul>
+
+</div>
 
 </nav>
 

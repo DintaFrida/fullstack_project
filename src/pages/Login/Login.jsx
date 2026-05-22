@@ -4,23 +4,25 @@ return(
 
 <div>
 
-<h2>Login</h2>
+<h1>Login</h1>
 
 <input
+className="form-control"
 type="email"
 placeholder="Masukkan Email"
 />
 
-<br/><br/>
+<br/>
 
 <input
+className="form-control"
 type="password"
 placeholder="Masukkan Password"
 />
 
-<br/><br/>
+<br/>
 
-<button>
+<button className="btn btn-primary">
 Login
 </button>
 

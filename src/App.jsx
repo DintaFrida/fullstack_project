@@ -8,11 +8,13 @@ import Register from "./pages/Register/Register";
 import CardLapangan from "./components/LapanganCard/CardLapangan";
 import BookingForm from "./components/BookingForm/BookingForm";
 
+import JadwalCard from "./components/JadwalCard/JadwalCard";
 import Profile from "./pages/Profile/Profile";
 
 import Footer from "./components/Footer/Footer";
 
 import lapangan from "./utils/lapangan";
+import jadwal from "./utils/jadwal";
 
 function App(){
 
@@ -61,6 +63,31 @@ harga={item.harga}
 <div className="section">
 
 <BookingForm/>
+
+</div>
+
+<div className="section">
+
+<h1>Jadwal Booking</h1>
+
+<div className="cardContainer">
+
+{
+
+jadwal.map((item)=>(
+
+<JadwalCard
+key={item.id}
+hari={item.hari}
+jam={item.jam}
+status={item.status}
+/>
+
+))
+
+}
+
+</div>
 
 </div>
 

@@ -4,27 +4,30 @@ return(
 
 <div>
 
-<h2>Register</h2>
+<h1>Register</h1>
 
 <input
+className="form-control"
 placeholder="Nama"
 />
 
-<br/><br/>
+<br/>
 
 <input
+className="form-control"
 placeholder="Email"
 />
 
-<br/><br/>
+<br/>
 
 <input
+className="form-control"
 placeholder="Password"
 />
 
-<br/><br/>
+<br/>
 
-<button>
+<button className="btn btn-success">
 Register
 </button>
 
