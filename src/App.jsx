@@ -1,3 +1,5 @@
+import "./App.css";
+
 import Navbar from "./components/Navbar/Navbar";
 
 import Login from "./pages/Login/Login";
@@ -6,27 +8,37 @@ import Register from "./pages/Register/Register";
 import CardLapangan from "./components/LapanganCard/CardLapangan";
 import BookingForm from "./components/BookingForm/BookingForm";
 
+import Profile from "./pages/Profile/Profile";
+
 import Footer from "./components/Footer/Footer";
 
 import lapangan from "./utils/lapangan";
 
-function App() {
+function App(){
 
 return(
 
-<>
+<div className="container">
 
 <Navbar/>
 
+<div className="section">
+
 <Login/>
 
-<hr/>
+</div>
+
+<div className="section">
 
 <Register/>
 
-<hr/>
+</div>
+
+<div className="section">
 
 <h1>Sistem Booking Lapangan</h1>
+
+<div className="cardContainer">
 
 {
 
@@ -42,15 +54,25 @@ harga={item.harga}
 
 }
 
-<hr/>
+</div>
+
+</div>
+
+<div className="section">
 
 <BookingForm/>
 
-<hr/>
+</div>
+
+<div className="section">
+
+<Profile/>
+
+</div>
 
 <Footer/>
 
-</>
+</div>
 
 )
 

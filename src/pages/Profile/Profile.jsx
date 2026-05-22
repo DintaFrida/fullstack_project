@@ -1,8 +1,23 @@
+import UploadFoto from "../../components/UploadFoto/UploadFoto";
+
 function Profile(){
+
 return(
+
 <div>
-<h2>Profile User</h2>
+
+<h1>Profile User</h1>
+
+<p>Nama : Eshi Aulia</p>
+
+<p>Email : eshi@gmail.com</p>
+
+<UploadFoto/>
+
 </div>
+
 )
+
 }
+
 export default Profile

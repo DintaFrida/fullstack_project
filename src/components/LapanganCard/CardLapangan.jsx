@@ -2,7 +2,7 @@ function CardLapangan(props){
 
 return(
 
-<div>
+<div className="card">
 
 <h2>{props.nama}</h2>
 
