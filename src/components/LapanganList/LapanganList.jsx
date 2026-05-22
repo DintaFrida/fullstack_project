@@ -1,4 +1,4 @@
-import LapanganCard from "../LapanganCard/LapanganCard"
+
 
 function LapanganList(){
 
