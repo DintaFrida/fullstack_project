@@ -1,4 +1,4 @@
-import LapanganList from "../components/LapanganList.jsx"
+import LapanganList from "../components/LapanganList"
 import BookingForm from "../components/BookingForm/BookingForm"
 
 export default function Home() {
