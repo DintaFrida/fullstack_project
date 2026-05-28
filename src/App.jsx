@@ -16,6 +16,11 @@ import Footer from "./components/Footer/Footer";
 import lapangan from "./utils/lapangan";
 import jadwal from "./utils/jadwal";
 
+import JadwalList from "./components/Jadwal/JadwalList";
+
+// di dalam return:
+<JadwalList />
+
 function App(){
 
 return(
