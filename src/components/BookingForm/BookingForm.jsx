@@ -1,54 +1,80 @@
-import {useState} from "react";
+import { useState } from "react";
+import { createBooking } from "../../services/BookingApi";
 
-function BookingForm(){
+function BookingForm() {
+  const [formData, setFormData] = useState({
+    nama_pemesan: "",
+    jam: "",
+  });
 
-const[nama,setNama]=useState("");
-const[jam,setJam]=useState("");
+  const [loading, setLoading] = useState(false);
 
-function handleBooking(){
+  function handleChange(e) {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  }
 
-alert(
+  async function handleBooking() {
+    try {
+      setLoading(true);
 
-"Booking berhasil\n"+
-"Nama : "+nama+
-"\nJam : "+jam
+      const response = await createBooking(formData);
 
-)
+      alert(
+        "Booking berhasil!\n" +
+        "ID Booking : " +
+        (response.data?.data?.id || "-")
+      );
 
+      setFormData({
+        nama_pemesan: "",
+        jam: "",
+      });
+
+    } catch (error) {
+      alert("Booking gagal");
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div>
+      <h1>Form Booking</h1>
+
+      <input
+        type="text"
+        name="nama_pemesan"
+        placeholder="Nama Pemesan"
+        value={formData.nama_pemesan}
+        onChange={handleChange}
+      />
+
+      <br />
+      <br />
+
+      <input
+        type="text"
+        name="jam"
+        placeholder="Jam Booking"
+        value={formData.jam}
+        onChange={handleChange}
+      />
+
+      <br />
+      <br />
+
+      <button
+        onClick={handleBooking}
+        disabled={loading}
+      >
+        {loading ? "Memproses..." : "Booking Sekarang"}
+      </button>
+    </div>
+  );
 }
 
-return(
-
-<div>
-
-<h1>Form Booking</h1>
-
-<input
-type="text"
-placeholder="Nama Pemesan"
-value={nama}
-onChange={(e)=>setNama(e.target.value)}
-/>
-
-<br/><br/>
-
-<input
-type="text"
-placeholder="Jam Booking"
-value={jam}
-onChange={(e)=>setJam(e.target.value)}
-/>
-
-<br/><br/>
-
-<button onClick={handleBooking}>
-Booking Sekarang
-</button>
-
-</div>
-
-)
-
-}
-
-export default BookingForm
+export default BookingForm;
