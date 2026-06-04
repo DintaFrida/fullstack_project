@@ -5,7 +5,6 @@ import Navbar from "./components/Navbar/Navbar";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 
-import CardLapangan from "./components/LapanganCard/CardLapangan";
 import BookingForm from "./components/BookingForm/BookingForm";
 
 import JadwalCard from "./components/JadwalCard/JadwalCard";
@@ -13,101 +12,54 @@ import Profile from "./pages/Profile/Profile";
 
 import Footer from "./components/Footer/Footer";
 
-import lapangan from "./utils/lapangan";
 import jadwal from "./utils/jadwal";
 
-import JadwalList from "./components/Jadwal/JadwalList";
+import LapanganList from "./components/Lapangan/LapanganList";
 
-// di dalam return:
-<JadwalList />
+function App() {
+  return (
+    <div className="container">
+      <Navbar />
 
-function App(){
+      <div className="section">
+        <Login />
+      </div>
 
-return(
+      <div className="section">
+        <Register />
+      </div>
 
-<div className="container">
+      <div className="section">
+        <h1>Sistem Booking Lapangan</h1>
+        <LapanganList />
+      </div>
 
-<Navbar/>
+      <div className="section">
+        <BookingForm />
+      </div>
 
-<div className="section">
+      <div className="section">
+        <h1>Jadwal Booking</h1>
 
-<Login/>
+        <div className="cardContainer">
+          {jadwal.map((item) => (
+            <JadwalCard
+              key={item.id}
+              hari={item.hari}
+              jam={item.jam}
+              status={item.status}
+            />
+          ))}
+        </div>
+      </div>
 
-</div>
+      <div className="section">
+        <Profile />
+      </div>
 
-<div className="section">
-
-<Register/>
-
-</div>
-
-<div className="section">
-
-<h1>Sistem Booking Lapangan</h1>
-
-<div className="cardContainer">
-
-{
-
-lapangan.map((item)=>(
-
-<CardLapangan
-key={item.id}
-nama={item.nama}
-harga={item.harga}
-/>
-
-))
-
-}
-
-</div>
-
-</div>
-
-<div className="section">
-
-<BookingForm/>
-
-</div>
-
-<div className="section">
-
-<h1>Jadwal Booking</h1>
-
-<div className="cardContainer">
-
-{
-
-jadwal.map((item)=>(
-
-<JadwalCard
-key={item.id}
-hari={item.hari}
-jam={item.jam}
-status={item.status}
-/>
-
-))
-
-}
-
-</div>
-
-</div>
-
-<div className="section">
-
-<Profile/>
-
-</div>
-
-<Footer/>
-
-</div>
-
-)
-
+      <Footer />
+    </div>
+  );
 }
 
 export default App;
