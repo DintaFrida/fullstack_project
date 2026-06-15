@@ -1,64 +1,34 @@
 import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./Layout";
 
-import Navbar from "./components/Navbar/Navbar";
+// Halaman dengan Navbar & Footer (pakai Layout)
+import Home     from "./pages/Home/Home";
+import Lapangan from "./pages/Lapangan/Lapangan";
+import Jadwal   from "./pages/Jadwal/Jadwal";
+import Booking  from "./pages/Booking/Booking";
+import Profile  from "./pages/Profile/Profile";
 
-import Login from "./pages/Login/Login";
+// Halaman Auth (standalone, TANPA Layout)
+import Login    from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
-
-import BookingForm from "./components/BookingForm/BookingForm";
-
-import JadwalCard from "./components/JadwalCard/JadwalCard";
-import Profile from "./pages/Profile/Profile";
-
-import Footer from "./components/Footer/Footer";
-
-import jadwal from "./utils/jadwal";
-
-import LapanganList from "./components/Lapangan/LapanganList";
 
 function App() {
   return (
-    <div className="container">
-      <Navbar />
+    <Routes>
 
-      <div className="section">
-        <Login />
-      </div>
+      {/* Pakai Layout (Navbar + Footer) */}
+      <Route path="/"         element={<Layout><Home /></Layout>} />
+      <Route path="/lapangan" element={<Layout><Lapangan /></Layout>} />
+      <Route path="/jadwal"   element={<Layout><Jadwal /></Layout>} />
+      <Route path="/booking"  element={<Layout><Booking /></Layout>} />
+      <Route path="/profile"  element={<Layout><Profile /></Layout>} />
 
-      <div className="section">
-        <Register />
-      </div>
+      {/* Standalone, TANPA Layout */}
+      <Route path="/login"    element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
-      <div className="section">
-        <h1>Sistem Booking Lapangan</h1>
-        <LapanganList />
-      </div>
-
-      <div className="section">
-        <BookingForm />
-      </div>
-
-      <div className="section">
-        <h1>Jadwal Booking</h1>
-
-        <div className="cardContainer">
-          {jadwal.map((item) => (
-            <JadwalCard
-              key={item.id}
-              hari={item.hari}
-              jam={item.jam}
-              status={item.status}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className="section">
-        <Profile />
-      </div>
-
-      <Footer />
-    </div>
+    </Routes>
   );
 }
 
