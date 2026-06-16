@@ -15,6 +15,21 @@
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
+  /* ===== Tambahan untuk Login & Register ===== */
+  --primary: #c0392b;
+  --primary-dark: #a93226;
+  --primary-light: #f1948a;
+  --text-dark: #1a1a2e;
+  --text-body: #4a4a6a;
+  --text-muted: #9ca3af;
+  --bg-light: #f8f9fa;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.12);
+  --font: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --transition: 0.2s ease;
+
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light dark;

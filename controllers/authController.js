@@ -109,9 +109,7 @@ exports.login = (req, res) => {
 
       const user = result[0];
 
-      // =========================
-      // COMPARE PASSWORD BCRYPT
-      // =========================
+      // compare password bcrypt
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
@@ -121,9 +119,7 @@ exports.login = (req, res) => {
         });
       }
 
-      // =========================
-      // GENERATE JWT TOKEN
-      // =========================
+      // generate JWT token
       const token = jwt.sign(
         {
           id: user.id_user || user.id,
