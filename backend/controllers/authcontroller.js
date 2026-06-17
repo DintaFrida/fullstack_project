@@ -1,55 +1,100 @@
-const User = require("../models/User");
-const bcrypt = require("bcrypt");
+const db = require("../../config/db.cjs");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// REGISTER
-exports.register = async (req, res) => {
+// =======================
+// REGISTER USER
+// =======================
+exports.register = (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { nama, email, password } = req.body;
 
-    const exist = await User.findOne({ email });
-    if (exist) return res.json({ msg: "Email sudah ada" });
+    if (!nama || !email || !password) {
+      return res.status(400).json({
+        status: "error",
+        message: "Semua field wajib diisi",
+      });
+    }
 
-    const hash = await bcrypt.hash(password, 10);
+    if (password.length < 6) {
+      return res.status(400).json({
+        status: "error",
+        message: "Password minimal 6 karakter",
+      });
+    }
 
-    const user = await User.create({
-      name,
-      email,
-      password: hash
+    db.query("SELECT * FROM users WHERE email = ?", [email], async (err, result) => {
+      if (err) {
+        console.log("ERROR CEK USER:", err);
+        return res.status(500).json({ status: "error", message: "Database error" });
+      }
+
+      if (result.length > 0) {
+        return res.status(400).json({ status: "error", message: "Email sudah digunakan" });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const sql = "INSERT INTO users (nama, email, password, role) VALUES (?, ?, ?, ?)";
+
+      db.query(sql, [nama, email, hashedPassword, "user"], (err, insertResult) => {
+        if (err) {
+          console.log("ERROR INSERT:", err);
+          return res.status(500).json({ status: "error", message: "Gagal register user" });
+        }
+
+        res.status(201).json({
+          status: "success",
+          message: "User berhasil register",
+          data: { id_user: insertResult.insertId, nama, email },
+        });
+      });
     });
 
-    res.json({ msg: "Register berhasil", user });
-  } catch (err) {
-    res.json(err);
+  } catch (error) {
+    console.log("ERROR REGISTER:", error);
+    res.status(500).json({ status: "error", message: "Internal server error" });
   }
 };
 
-// LOGIN
-exports.login = async (req, res) => {
+// =======================
+// LOGIN USER + JWT
+// =======================
+exports.login = (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
+    const { email, password } = req.body;
 
-    if (!user) {
-      return res.json({ msg: "User tidak ada" });
+    if (!email || !password) {
+      return res.status(400).json({ status: "error", message: "Email dan password wajib diisi" });
     }
 
-    const valid = await bcrypt.compare(req.body.password, user.password);
+    db.query("SELECT * FROM users WHERE email = ?", [email], async (err, result) => {
+      if (err) {
+        console.log("DB ERROR:", err);
+        return res.status(500).json({ status: "error", message: "Database error" });
+      }
 
-    if (!valid) {
-      return res.json({ msg: "Password salah" });
-    }
+      if (result.length === 0) {
+        return res.status(404).json({ status: "error", message: "User tidak ditemukan" });
+      }
 
-    const token = jwt.sign(
-      { id: user._id, email: user.email },
-      process.env.JWT_SECRET
-    );
+      const user = result[0];
+      const isMatch = await bcrypt.compare(password, user.password);
 
-    res.json({
-      msg: "Login berhasil",
-      token
+      if (!isMatch) {
+        return res.status(401).json({ status: "error", message: "Password salah" });
+      }
+
+      const token = jwt.sign(
+        { id: user.id_user || user.id, email: user.email, role: user.role },
+        process.env.JWT_SECRET || "secret123",
+        { expiresIn: "1d" }
+      );
+
+      res.json({ status: "success", message: "Login berhasil", token });
     });
 
-  } catch (err) {
-    res.status(500).json({ msg: "Server error", error: err.message });
+  } catch (error) {
+    console.log("ERROR LOGIN:", error);
+    res.status(500).json({ status: "error", message: "Internal server error" });
   }
 };
