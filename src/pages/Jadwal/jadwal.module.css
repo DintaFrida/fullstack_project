@@ -1,0 +1,26 @@
+.page {
+  padding: 20px;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.jadwalGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.slotCard {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 10px;
+  background: white;
+}
+
+.slotCard button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+}

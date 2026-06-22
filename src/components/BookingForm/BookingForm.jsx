@@ -32,7 +32,6 @@ function BookingForm() {
         nama_pemesan: "",
         jam: "",
       });
-
     } catch (error) {
       alert("Booking gagal");
       console.log(error);
