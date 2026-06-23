@@ -1,19 +1,48 @@
-function JadwalCard(props){
+import { Link } from "react-router-dom";
+import styles from "./JadwalCard.module.css";
 
-return(
+function JadwalCard({ hari, jam, status }) {
+  const tersedia = status === "Tersedia";
 
-<div className="card">
+  return (
+    <div className={`${styles.card} ${!tersedia ? styles.cardPenuh : ""}`}>
 
-<h2>{props.hari}</h2>
+      {/* Header hari */}
+      <div className={styles.cardHeader}>
+        <span className={styles.hariIcon}>📅</span>
+        <span className={styles.hari}>{hari}</span>
+        <span className={`${styles.badge} ${tersedia ? styles.badgeTersedia : styles.badgePenuh}`}>
+          {tersedia ? "✅ Tersedia" : "🔴 Penuh"}
+        </span>
+      </div>
 
-<p>Jam : {props.jam}</p>
+      {/* Jam */}
+      <div className={styles.jamRow}>
+        <span className={styles.jamIcon}>⏱️</span>
+        <div>
+          <p className={styles.jamLabel}>Waktu</p>
+          <p className={styles.jamValue}>{jam}</p>
+        </div>
+      </div>
 
-<p>Status : {props.status}</p>
+      {/* Durasi */}
+      <div className={styles.durasiRow}>
+        <span className={styles.durasiTag}>⏳ 1 jam</span>
+        <span className={styles.durasiTag}>🏟️ Futsal</span>
+      </div>
 
-</div>
-
-)
-
+      {/* Action */}
+      {tersedia ? (
+        <Link to="/booking" className={styles.btnBook}>
+          Booking Sekarang →
+        </Link>
+      ) : (
+        <button className={styles.btnDisabled} disabled>
+          Slot Tidak Tersedia
+        </button>
+      )}
+    </div>
+  );
 }
 
-export default JadwalCard
+export default JadwalCard;
