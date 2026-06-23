@@ -48,7 +48,7 @@ function Lapangan() {
   if (loading) {
     return (
       <div className={styles.stateBox}>
-        <span>⏳</span>
+        <span></span>
         <p>Memuat data lapangan...</p>
       </div>
     );
@@ -73,9 +73,9 @@ function Lapangan() {
               className={`${styles.filterBtn} ${filter === f ? styles.filterActive : ""}`}
               onClick={() => setFilter(f)}
             >
-              {f === "semua" && "🏟️ Semua"}
-              {f === "tersedia" && "✅ Tersedia"}
-              {f === "penuh" && "🔴 Penuh"}
+              {f === "semua" && "Semua"}
+              {f === "tersedia" && "Tersedia"}
+              {f === "penuh" && "Penuh"}
             </button>
           ))}
           <span className={styles.filterCount}>
@@ -87,7 +87,7 @@ function Lapangan() {
       {/* Grid */}
       {filtered.length === 0 ? (
         <div className={styles.stateBox}>
-          <span>🔍</span>
+          <span></span>
           <p>Tidak ada lapangan dengan filter ini.</p>
         </div>
       ) : (
@@ -99,7 +99,7 @@ function Lapangan() {
             >
               {/* Card Image */}
               <div className={styles.cardImg}>
-                <span className={styles.cardEmoji}>🏟️</span>
+                <span className={styles.cardEmoji}></span>
                 <span
                   className={`${styles.cardBadge} ${
                     lap.status === "tersedia"
@@ -107,7 +107,7 @@ function Lapangan() {
                       : styles.full
                   }`}
                 >
-                  {lap.status === "tersedia" ? "✅ Tersedia" : "🔴 Penuh"}
+                  {lap.status === "tersedia" ? "Tersedia" : "Penuh"}
                 </span>
               </div>
 
@@ -124,8 +124,8 @@ function Lapangan() {
 
                 {/* Info row */}
                 <div className={styles.infoRow}>
-                  <span className={styles.infoItem}>👥 {lap.kapasitas}</span>
-                  <span className={styles.infoItem}>⏱️ Per jam</span>
+                  <span className={styles.infoItem}>{lap.kapasitas}</span>
+                  <span className={styles.infoItem}>Per jam</span>
                 </div>
 
                 {/* Fasilitas */}

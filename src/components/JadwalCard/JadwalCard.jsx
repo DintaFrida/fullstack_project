@@ -9,16 +9,16 @@ function JadwalCard({ hari, jam, status }) {
 
       {/* Header hari */}
       <div className={styles.cardHeader}>
-        <span className={styles.hariIcon}>📅</span>
+        <span className={styles.hariIcon}></span>
         <span className={styles.hari}>{hari}</span>
         <span className={`${styles.badge} ${tersedia ? styles.badgeTersedia : styles.badgePenuh}`}>
-          {tersedia ? "✅ Tersedia" : "🔴 Penuh"}
+          {tersedia ? "Tersedia" : "Penuh"}
         </span>
       </div>
 
       {/* Jam */}
       <div className={styles.jamRow}>
-        <span className={styles.jamIcon}>⏱️</span>
+        <span className={styles.jamIcon}></span>
         <div>
           <p className={styles.jamLabel}>Waktu</p>
           <p className={styles.jamValue}>{jam}</p>
@@ -27,8 +27,8 @@ function JadwalCard({ hari, jam, status }) {
 
       {/* Durasi */}
       <div className={styles.durasiRow}>
-        <span className={styles.durasiTag}>⏳ 1 jam</span>
-        <span className={styles.durasiTag}>🏟️ Futsal</span>
+        <span className={styles.durasiTag}>1 jam</span>
+        <span className={styles.durasiTag}>Futsal</span>
       </div>
 
       {/* Action */}

@@ -1,0 +1,175 @@
+/* ================================================
+   BookingForm.module.css — Pastel Edition
+   ================================================ */
+
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Info row */
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  justify-content: center;
+}
+.infoIcon { font-size: 1.1rem; }
+.infoLabel {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-body);
+}
+
+/* Alerts */
+.alertError {
+  background: var(--accent-pink);
+  border: 1px solid #FFB5C8;
+  color: #8B3A5A;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.alertSuccess {
+  background: var(--accent-mint);
+  border: 1px solid #B5EAD7;
+  color: #2A7A5A;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.input {
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-family: var(--font);
+  color: var(--text-dark);
+  background: var(--bg-light);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  width: 100%;
+}
+.input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(126, 200, 200, 0.2);
+  background: #fff;
+}
+.input::placeholder { color: var(--text-muted); }
+.input:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.textarea { resize: vertical; min-height: 80px; }
+
+/* Lapangan radio cards */
+.lapanganGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.lapanganOption {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+  background: var(--bg-light);
+}
+.lapanganOption:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.lapanganSelected {
+  border-color: var(--primary) !important;
+  background: linear-gradient(135deg, var(--primary-light), var(--secondary-light)) !important;
+  box-shadow: 0 0 0 3px rgba(126, 200, 200, 0.15);
+}
+
+.radioHidden { display: none; }
+.lapanganIcon { font-size: 1.1rem; }
+.lapanganLabel {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* Submit */
+.submitBtn {
+  margin-top: 0.5rem;
+  padding: 0.9rem;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all var(--transition);
+}
+.submitBtn:hover:not(:disabled) {
+  filter: brightness(1.07);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(196, 181, 253, 0.4);
+}
+.submitBtn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+/* Responsive */
+@media (max-width: 520px) {
+  .row { grid-template-columns: 1fr; }
+  .infoRow { flex-direction: column; }
+  .card { padding: 1.25rem; }
+}

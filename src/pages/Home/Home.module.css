@@ -1,5 +1,5 @@
 /* ================================================
-   Home.module.css — Pastel Booking Futsal
+   Home.module.css — Hero Background Photo Edition
    ================================================ */
 
 .page {
@@ -10,103 +10,133 @@
 
 /* ── Hero ── */
 .hero {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Foto lapangan futsal dari unsplash */
+  background-image: url('https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Overlay gradient pastel gelap supaya teks terbaca */
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(15, 144, 128, 0.72) 0%,
+    rgba(124, 58, 237, 0.65) 100%
+  );
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
   text-align: center;
-  padding: 5rem 1.5rem 4rem;
+  padding: 2rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
+  max-width: 680px;
 }
 
 .heroBadge {
   display: inline-block;
-  background: var(--secondary-light);
-  color: var(--secondary-dark);
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  color: #fff;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.5px;
-  padding: 6px 16px;
+  padding: 6px 18px;
   border-radius: 99px;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .heroTitle {
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: clamp(2rem, 5vw, 3.2rem);
   font-weight: 800;
-  color: var(--text-dark);
+  color: #fff;
   line-height: 1.2;
   letter-spacing: -0.5px;
   margin: 0;
-}
-
-.heroAccent {
-  background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
 
 .heroDesc {
   font-size: 1.05rem;
-  color: var(--text-body);
-  max-width: 480px;
+  color: rgba(255, 255, 255, 0.88);
+  max-width: 460px;
   line-height: 1.7;
 }
 
-.heroActions {
+/* Search bar */
+.searchBar {
   display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 520px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-radius: 99px;
+  padding: 6px 6px 6px 18px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  gap: 0.5rem;
   margin-top: 0.5rem;
 }
 
-.btnPrimary {
-  display: inline-block;
-  padding: 0.8rem 2rem;
+.searchIcon {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.95rem;
+  font-family: var(--font);
+  color: var(--text-dark);
+}
+.searchInput::placeholder { color: var(--text-muted); }
+
+.searchBtn {
+  padding: 8px 22px;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: #fff;
   font-weight: 700;
-  font-size: 0.95rem;
-  border-radius: var(--radius-md);
-  text-decoration: none;
+  font-size: 0.88rem;
+  border: none;
+  border-radius: 99px;
+  cursor: pointer;
+  font-family: var(--font);
   transition: all var(--transition);
-  box-shadow: 0 4px 14px rgba(126, 200, 200, 0.35);
+  flex-shrink: 0;
 }
-.btnPrimary:hover {
-  filter: brightness(1.07);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(196, 181, 253, 0.4);
-}
-
-.btnOutline {
-  display: inline-block;
-  padding: 0.8rem 2rem;
-  background: transparent;
-  color: var(--secondary-dark);
-  font-weight: 700;
-  font-size: 0.95rem;
-  border-radius: var(--radius-md);
-  border: 2px solid var(--secondary);
-  text-decoration: none;
-  transition: all var(--transition);
-}
-.btnOutline:hover {
-  background: var(--secondary-light);
-  transform: translateY(-2px);
+.searchBtn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
 }
 
 /* Stats */
 .statsRow {
   display: flex;
   align-items: center;
-  gap: 2rem;
-  margin-top: 1rem;
-  padding: 1.25rem 2rem;
-  background: rgba(255, 255, 255, 0.7);
+  gap: 1.5rem;
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(8px);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .statItem {
@@ -117,14 +147,14 @@
 }
 
 .statNum {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 800;
-  color: var(--primary-dark);
+  color: #fff;
 }
 
 .statLabel {
-  font-size: 0.78rem;
-  color: var(--text-muted);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -132,13 +162,13 @@
 
 .statDivider {
   width: 1px;
-  height: 36px;
-  background: var(--border);
+  height: 32px;
+  background: rgba(255, 255, 255, 0.3);
 }
 
 /* ── How it Works ── */
 .howSection {
-  padding: 4rem 1.5rem;
+  padding: 5rem 1.5rem;
   text-align: center;
   background: rgba(255, 255, 255, 0.5);
 }
@@ -172,11 +202,10 @@
   background: #fff;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 1.75rem 1.5rem;
+  padding: 2rem 1.5rem;
   width: 220px;
   text-align: center;
   transition: all var(--transition);
-  position: relative;
 }
 .stepCard:hover {
   transform: translateY(-4px);
@@ -184,17 +213,16 @@
   border-color: var(--primary-light);
 }
 
-.stepIcon {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
 .stepNum {
   font-size: 0.7rem;
   font-weight: 800;
   color: var(--secondary-dark);
   letter-spacing: 1px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  background: var(--secondary-light);
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 99px;
 }
 
 .stepTitle {
@@ -218,7 +246,7 @@
 
 /* ── Feature Grid ── */
 .featSection {
-  padding: 4rem 1.5rem;
+  padding: 5rem 1.5rem;
   text-align: center;
 }
 
@@ -244,12 +272,6 @@
   border-color: var(--secondary);
 }
 
-.featEmoji {
-  font-size: 1.75rem;
-  display: block;
-  margin-bottom: 0.75rem;
-}
-
 .featTitle {
   font-size: 0.95rem;
   font-weight: 700;
@@ -263,10 +285,10 @@
   line-height: 1.65;
 }
 
-/* ── CTA Bottom ── */
+/* ── CTA ── */
 .ctaSection {
-  margin: 2rem 1.5rem 3rem;
-  padding: 3rem 2rem;
+  margin: 0 1.5rem 4rem;
+  padding: 3.5rem 2rem;
   background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
   border-radius: var(--radius-lg);
   text-align: center;
@@ -283,15 +305,57 @@
 .ctaDesc {
   font-size: 1rem;
   color: var(--text-body);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.ctaActions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btnPrimary {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: all var(--transition);
+  box-shadow: 0 4px 14px rgba(126, 200, 200, 0.35);
+}
+.btnPrimary:hover {
+  filter: brightness(1.07);
+  transform: translateY(-2px);
+}
+
+.btnOutline {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background: transparent;
+  color: var(--secondary-dark);
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--secondary);
+  text-decoration: none;
+  transition: all var(--transition);
+}
+.btnOutline:hover {
+  background: var(--secondary-light);
+  transform: translateY(-2px);
 }
 
 /* ── Responsive ── */
 @media (max-width: 640px) {
-  .hero { padding: 3rem 1rem 2.5rem; }
-  .statsRow { gap: 1rem; padding: 1rem 1.25rem; }
+  .hero { min-height: 100svh; }
+  .statsRow { gap: 1rem; padding: 0.75rem 1.25rem; }
   .stepArrow { display: none; }
   .stepsRow { flex-direction: column; align-items: center; }
   .stepCard { width: 100%; max-width: 320px; }
-  .ctaSection { margin: 1rem; padding: 2rem 1.25rem; }
+  .ctaSection { margin: 0 1rem 3rem; padding: 2rem 1.25rem; }
+  .searchBar { max-width: 100%; }
 }

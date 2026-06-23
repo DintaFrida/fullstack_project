@@ -46,9 +46,9 @@ function Jadwal() {
         {/* Filter */}
         <div className={styles.filterRow}>
           {[
-            { key: "semua", label: "🗓️ Semua" },
-            { key: "tersedia", label: "✅ Tersedia" },
-            { key: "sudah dibooking", label: "🔴 Sudah Dibooking" },
+            { key: "semua", label: "Semua" },
+            { key: "tersedia", label: "Tersedia" },
+            { key: "sudah dibooking", label: "Sudah Dibooking" },
           ].map((f) => (
             <button
               key={f.key}
@@ -64,7 +64,7 @@ function Jadwal() {
       {/* Slot Grid */}
       {filtered.length === 0 ? (
         <div className={styles.stateBox}>
-          <span>🔍</span>
+          <span></span>
           <p>Tidak ada slot dengan filter ini.</p>
         </div>
       ) : (
