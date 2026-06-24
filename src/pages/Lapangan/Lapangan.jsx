@@ -1,52 +1,39 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { getLapangan } from "../../utils/constant/lapanganApi";
 import styles from "./Lapangan.module.css";
 
 function Lapangan() {
   const [lapangan, setLapangan] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState("semua");
-  const [search, setSearch] = useState("");
+  const [loading, setLoading]   = useState(true);
+  const [error, setError]       = useState("");
+  const [filter, setFilter]     = useState("semua");
+  const [search, setSearch]     = useState("");
 
   useEffect(() => {
-    setLapangan([
-      {
-        id_lapangan: 1,
-        nama_lapangan: "Lapangan A",
-        jenis_lapangan: "Vinyl",
-        harga_per_jam: 100000,
-        status: "tersedia",
-        kapasitas: "10 orang",
-        fasilitas: ["Parkir", "Toilet", "Air Minum"],
-      },
-      {
-        id_lapangan: 2,
-        nama_lapangan: "Lapangan B",
-        jenis_lapangan: "Sintetis",
-        harga_per_jam: 120000,
-        status: "penuh",
-        kapasitas: "10 orang",
-        fasilitas: ["Parkir", "Toilet", "Loker"],
-      },
-      {
-        id_lapangan: 3,
-        nama_lapangan: "Lapangan C",
-        jenis_lapangan: "Rumput Sintetis",
-        harga_per_jam: 150000,
-        status: "tersedia",
-        kapasitas: "12 orang",
-        fasilitas: ["Parkir", "Toilet", "Kantin", "Loker"],
-      },
-    ]);
-    setLoading(false);
+    fetchLapangan();
   }, []);
+
+  async function fetchLapangan() {
+    try {
+      setLoading(true);
+      setError("");
+      const response = await getLapangan();
+      setLapangan(response.data.data || response.data);
+    } catch (err) {
+      setError("Gagal memuat data lapangan. Coba lagi.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const filtered = lapangan
     .filter((l) => filter === "semua" || l.status === filter)
     .filter((l) =>
       search.trim() === "" ||
-      l.nama_lapangan.toLowerCase().includes(search.toLowerCase()) ||
-      l.jenis_lapangan.toLowerCase().includes(search.toLowerCase())
+      l.nama_lapangan?.toLowerCase().includes(search.toLowerCase()) ||
+      l.jenis_lapangan?.toLowerCase().includes(search.toLowerCase())
     );
 
   const tersedia = lapangan.filter((l) => l.status === "tersedia").length;
@@ -59,10 +46,21 @@ function Lapangan() {
     );
   }
 
+  if (error) {
+    return (
+      <div className={styles.stateBox}>
+        <p>{error}</p>
+        <button className={styles.retryBtn} onClick={fetchLapangan}>
+          Coba Lagi
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.page}>
 
-      {/* Hero — serasi dengan Home */}
+      {/* Hero */}
       <section className={styles.hero}>
         <div className={styles.heroOverlay} />
         <div className={styles.heroContent}>
@@ -122,9 +120,9 @@ function Lapangan() {
               className={`${styles.filterBtn} ${filter === f ? styles.filterActive : ""}`}
               onClick={() => setFilter(f)}
             >
-              {f === "semua" && "Semua"}
+              {f === "semua"    && "Semua"}
               {f === "tersedia" && "Tersedia"}
-              {f === "penuh" && "Penuh"}
+              {f === "penuh"    && "Penuh"}
             </button>
           ))}
           <span className={styles.filterCount}>{filtered.length} lapangan ditemukan</span>
@@ -157,15 +155,19 @@ function Lapangan() {
                 <div className={styles.cardBody}>
                   <div className={styles.typeRow}>
                     <span className={styles.typeTag}>{lap.jenis_lapangan}</span>
-                    <span className={styles.kapasitasTag}>{lap.kapasitas}</span>
+                    {lap.kapasitas && (
+                      <span className={styles.kapasitasTag}>{lap.kapasitas}</span>
+                    )}
                   </div>
 
                   {/* Fasilitas */}
-                  <div className={styles.fasilitasRow}>
-                    {lap.fasilitas.map((f) => (
-                      <span key={f} className={styles.fasilitasTag}>{f}</span>
-                    ))}
-                  </div>
+                  {lap.fasilitas && lap.fasilitas.length > 0 && (
+                    <div className={styles.fasilitasRow}>
+                      {lap.fasilitas.map((f) => (
+                        <span key={f} className={styles.fasilitasTag}>{f}</span>
+                      ))}
+                    </div>
+                  )}
 
                   {/* Price */}
                   <div className={styles.priceRow}>
