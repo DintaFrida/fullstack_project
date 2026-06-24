@@ -1,0 +1,64 @@
+.page { padding: 0.5rem 0 3rem; display: flex; flex-direction: column; gap: 2.5rem; }
+
+.header  { display: flex; flex-direction: column; gap: 0.5rem; }
+.eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; color: var(--primary); text-transform: uppercase; }
+.title   { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; color: var(--text-dark); }
+
+.payCard { max-width: 600px; background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 1.75rem; }
+.payCardTitle { font-size: 1rem; font-weight: 700; color: var(--text-dark); }
+
+.summaryGrid  { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.summaryItem  { display: flex; flex-direction: column; gap: 0.3rem; background: var(--bg-light); padding: 0.9rem 1rem; border-radius: var(--radius-sm); }
+.summaryLabel { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+.summaryValue { font-size: 0.95rem; font-weight: 700; color: var(--text-dark); }
+.totalPrice   { color: var(--primary) !important; font-size: 1.1rem !important; }
+
+.payForm  { display: flex; flex-direction: column; gap: 1.25rem; }
+.payLabel { font-size: 0.875rem; font-weight: 700; color: var(--text-dark); }
+
+.methodGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+.methodOption { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 1rem; border: 2px solid var(--border); border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition); }
+.methodOption:hover { border-color: var(--primary); background: #fef2f2; }
+.methodActive       { border-color: var(--primary) !important; background: #fef2f2 !important; }
+.radioHidden { display: none; }
+.methodIcon  { font-size: 1.75rem; }
+.methodLabel { font-size: 0.8rem; font-weight: 600; color: var(--text-body); text-align: center; }
+
+.errorBox { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.875rem; }
+
+.payBtn { padding: 0.9rem; background: var(--primary); color: #fff; font-size: 1rem; font-weight: 700; border: none; border-radius: var(--radius-md); cursor: pointer; font-family: var(--font); transition: all var(--transition); }
+.payBtn:hover:not(:disabled) { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(192,57,43,0.3); }
+.payBtn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+.successCard { max-width: 500px; margin: 0 auto; background: #fff; border: 1px solid #bbf7d0; border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem; box-shadow: var(--shadow-sm); }
+.successIcon  { font-size: 3rem; }
+.successTitle { font-size: 1.5rem; font-weight: 800; color: #166534; }
+.successDesc  { font-size: 0.95rem; color: var(--text-body); line-height: 1.6; max-width: 320px; }
+
+.riwayatSection {}
+.riwayatTitle { font-size: 1.1rem; font-weight: 800; color: var(--text-dark); margin-bottom: 1.25rem; }
+.riwayatEmpty { color: var(--text-muted); font-size: 0.9rem; }
+.riwayatList  { display: flex; flex-direction: column; gap: 0.75rem; }
+.riwayatCard { display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 1.25rem; background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md); transition: box-shadow var(--transition); }
+.riwayatCard:hover { box-shadow: var(--shadow-sm); }
+.riwayatLeft  { display: flex; flex-direction: column; gap: 0.3rem; }
+.riwayatId    { font-size: 0.9rem; font-weight: 700; color: var(--text-dark); }
+.riwayatDate  { font-size: 0.8rem; color: var(--text-muted); }
+.riwayatMetode{ font-size: 0.75rem; font-weight: 600; color: var(--text-body); background: var(--bg-light); padding: 0.2rem 0.6rem; border-radius: 99px; align-self: flex-start; }
+.riwayatRight { display: flex; flex-direction: column; align-items: flex-end; gap: 0.4rem; }
+.riwayatHarga { font-size: 1rem; font-weight: 800; color: var(--primary); }
+.riwayatStatus{ font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 99px; text-transform: uppercase; }
+.statusLunas  { background: #dcfce7; color: #166534; }
+.statusPending{ background: #fef9c3; color: #92400e; }
+
+.stateBox { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 1.5rem; gap: 1rem; text-align: center; }
+.stateBox span { font-size: 3rem; }
+.stateBox h2   { font-size: 1.35rem; font-weight: 700; color: var(--text-dark); }
+.stateBox p    { font-size: 0.95rem; color: var(--text-body); max-width: 300px; line-height: 1.6; }
+.stateBtn { margin-top: 0.5rem; padding: 0.75rem 1.75rem; background: var(--primary); color: #fff; font-weight: 700; font-size: 0.9rem; border-radius: var(--radius-md); transition: background var(--transition); }
+.stateBtn:hover { background: var(--primary-dark); }
+
+@media (max-width: 500px) {
+  .summaryGrid { grid-template-columns: 1fr; }
+  .methodGrid  { grid-template-columns: 1fr; }
+}

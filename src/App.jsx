@@ -8,6 +8,7 @@ import Lapangan from "./pages/Lapangan/Lapangan";
 import Jadwal from "./pages/Jadwal/Jadwal";
 import Booking from "./pages/Booking/Booking";
 import Profile from "./pages/Profile/Profile";
+import Pembayaran from "./pages/Pembayaran/Pembayaran";
 
 // Halaman Auth
 import Login from "./pages/Login/Login";
@@ -21,6 +22,7 @@ function App() {
       <Route path="/jadwal" element={<Layout><Jadwal /></Layout>} />
       <Route path="/booking" element={<Layout><Booking /></Layout>} />
       <Route path="/profile" element={<Layout><Profile /></Layout>} />
+      <Route path="/pembayaran" element={<Layout><Pembayaran /></Layout>} />
 
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
