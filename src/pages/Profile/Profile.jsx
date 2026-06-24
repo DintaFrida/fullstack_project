@@ -1,16 +1,56 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UploadFoto from "../../components/UploadFoto/UploadFoto";
+import { getBookingByUser, deleteBooking } from "../../utils/constant/bookingApi";
 import styles from "./Profile.module.css";
 
 function Profile() {
+  // Ambil data user dari localStorage (disimpan saat login)
+  const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+
   const [user] = useState({
-    nama: "Eshi Aulia",
-    email: "eshi@gmail.com",
-    role: "Member",
-    bergabung: "Juni 2026",
+    nama:      storedUser.nama      || storedUser.name  || "User",
+    email:     storedUser.email     || "-",
+    role:      storedUser.role      || "Member",
+    bergabung: storedUser.createdAt
+      ? new Date(storedUser.createdAt).toLocaleDateString("id-ID", { month: "long", year: "numeric" })
+      : "2026",
   });
 
-  const [activeTab, setActiveTab] = useState("profil");
+  const [activeTab, setActiveTab]   = useState("profil");
+  const [riwayat, setRiwayat]       = useState([]);
+  const [loadingRiwayat, setLoadingRiwayat] = useState(false);
+  const [errorRiwayat, setErrorRiwayat]     = useState("");
+
+  useEffect(() => {
+    if (activeTab === "riwayat") {
+      fetchRiwayat();
+    }
+  }, [activeTab]);
+
+  async function fetchRiwayat() {
+    try {
+      setLoadingRiwayat(true);
+      setErrorRiwayat("");
+      const response = await getBookingByUser();
+      setRiwayat(response.data.data || response.data);
+    } catch (err) {
+      setErrorRiwayat("Gagal memuat riwayat booking.");
+      console.error(err);
+    } finally {
+      setLoadingRiwayat(false);
+    }
+  }
+
+  async function handleBatalBooking(id) {
+    if (!window.confirm("Yakin ingin membatalkan booking ini?")) return;
+    try {
+      await deleteBooking(id);
+      setRiwayat((prev) => prev.filter((b) => b.id_booking !== id && b.id !== id));
+    } catch (err) {
+      alert("Gagal membatalkan booking.");
+      console.error(err);
+    }
+  }
 
   return (
     <div className={styles.page}>
@@ -90,23 +130,62 @@ function Profile() {
         {activeTab === "riwayat" && (
           <div className={styles.card}>
             <h2 className={styles.cardTitle}>Riwayat Booking</h2>
-            <div className={styles.riwayatList}>
-              {[
-                { id: "BK001", lapangan: "Lapangan A", tanggal: "20 Jun 2026", jam: "19:00 - 20:00", status: "selesai" },
-                { id: "BK002", lapangan: "Lapangan C", tanggal: "22 Jun 2026", jam: "18:00 - 19:00", status: "aktif" },
-              ].map((item) => (
-                <div key={item.id} className={styles.riwayatItem}>
-                  <div className={styles.riwayatInfo}>
-                    <span className={styles.riwayatId}>{item.id}</span>
-                    <span className={styles.riwayatLapangan}>{item.lapangan}</span>
-                    <span className={styles.riwayatDetail}>{item.tanggal} — {item.jam}</span>
-                  </div>
-                  <span className={`${styles.riwayatBadge} ${item.status === "aktif" ? styles.badgeAktif : styles.badgeSelesai}`}>
-                    {item.status === "aktif" ? "Aktif" : "Selesai"}
-                  </span>
-                </div>
-              ))}
-            </div>
+
+            {loadingRiwayat && (
+              <p className={styles.loadingText}>Memuat riwayat booking...</p>
+            )}
+
+            {errorRiwayat && (
+              <div className={styles.alertError}>
+                {errorRiwayat}
+                <button className={styles.retryBtn} onClick={fetchRiwayat}>
+                  Coba Lagi
+                </button>
+              </div>
+            )}
+
+            {!loadingRiwayat && !errorRiwayat && riwayat.length === 0 && (
+              <p className={styles.emptyText}>Belum ada riwayat booking.</p>
+            )}
+
+            {!loadingRiwayat && riwayat.length > 0 && (
+              <div className={styles.riwayatList}>
+                {riwayat.map((item) => {
+                  const id       = item.id_booking || item.id;
+                  const lapangan = item.lapangan?.nama_lapangan || item.nama_lapangan || "-";
+                  const tanggal  = item.tanggal
+                    ? new Date(item.tanggal).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })
+                    : "-";
+                  const jam    = item.jam || "-";
+                  const status = item.status || "aktif";
+
+                  return (
+                    <div key={id} className={styles.riwayatItem}>
+                      <div className={styles.riwayatInfo}>
+                        <span className={styles.riwayatId}>#{id}</span>
+                        <span className={styles.riwayatLapangan}>{lapangan}</span>
+                        <span className={styles.riwayatDetail}>{tanggal} — {jam}</span>
+                      </div>
+                      <div className={styles.riwayatActions}>
+                        <span className={`${styles.riwayatBadge} ${
+                          status === "aktif" ? styles.badgeAktif : styles.badgeSelesai
+                        }`}>
+                          {status === "aktif" ? "Aktif" : "Selesai"}
+                        </span>
+                        {status === "aktif" && (
+                          <button
+                            className={styles.btnBatal}
+                            onClick={() => handleBatalBooking(id)}
+                          >
+                            Batalkan
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
 

@@ -1,5 +1,7 @@
-import { useState } from "react";
-import { createBooking } from "../../services/BookingApi";
+import { useState, useEffect } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { createBooking } from "../../utils/constant/bookingApi";
+import { getLapangan } from "../../utils/constant/lapanganApi";
 import styles from "./BookingForm.module.css";
 
 const JAM_OPTIONS = [
@@ -14,24 +16,31 @@ const JAM_OPTIONS = [
   "20:00 - 21:00",
 ];
 
-const LAPANGAN_OPTIONS = [
-  { id: 1, label: "Lapangan A — Vinyl" },
-  { id: 2, label: "Lapangan B — Sintetis" },
-  { id: 3, label: "Lapangan C — Rumput Sintetis" },
-];
-
 function BookingForm() {
+  const [searchParams]  = useSearchParams();
+  const navigate        = useNavigate();
+  const idJadwalFromURL = searchParams.get("id_jadwal");
+
+  const [lapanganList, setLapanganList] = useState([]);
   const [formData, setFormData] = useState({
     nama_pemesan: "",
-    tanggal: "",
-    jam: "",
-    id_lapangan: "",
-    catatan: "",
+    tanggal:      "",
+    jam:          "",
+    id_lapangan:  "",
+    id_jadwal:    idJadwalFromURL || "",
+    catatan:      "",
   });
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError]     = useState("");
   const [success, setSuccess] = useState("");
+
+  useEffect(() => {
+    // Ambil daftar lapangan dari API
+    getLapangan()
+      .then((res) => setLapanganList(res.data.data || res.data))
+      .catch((err) => console.error(err));
+  }, []);
 
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -44,6 +53,7 @@ function BookingForm() {
     setError("");
     setSuccess("");
 
+    // Validasi
     if (!formData.nama_pemesan.trim()) {
       setError("Nama pemesan wajib diisi.");
       return;
@@ -64,11 +74,25 @@ function BookingForm() {
     try {
       setLoading(true);
       const response = await createBooking(formData);
-      const idBooking = response.data?.data?.id || "-";
+      const idBooking = response.data?.data?.id_booking || response.data?.data?.id || "-";
       setSuccess(`Booking berhasil! ID Booking: ${idBooking}`);
-      setFormData({ nama_pemesan: "", tanggal: "", jam: "", id_lapangan: "", catatan: "" });
+
+      // Reset form
+      setFormData({
+        nama_pemesan: "",
+        tanggal:      "",
+        jam:          "",
+        id_lapangan:  "",
+        id_jadwal:    "",
+        catatan:      "",
+      });
+
+      // Redirect ke profile (riwayat booking) setelah 2 detik
+      setTimeout(() => navigate("/profile"), 2000);
+
     } catch (err) {
-      setError("Booking gagal. Silakan coba lagi.");
+      const msg = err.response?.data?.message || "Booking gagal. Silakan coba lagi.";
+      setError(msg);
       console.error(err);
     } finally {
       setLoading(false);
@@ -81,22 +105,26 @@ function BookingForm() {
       {/* Info summary */}
       <div className={styles.infoRow}>
         <div className={styles.infoItem}>
-          <span className={styles.infoIcon}></span>
           <span className={styles.infoLabel}>Pilih tanggal & jam</span>
         </div>
         <div className={styles.infoItem}>
-          <span className={styles.infoIcon}></span>
           <span className={styles.infoLabel}>Pilih lapangan</span>
         </div>
         <div className={styles.infoItem}>
-          <span className={styles.infoIcon}></span>
           <span className={styles.infoLabel}>Konfirmasi booking</span>
         </div>
       </div>
 
+      {/* id_jadwal dari URL */}
+      {idJadwalFromURL && (
+        <div className={styles.jadwalInfo}>
+          Slot jadwal terpilih: <strong>#{idJadwalFromURL}</strong>
+        </div>
+      )}
+
       {/* Alert */}
-      {error   && <div className={styles.alertError}>  {error}   </div>}
-      {success && <div className={styles.alertSuccess}>{success}  </div>}
+      {error   && <div className={styles.alertError}>{error}</div>}
+      {success && <div className={styles.alertSuccess}>{success}</div>}
 
       {/* Form */}
       <form onSubmit={handleBooking} className={styles.form}>
@@ -148,26 +176,39 @@ function BookingForm() {
         <div className={styles.field}>
           <label className={styles.label}>Pilih Lapangan</label>
           <div className={styles.lapanganGrid}>
-            {LAPANGAN_OPTIONS.map((lap) => (
-              <label
-                key={lap.id}
-                className={`${styles.lapanganOption} ${
-                  formData.id_lapangan === String(lap.id) ? styles.lapanganSelected : ""
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="id_lapangan"
-                  value={lap.id}
-                  checked={formData.id_lapangan === String(lap.id)}
-                  onChange={handleChange}
-                  disabled={loading}
-                  className={styles.radioHidden}
-                />
-                <span className={styles.lapanganIcon}>🏟️</span>
-                <span className={styles.lapanganLabel}>{lap.label}</span>
-              </label>
-            ))}
+            {lapanganList.length === 0 ? (
+              <p className={styles.loadingText}>Memuat lapangan...</p>
+            ) : (
+              lapanganList.map((lap) => (
+                <label
+                  key={lap.id_lapangan}
+                  className={`${styles.lapanganOption} ${
+                    formData.id_lapangan === String(lap.id_lapangan)
+                      ? styles.lapanganSelected
+                      : ""
+                  } ${lap.status === "penuh" ? styles.lapanganDisabled : ""}`}
+                >
+                  <input
+                    type="radio"
+                    name="id_lapangan"
+                    value={lap.id_lapangan}
+                    checked={formData.id_lapangan === String(lap.id_lapangan)}
+                    onChange={handleChange}
+                    disabled={loading || lap.status === "penuh"}
+                    className={styles.radioHidden}
+                  />
+                  <div className={styles.lapanganInfo}>
+                    <span className={styles.lapanganLabel}>{lap.nama_lapangan}</span>
+                    <span className={styles.lapanganJenis}>{lap.jenis_lapangan}</span>
+                  </div>
+                  <span className={`${styles.lapanganStatus} ${
+                    lap.status === "tersedia" ? styles.statusTersedia : styles.statusPenuh
+                  }`}>
+                    {lap.status === "tersedia" ? "Tersedia" : "Penuh"}
+                  </span>
+                </label>
+              ))
+            )}
           </div>
         </div>
 
