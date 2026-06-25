@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";  // ← tambah useContext
 import { Link, useNavigate } from "react-router-dom";
 import http from "../../utils/constant/http";
 import styles from "./Login.module.css";
+import { AuthContext } from "../../context/AuthContext";  // ← tambah import
 
 function Login() {
+  const { login } = useContext(AuthContext);  // ← ambil fungsi login dari context
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -34,9 +37,8 @@ function Login() {
       const result   = response.data;
 
       if (result.token) {
-        // Simpan token dan data user ke localStorage
-        localStorage.setItem("token", result.token);
-        localStorage.setItem("user", JSON.stringify(result.user || result.data || {}));
+        console.log("Response login:", result);
+        login(result.token, result.user || result.data || {});
         navigate("/");
       } else {
         setError("Token tidak ditemukan dalam respons server.");

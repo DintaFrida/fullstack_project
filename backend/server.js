@@ -1,15 +1,15 @@
 require("dotenv").config();
 const express = require("express");
-const cors = require("cors");
-const db = require("../config/db.cjs");
+const cors    = require("cors");
+const app     = express();
 
-const app = express();
 app.use(cors());
 app.use(express.json());
 
 // routes
-app.use("/auth", require("./routes/authRoutes"));
-app.use("/booking", require("./routes/bookingRoutes"));
+app.use("/api/auth",     require("./routes/authRoutes"));
+app.use("/api/booking",  require("./routes/bookingRoutes"));
+app.use("/api/lapangan", require("./routes/lapanganRoutes")); // ← tambah ini
 
 app.get("/", (req, res) => {
   res.send("API jalan");

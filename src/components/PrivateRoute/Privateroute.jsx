@@ -1,7 +1,11 @@
+import { useContext } from "react";                        
 import { Navigate } from "react-router-dom";
-
+import { AuthContext } from "../../context/AuthContext";   
 function PrivateRoute({ children }) {
-  const token = localStorage.getItem("token");
+  const { token, loading } = useContext(AuthContext);      
+
+  // Tunggu dulu sampai context selesai cek token
+  if (loading) return null;
 
   // Kalau belum login, redirect ke halaman login
   if (!token) {

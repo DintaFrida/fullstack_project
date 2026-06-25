@@ -134,8 +134,13 @@ exports.login = (req, res) => {
         status: "success",
         message: "Login berhasil",
         token,
+        user: {                    // ← tambah ini
+          id: user.id_user,
+          nama: user.nama,
+          email: user.email,
+          role: user.role,
+        },
       });
-    });
 
   } catch (error) {
     console.log("ERROR LOGIN:", error);

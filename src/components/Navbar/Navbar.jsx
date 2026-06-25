@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useState, useContext } from "react";  // ← tambah useContext
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
+import { AuthContext } from "../../context/AuthContext";  // ← tambah import
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const location  = useLocation();
-  const navigate  = useNavigate();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  // Ambil data user dari localStorage
-  const user  = JSON.parse(localStorage.getItem("user") || "null");
-  const token = localStorage.getItem("token");
+  // ← GANTI: ambil dari context, bukan localStorage langsung
+  const { token, user, logout } = useContext(AuthContext);
   const isLoggedIn = !!token;
 
   const isActive = (path) =>
@@ -23,9 +23,9 @@ function Navbar() {
     { to: "/profile",  label: "Profile" },
   ];
 
+  // ← GANTI: cukup panggil logout() dari context
   function handleLogout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    logout();
     navigate("/login");
     setMenuOpen(false);
   }
@@ -57,7 +57,6 @@ function Navbar() {
         <div className={styles.authGroup}>
           {isLoggedIn ? (
             <>
-              {/* Avatar + nama user */}
               <Link to="/profile" className={styles.userInfo}>
                 <div className={styles.userAvatar}>
                   {(user?.nama || user?.name || "U").charAt(0).toUpperCase()}
