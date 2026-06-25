@@ -57,7 +57,7 @@ function Login() {
 
       {/* Auth Navbar Mini */}
       <div className={styles.authNav}>
-        <Link to="/" className={styles.authNavLogo}>Booking Futsal</Link>
+        <Link to="/" className={styles.authNavLogo}>KickOff</Link>
         <Link to="/" className={styles.authNavBack}>← Kembali ke Beranda</Link>
       </div>
 
@@ -71,7 +71,7 @@ function Login() {
               <div className={styles.circle2} />
             </div>
             <div className={styles.panelContent}>
-              <div className={styles.panelLogo}>Booking Futsal</div>
+              <div className={styles.panelLogo}>KickOff</div>
               <h2 className={styles.panelTitle}>
                 Selamat Datang<br />Kembali!
               </h2>

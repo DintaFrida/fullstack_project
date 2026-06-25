@@ -36,7 +36,7 @@ function Navbar() {
 
         {/* Logo */}
         <Link to="/" className={styles.logo}>
-          Booking Futsal
+          KickOff
         </Link>
 
         {/* Links — desktop */}

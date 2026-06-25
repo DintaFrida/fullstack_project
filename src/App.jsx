@@ -9,23 +9,45 @@ import Jadwal from "./pages/Jadwal/Jadwal";
 import Booking from "./pages/Booking/Booking";
 import Profile from "./pages/Profile/Profile";
 import Pembayaran from "./pages/Pembayaran/Pembayaran";
+import NotFound from "./pages/NotFound/NotFound";
 
 // Halaman Auth
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 
+// Guard Route
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout><Home /></Layout>} />
+      {/* Halaman publik */}
+      <Route path="/"         element={<Layout><Home /></Layout>} />
       <Route path="/lapangan" element={<Layout><Lapangan /></Layout>} />
-      <Route path="/jadwal" element={<Layout><Jadwal /></Layout>} />
-      <Route path="/booking" element={<Layout><Booking /></Layout>} />
-      <Route path="/profile" element={<Layout><Profile /></Layout>} />
-      <Route path="/pembayaran" element={<Layout><Pembayaran /></Layout>} />
+      <Route path="/jadwal"   element={<Layout><Jadwal /></Layout>} />
+      <Route path="/jadwal/:id" element={<Layout><Jadwal /></Layout>} />
 
-      <Route path="/login" element={<Login />} />
+      {/* Halaman yang butuh login */}
+      <Route path="/booking" element={
+        <PrivateRoute>
+          <Layout><Booking /></Layout>
+        </PrivateRoute>
+      } />
+      <Route path="/profile" element={
+        <PrivateRoute>
+          <Layout><Profile /></Layout>
+        </PrivateRoute>
+      } />
+      <Route path="/pembayaran" element={
+        <PrivateRoute>
+          <Layout><Pembayaran /></Layout>
+        </PrivateRoute>
+      } />
+
+      {/* Halaman Auth — tanpa Layout */}
+      <Route path="/login"    element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="*" element={<Layout><NotFound /></Layout>} />
     </Routes>
   );
 }
