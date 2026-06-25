@@ -15,6 +15,7 @@ function Login() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setError("");
   };
 
   const handleSubmit = async (e) => {
@@ -33,7 +34,9 @@ function Login() {
       const result   = response.data;
 
       if (result.token) {
+        // Simpan token dan data user ke localStorage
         localStorage.setItem("token", result.token);
+        localStorage.setItem("user", JSON.stringify(result.user || result.data || {}));
         navigate("/");
       } else {
         setError("Token tidak ditemukan dalam respons server.");
@@ -54,7 +57,7 @@ function Login() {
 
       {/* Auth Navbar Mini */}
       <div className={styles.authNav}>
-        <Link to="/" className={styles.authNavLogo}>KickOff</Link>
+        <Link to="/" className={styles.authNavLogo}>Booking Futsal</Link>
         <Link to="/" className={styles.authNavBack}>← Kembali ke Beranda</Link>
       </div>
 
@@ -68,7 +71,7 @@ function Login() {
               <div className={styles.circle2} />
             </div>
             <div className={styles.panelContent}>
-              <div className={styles.panelLogo}>KickOff</div>
+              <div className={styles.panelLogo}>Booking Futsal</div>
               <h2 className={styles.panelTitle}>
                 Selamat Datang<br />Kembali!
               </h2>
@@ -79,7 +82,7 @@ function Login() {
             </div>
           </div>
 
-          {/* Panel Kanan - Form Login */}
+          {/* Panel Kanan */}
           <div className={styles.rightPanel}>
             <div className={styles.formWrapper}>
               <div className={styles.formHeader}>
@@ -92,7 +95,7 @@ function Login() {
                 </p>
               </div>
 
-              {error && <div className={styles.errorBox}>⚠️ {error}</div>}
+              {error && <div className={styles.errorBox}>{error}</div>}
 
               <form onSubmit={handleSubmit} className={styles.form}>
                 <div className={styles.field}>
@@ -105,6 +108,7 @@ function Login() {
                     className={styles.input}
                     placeholder="nama@email.com"
                     autoComplete="email"
+                    disabled={loading}
                   />
                 </div>
 
@@ -118,6 +122,7 @@ function Login() {
                     className={styles.input}
                     placeholder="Masukkan password"
                     autoComplete="current-password"
+                    disabled={loading}
                   />
                 </div>
 
@@ -126,7 +131,7 @@ function Login() {
                   className={styles.submitBtn}
                   disabled={loading}
                 >
-                  {loading ? "⏳ Memproses..." : "Masuk →"}
+                  {loading ? "Memproses..." : "Masuk"}
                 </button>
               </form>
             </div>

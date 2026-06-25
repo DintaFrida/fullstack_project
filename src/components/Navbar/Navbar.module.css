@@ -1,8 +1,7 @@
 /* ================================================
-   Navbar.module.css — Floating Glassmorphism
+   Navbar.module.css — Floating Glassmorphism + Auth
    ================================================ */
 
-/* Wrapper memberi ruang atas untuk navbar floating */
 .navWrapper {
   position: sticky;
   top: 16px;
@@ -11,10 +10,9 @@
   pointer-events: none;
 }
 
-/* Navbar utama */
 .navbar {
   pointer-events: all;
-  max-width: 900px;
+  max-width: 960px;
   margin: 0 auto;
   height: 58px;
   display: flex;
@@ -22,17 +20,11 @@
   justify-content: space-between;
   gap: 1rem;
   padding: 0 1.25rem;
-
-  /* Glassmorphism */
   background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-
-  /* Border & shape */
   border: 1px solid rgba(196, 181, 253, 0.35);
   border-radius: 99px;
-
-  /* Shadow */
   box-shadow:
     0 4px 24px rgba(126, 200, 200, 0.18),
     0 1px 4px rgba(196, 181, 253, 0.15);
@@ -50,6 +42,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  flex-shrink: 0;
 }
 
 /* Nav links */
@@ -73,14 +66,11 @@
   text-decoration: none;
   border-radius: 99px;
   transition: all var(--transition);
-  position: relative;
 }
 .navLink:hover {
   color: var(--text-dark);
   background: rgba(126, 200, 200, 0.12);
 }
-
-/* Active link */
 .navLinkActive {
   color: #fff !important;
   background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
@@ -95,6 +85,65 @@
   flex-shrink: 0;
 }
 
+/* User info */
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  padding: 4px 10px 4px 4px;
+  border-radius: 99px;
+  border: 1.5px solid var(--border);
+  transition: all var(--transition);
+}
+.userInfo:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.userAvatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.userName {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Logout button */
+.btnLogout {
+  padding: 5px 14px;
+  color: #8B3A5A;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: var(--accent-pink);
+  border: 1.5px solid #FFB5C8;
+  border-radius: 99px;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all var(--transition);
+}
+.btnLogout:hover {
+  background: #FFB5C8;
+  transform: translateY(-1px);
+}
+
+/* Auth buttons */
 .btnLogin {
   display: inline-block;
   padding: 5px 14px;
@@ -105,7 +154,6 @@
   border-radius: 99px;
   border: 1.5px solid var(--border);
   transition: all var(--transition);
-  background: transparent;
 }
 .btnLogin:hover {
   border-color: var(--primary);
@@ -128,7 +176,6 @@
 .btnRegister:hover {
   filter: brightness(1.07);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(196, 181, 253, 0.4);
 }
 
 /* Hamburger */
@@ -158,9 +205,9 @@
 /* Mobile dropdown */
 .mobileMenu {
   pointer-events: all;
-  max-width: 900px;
+  max-width: 960px;
   margin: 0.5rem auto 0;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(196, 181, 253, 0.3);
@@ -194,6 +241,12 @@
   margin: 0.25rem 0;
 }
 
+.mobileUser {
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
 .mobileLinkRegister {
   display: block;
   padding: 10px 14px;
@@ -206,6 +259,24 @@
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   margin-top: 0.25rem;
 }
+
+.mobileLinkLogout {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  text-align: center;
+  color: #8B3A5A;
+  font-size: 0.9rem;
+  font-weight: 700;
+  background: var(--accent-pink);
+  border: 1.5px solid #FFB5C8;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: var(--font);
+  margin-top: 0.25rem;
+  transition: all var(--transition);
+}
+.mobileLinkLogout:hover { background: #FFB5C8; }
 
 /* Responsive */
 @media (max-width: 680px) {
