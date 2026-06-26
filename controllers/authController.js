@@ -150,3 +150,58 @@ exports.login = (req, res) => {
     });
   }
 };
+
+// =======================
+// LOGIN ADMIN
+// =======================
+exports.adminLogin = (req, res) => {
+  try {
+    const { email, password } = req.body;
+    console.log("EMAIL:", email); // ← tambah ini
+    console.log("PASSWORD:", password); // ← tambah ini
+    if (!email || !password) {
+      return res.status(400).json({
+        status: "error",
+        message: "Email dan password wajib diisi",
+      });
+    }
+
+    db.query("SELECT * FROM users WHERE email = ?", [email], async (err, result) => {
+      if (err) {
+        return res.status(500).json({ status: "error", message: "Database error" });
+      }
+
+      if (result.length === 0) {
+        return res.status(404).json({ status: "error", message: "User tidak ditemukan" });
+      }
+
+      const user = result[0];
+
+      // cek role harus admin
+      if (user.role !== "admin") {
+        return res.status(403).json({ status: "error", message: "Akses ditolak, bukan admin" });
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(401).json({ status: "error", message: "Password salah" });
+      }
+
+      const token = jwt.sign(
+        { id: user.id_user, email: user.email, role: user.role },
+        process.env.JWT_SECRET || "secret123",
+        { expiresIn: "1d" }
+      );
+
+      res.json({
+        status: "success",
+        message: "Login admin berhasil",
+        token,
+        user: { id: user.id_user, nama: user.nama, email: user.email, role: user.role },
+      });
+    });
+
+  } catch (error) {
+    res.status(500).json({ status: "error", message: "Internal server error" });
+  }
+};

@@ -16,25 +16,33 @@ import Login    from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 
 // Guard Route
-import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import PrivateRoute      from "./components/PrivateRoute/PrivateRoute";
+import ProtectedAdminRoute from "./components/ProtectedRoute/ProtectedAdminRoute";
 
-// ← TAMBAH: import kedua provider
+// Context
 import { AuthProvider }     from "./context/AuthContext";
 import { LapanganProvider } from "./context/LapanganContext";
 
+// Halaman Admin
+import AdminLogin    from "./pages/admin/AdminLogin";
+import Dashboard     from "./pages/admin/Dashboard";
+import AdminLapangan from "./pages/admin/AdminLapangan";
+import AdminJadwal   from "./pages/admin/AdminJadwal";
+import AdminBooking  from "./pages/admin/AdminBooking";
+import AdminUser     from "./pages/admin/AdminUser";
+
 function App() {
   return (
-    // ← TAMBAH: bungkus semua dengan provider
     <LapanganProvider>
       <AuthProvider>
         <Routes>
-          {/* Halaman publik */}
+          {/* ===== Halaman publik ===== */}
           <Route path="/"           element={<Layout><Home /></Layout>} />
           <Route path="/lapangan"   element={<Layout><Lapangan /></Layout>} />
           <Route path="/jadwal"     element={<Layout><Jadwal /></Layout>} />
           <Route path="/jadwal/:id" element={<Layout><Jadwal /></Layout>} />
 
-          {/* Halaman yang butuh login */}
+          {/* ===== Halaman yang butuh login ===== */}
           <Route path="/booking" element={
             <PrivateRoute>
               <Layout><Booking /></Layout>
@@ -51,10 +59,30 @@ function App() {
             </PrivateRoute>
           } />
 
-          {/* Halaman Auth — tanpa Layout */}
+          {/* ===== Halaman Auth ===== */}
           <Route path="/login"    element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="*"         element={<Layout><NotFound /></Layout>} />
+
+          {/* ===== Halaman Admin ===== */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={
+            <ProtectedAdminRoute><Dashboard /></ProtectedAdminRoute>
+          } />
+          <Route path="/admin/lapangan" element={
+            <ProtectedAdminRoute><AdminLapangan /></ProtectedAdminRoute>
+          } />
+          <Route path="/admin/jadwal" element={
+            <ProtectedAdminRoute><AdminJadwal /></ProtectedAdminRoute>
+          } />
+          <Route path="/admin/booking" element={
+            <ProtectedAdminRoute><AdminBooking /></ProtectedAdminRoute>
+          } />
+          <Route path="/admin/user" element={
+            <ProtectedAdminRoute><AdminUser /></ProtectedAdminRoute>
+          } />
+
+          {/* ===== 404 ===== */}
+          <Route path="*" element={<Layout><NotFound /></Layout>} />
         </Routes>
       </AuthProvider>
     </LapanganProvider>

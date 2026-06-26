@@ -1,0 +1,20 @@
+.layout { display: flex; min-height: 100vh; }
+.sidebar { width: 220px; background: #f8f9fa; border-right: 1px solid #e9ecef; display: flex; flex-direction: column; padding: 0; position: fixed; top: 0; left: 0; height: 100vh; }
+.logo { padding: 1.25rem 1rem; border-bottom: 1px solid #e9ecef; }
+.logo h2 { font-size: 15px; font-weight: 600; margin: 0; }
+.logo p { font-size: 12px; color: #6c757d; margin: 2px 0 0; }
+.nav { display: flex; flex-direction: column; padding: 0.5rem 0; flex: 1; }
+.navSection { font-size: 10px; font-weight: 600; color: #adb5bd; padding: 8px 1rem 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+.navItem { display: flex; align-items: center; gap: 10px; padding: 9px 1rem; font-size: 14px; color: #495057; text-decoration: none; transition: background 0.15s; }
+.navItem:hover { background: #e9ecef; color: #212529; }
+.navItem.active { background: #dbeafe; color: #1d4ed8; font-weight: 500; }
+.navItem i { font-size: 17px; }
+.logoutBtn { margin: 0.75rem 1rem; padding: 8px 1rem; background: none; border: 1px solid #dee2e6; border-radius: 6px; cursor: pointer; color: #dc3545; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+.logoutBtn:hover { background: #fff5f5; }
+.main { flex: 1; margin-left: 220px; display: flex; flex-direction: column; }
+.topbar { background: #fff; border-bottom: 1px solid #e9ecef; padding: 12px 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
+.pageTitle { font-size: 15px; font-weight: 600; }
+.topRight { display: flex; align-items: center; gap: 10px; }
+.badge { font-size: 11px; background: #dbeafe; color: #1d4ed8; padding: 3px 10px; border-radius: 999px; font-weight: 500; }
+.avatar { width: 30px; height: 30px; border-radius: 50%; background: #3b82f6; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; }
+.content { padding: 1.5rem; flex: 1; background: #f8f9fa; }

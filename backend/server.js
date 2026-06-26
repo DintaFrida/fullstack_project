@@ -9,7 +9,9 @@ app.use(express.json());
 // routes
 app.use("/api/auth",     require("./routes/authRoutes"));
 app.use("/api/booking",  require("./routes/bookingRoutes"));
-app.use("/api/lapangan", require("./routes/lapanganRoutes")); // ← tambah ini
+app.use("/api/lapangan", require("./routes/lapanganRoutes")); 
+app.use("/api/jadwal",   require("./routes/jadwalRoutes"));  
+app.use("/api/users",    require("./routes/userRoutes"));    
 
 app.get("/", (req, res) => {
   res.send("API jalan");

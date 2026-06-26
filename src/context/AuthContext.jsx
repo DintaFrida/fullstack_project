@@ -3,38 +3,39 @@ import { createContext, useState, useEffect } from "react";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken]     = useState(localStorage.getItem("token") || null);
-  const [user, setUser]       = useState(
-    JSON.parse(localStorage.getItem("user") || "null")
-  );
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [adminToken, setAdminToken] = useState(localStorage.getItem("adminToken") || null);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const verifyToken = async () => {
-      if (token) {
-        // token sudah ada, tidak perlu fetch ulang
-      }
-      setLoading(false);
-    };
-    verifyToken();
-  }, [token]);
+    setLoading(false);
+  }, []);
 
-  const login = (newToken, userData) => {
+  const login = (newToken, userData = null) => {
     localStorage.setItem("token", newToken);
-    localStorage.setItem("user", JSON.stringify(userData));
     setToken(newToken);
     setUser(userData);
   };
 
+  const adminLogin = (newToken) => {
+    localStorage.setItem("adminToken", newToken);
+    setAdminToken(newToken);
+  };
+
   const logout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("user");
     setToken(null);
     setUser(null);
   };
 
+  const adminLogout = () => {
+    localStorage.removeItem("adminToken");
+    setAdminToken(null);
+  };
+
   return (
-    <AuthContext.Provider value={{ token, user, login, logout, loading }}>
+    <AuthContext.Provider value={{ token, adminToken, user, login, logout, adminLogin, adminLogout, loading }}>
       {children}
     </AuthContext.Provider>
   );
