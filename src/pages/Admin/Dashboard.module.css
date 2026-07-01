@@ -1,0 +1,315 @@
+/* ==========================================================================
+   1. STRUKTUR UTAMA DASHBOARD - DARK GLASSMORPHISM
+   ========================================================================== */
+.adminWrapper {
+  display: flex;
+  min-height: 100vh;
+  /* Menggunakan background foto lapangan futsal dengan overlay gelap agar tulisan kontras */
+  background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), 
+              url('https://images.unsplash.com/photo-1575361204480-aadea25e6e68?q=80&w=1920') no-repeat center center fixed;
+  background-size: cover;
+  color: #ffffff;
+  font-family: 'Poppins', 'Inter', sans-serif;
+  text-align: left;
+}
+
+/* SIDEBAR KIRI (DARK TRANSPARAN) */
+.sidebar {
+  width: 260px;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 100;
+}
+
+.brand {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 40px;
+  padding-left: 10px;
+  letter-spacing: -0.5px;
+}
+
+.adminNav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.adminNav button {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.adminNav button:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+
+.activeNavLink {
+  background: rgba(37, 99, 235, 0.2) !important;
+  color: #3b82f6 !important;
+  border-left: 4px solid #3b82f6;
+  border-radius: 0 10px 10px 0 !important;
+  font-weight: 600 !important;
+  padding-left: 12px !important;
+}
+
+.logoutBtn {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.logoutBtn:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+/* AREA KONTEN UTAMA KANAN */
+.mainContent {
+  flex: 1;
+  margin-left: 260px;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.mainHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.mainHeader h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* KARTU ATAS KANAN (PROFIL SAYA / KELUAR) */
+.rightHeaderGroup {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.profileCard {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 20px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatarCircle {
+  width: 35px;
+  height: 35px;
+  background: #2563eb;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.profileName {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #f1f5f9;
+}
+
+/* ==========================================================================
+   2. DESAIN TABEL KARTU GLASSMORPHISM (ABU-ABU TRANSPARAN GELAP)
+   ========================================================================== */
+.tableCard {
+  background: rgba(30, 41, 59, 0.45); /* Abu-abu gelap transparan sesuai gambar */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.tableHeaderSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.tableHeaderSection h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0;
+  color: #ffffff;
+}
+
+/* TOMBOL + TAMBAH */
+.addBtn {
+  background: rgba(255, 255, 255, 0.03);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.addBtn:hover { 
+  background: #ffffff; 
+  color: #0f172a;
+}
+
+/* TABEL STRUKTUR */
+.adminTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.adminTable th {
+  padding: 16px 12px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #94a3b8;
+  letter-spacing: 0.8px;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: left;
+}
+
+.adminTable td {
+  padding: 20px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.95rem;
+  color: #e2e8f0;
+  vertical-align: middle;
+}
+
+.adminTable tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.boldText { 
+  font-weight: 500; 
+  color: #ffffff; 
+}
+
+.priceText { 
+  color: #e2e8f0; 
+  font-weight: 500; 
+}
+
+.actionGroup { 
+  display: flex; 
+  gap: 8px; 
+}
+
+/* TOMBOL EDIT & HAPUS SAMA SEPERTI DI FOTO */
+.editBtn, .deleteBtn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.editBtn:hover {
+  background: rgba(37, 99, 235, 0.2);
+  color: #3b82f6;
+  border-color: rgba(37, 99, 235, 0.4);
+}
+
+.deleteBtn:hover { 
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+/* BADGE STATUS KHUSUS BOOKING / LAPANGAN */
+.statusBadge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+}
+.statusSuccess { color: #10b981; background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); }
+.statusWarning { color: #f59e0b; background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.2); }
+.statusDanger { color: #ef4444; background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); }
+
+/* ==========================================================================
+   3. MODAL DIALOG GLASS THEME
+   ========================================================================== */
+.modalOverlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(4, 7, 15, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2000;
+}
+
+.modalCard {
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 35px;
+  border-radius: 20px;
+  width: 100%; max-width: 500px;
+}
+
+.modalCard h3 { margin: 0 0 20px 0; font-size: 1.4rem; font-weight: 700; }
+.modalForm { display: flex; flex-direction: column; gap: 16px; }
+.inputGroup { display: flex; flex-direction: column; gap: 6px; }
+.inputGroup label { font-size: 0.8rem; color: #94a3b8; font-weight: 500; }
+.inputGroup input, .inputGroup textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px; border-radius: 8px; color: white;
+}
+.inputGroup input:focus, .inputGroup textarea:focus { outline: none; border-color: #2563eb; }
+.modalActions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px; }
+.cancelBtn { background: #1f2937; border: none; padding: 10px 20px; border-radius: 8px; color: #94a3b8; cursor: pointer; }
+.submitBtn { background: #2563eb; border: none; padding: 10px 20px; border-radius: 8px; color: white; cursor: pointer; }

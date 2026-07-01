@@ -1,72 +1,73 @@
-import { useState, useEffect } from "react";
-import AdminLayout from "../../components/AdminLayout/AdminLayout";
-import http from "../../utils/constant/http";
+import React, { useState } from 'react';
+import styles from './Dashboard.module.css';
+import { useNavigate } from 'react-router-dom';
 
-function AdminUser() {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+const AdminUser = () => {
+  const navigate = useNavigate();
 
-  const fetchUsers = async () => {
-    try {
-      const res = await http.get("/users");
-      setUsers(res.data?.data || res.data);
-    } catch (err) { console.error(err); }
-    finally { setLoading(false); }
-  };
-
-  useEffect(() => { fetchUsers(); }, []);
-
-  const handleDelete = async (id) => {
-    if (!confirm("Hapus user ini?")) return;
-    try {
-      await http.delete(`/users/${id}`);
-      fetchUsers();
-    } catch (err) { console.error(err); }
-  };
+  const [users] = useState([
+    { id: 1, nama: "Dinta Fridayanti", email: "dinta@kickoff.com", role: "Admin" },
+    { id: 2, nama: "Ahmad Subarjo", email: "subarjo@gmail.com", role: "Member" }
+  ]);
 
   return (
-    <AdminLayout>
-      <div style={{ marginBottom: "1rem" }}>
-        <h2 style={{ fontSize: "16px", fontWeight: "600" }}>Data User</h2>
-      </div>
+    <div className={styles.adminWrapper}>
+      <aside className={styles.sidebar}>
+        <div className={styles.brand}>KickOff App Admin</div>
+        <nav className={styles.adminNav}>
+          <button onClick={() => navigate('/admin/dashboard')}>Dashboard</button>
+          <button onClick={() => navigate('/admin/lapangan')}>Lapangan</button>
+          <button onClick={() => navigate('/admin/jadwal')}>Jadwal</button>
+          <button onClick={() => navigate('/admin/booking')}>Booking</button>
+          <button className={styles.activeNavLink} onClick={() => navigate('/admin/user')}>User</button>
+        </nav>
+        <button className={styles.logoutBtn} onClick={() => navigate('/login')}>Logout</button>
+      </aside>
 
-      <div style={{ background: "#fff", border: "1px solid #e9ecef", borderRadius: "10px", overflow: "hidden" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "14px" }}>
-          <thead>
-            <tr style={{ background: "#f8f9fa" }}>
-              {["#", "Nama", "Email", "Aksi"].map((h) => (
-                <th key={h} style={{ padding: "10px 14px", textAlign: "left", fontWeight: "600", fontSize: "12px", color: "#6c757d", borderBottom: "1px solid #e9ecef" }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr><td colSpan="4" style={{ padding: "2rem", textAlign: "center", color: "#6c757d" }}>Memuat data...</td></tr>
-            ) : users.map((user, i) => (
-              <tr key={user.id_user} style={{ borderBottom: "1px solid #f1f3f5" }}>
-                <td style={{ padding: "10px 14px" }}>{i + 1}</td>
-                <td style={{ padding: "10px 14px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                    <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "#dbeafe", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", fontWeight: "600", color: "#1d4ed8" }}>
-                      {user.nama?.charAt(0).toUpperCase()}
-                    </div>
-                    {user.nama}
-                  </div>
-                </td>
-                <td style={{ padding: "10px 14px" }}>{user.email}</td>
-                <td style={{ padding: "10px 14px" }}>
-                  <button onClick={() => handleDelete(user.id_user)}
-                    style={{ background: "#fee2e2", color: "#991b1b", border: "none", borderRadius: "6px", padding: "4px 10px", cursor: "pointer", fontSize: "12px" }}>
-                    Hapus
-                  </button>
-                </td>
+      <main className={styles.mainContent}>
+        <header className={styles.mainHeader}>
+          <h2>User</h2>
+          <div className={styles.rightHeaderGroup}>
+            <div className={styles.profileCard}>
+              <div className={styles.avatarCircle}>DF</div>
+              <span className={styles.profileName}>Dinta Fridayanti</span>
+            </div>
+          </div>
+        </header>
+
+        <div className={styles.tableCard}>
+          <div className={styles.tableHeaderSection}>
+            <h3>Daftar Pengguna Sistem</h3>
+          </div>
+
+          <table className={styles.adminTable}>
+            <thead>
+              <tr>
+                <th>NAMA USER</th>
+                <th>ALAMAT EMAIL</th>
+                <th>HAK AKSES / ROLE</th>
+                <th>AKSI</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </AdminLayout>
+            </thead>
+            <tbody>
+              {users.map((u) => (
+                <tr key={u.id}>
+                  <td className={styles.boldText}>{u.nama}</td>
+                  <td>{u.email}</td>
+                  <td>
+                    <span className={styles.statusBadge}>{u.role}</span>
+                  </td>
+                  <td>
+                    <button className={styles.deleteBtn}>Blokir</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
   );
-}
+};
 
-export default AdminUser.jsx;
+export default AdminUser;

@@ -1,64 +1,187 @@
-.page { padding: 0.5rem 0 3rem; display: flex; flex-direction: column; gap: 2.5rem; }
+.pageContainer {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
 
-.header  { display: flex; flex-direction: column; gap: 0.5rem; }
-.eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; color: var(--primary); text-transform: uppercase; }
-.title   { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; color: var(--text-dark); }
+.darkOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 15, 26, 0.82);
+  z-index: 1;
+}
 
-.payCard { max-width: 600px; background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 1.75rem; }
-.payCardTitle { font-size: 1rem; font-weight: 700; color: var(--text-dark); }
+.contentWrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1100px;
+  margin: auto auto;
+  padding: 130px 24px 80px;
+}
 
-.summaryGrid  { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.summaryItem  { display: flex; flex-direction: column; gap: 0.3rem; background: var(--bg-light); padding: 0.9rem 1rem; border-radius: var(--radius-sm); }
-.summaryLabel { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
-.summaryValue { font-size: 0.95rem; font-weight: 700; color: var(--text-dark); }
-.totalPrice   { color: var(--primary) !important; font-size: 1.1rem !important; }
+.glassPaymentCard {
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+  border-radius: 28px;
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr;
+  overflow: hidden;
+}
 
-.payForm  { display: flex; flex-direction: column; gap: 1.25rem; }
-.payLabel { font-size: 0.875rem; font-weight: 700; color: var(--text-dark); }
+.leftSummaryPanel {
+  padding: 48px;
+  background: rgba(9, 14, 26, 0.45);
+}
 
-.methodGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
-.methodOption { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 1rem; border: 2px solid var(--border); border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition); }
-.methodOption:hover { border-color: var(--primary); background: #fef2f2; }
-.methodActive       { border-color: var(--primary) !important; background: #fef2f2 !important; }
-.radioHidden { display: none; }
-.methodIcon  { font-size: 1.75rem; }
-.methodLabel { font-size: 0.8rem; font-weight: 600; color: var(--text-body); text-align: center; }
+.headerArea {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 36px;
+}
 
-.errorBox { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.875rem; }
+.brandIcon { color: #3b82f6; font-weight: 900; font-size: 28px; }
+.mainTitle { font-size: 24px; font-weight: 800; margin: 0; letter-spacing: -0.5px; }
+.invoiceId { font-size: 13px; color: #64748b; margin: 4px 0 0; font-family: monospace; }
 
-.payBtn { padding: 0.9rem; background: var(--primary); color: #fff; font-size: 1rem; font-weight: 700; border: none; border-radius: var(--radius-md); cursor: pointer; font-family: var(--font); transition: all var(--transition); }
-.payBtn:hover:not(:disabled) { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(192,57,43,0.3); }
-.payBtn:disabled { opacity: 0.7; cursor: not-allowed; }
+.invoiceDetails { display: flex; flex-direction: column; gap: 18px; }
+.detailRow { display: flex; justify-content: space-between; font-size: 14px; }
+.detailRow span { color: #94a3b8; }
+.detailRow strong { color: #ffffff; font-weight: 600; }
 
-.successCard { max-width: 500px; margin: 0 auto; background: #fff; border: 1px solid #bbf7d0; border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem; box-shadow: var(--shadow-sm); }
-.successIcon  { font-size: 3rem; }
-.successTitle { font-size: 1.5rem; font-weight: 800; color: #166534; }
-.successDesc  { font-size: 0.95rem; color: var(--text-body); line-height: 1.6; max-width: 320px; }
+.divider { border: 0; height: 1px; background: rgba(255, 255, 255, 0.08); margin: 8px 0; }
 
-.riwayatSection {}
-.riwayatTitle { font-size: 1.1rem; font-weight: 800; color: var(--text-dark); margin-bottom: 1.25rem; }
-.riwayatEmpty { color: var(--text-muted); font-size: 0.9rem; }
-.riwayatList  { display: flex; flex-direction: column; gap: 0.75rem; }
-.riwayatCard { display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 1.25rem; background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md); transition: box-shadow var(--transition); }
-.riwayatCard:hover { box-shadow: var(--shadow-sm); }
-.riwayatLeft  { display: flex; flex-direction: column; gap: 0.3rem; }
-.riwayatId    { font-size: 0.9rem; font-weight: 700; color: var(--text-dark); }
-.riwayatDate  { font-size: 0.8rem; color: var(--text-muted); }
-.riwayatMetode{ font-size: 0.75rem; font-weight: 600; color: var(--text-body); background: var(--bg-light); padding: 0.2rem 0.6rem; border-radius: 99px; align-self: flex-start; }
-.riwayatRight { display: flex; flex-direction: column; align-items: flex-end; gap: 0.4rem; }
-.riwayatHarga { font-size: 1rem; font-weight: 800; color: var(--primary); }
-.riwayatStatus{ font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 99px; text-transform: uppercase; }
-.statusLunas  { background: #dcfce7; color: #166534; }
-.statusPending{ background: #fef9c3; color: #92400e; }
+/* MODUL SPLIT BILL / PATUNGAN */
+.patunganSection {
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 10px;
+}
 
-.stateBox { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 1.5rem; gap: 1rem; text-align: center; }
-.stateBox span { font-size: 3rem; }
-.stateBox h2   { font-size: 1.35rem; font-weight: 700; color: var(--text-dark); }
-.stateBox p    { font-size: 0.95rem; color: var(--text-body); max-width: 300px; line-height: 1.6; }
-.stateBtn { margin-top: 0.5rem; padding: 0.75rem 1.75rem; background: var(--primary); color: #fff; font-weight: 700; font-size: 0.9rem; border-radius: var(--radius-md); transition: background var(--transition); }
-.stateBtn:hover { background: var(--primary-dark); }
+.switchContainer { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.switchContainer input { display: none; }
 
-@media (max-width: 500px) {
-  .summaryGrid { grid-template-columns: 1fr; }
-  .methodGrid  { grid-template-columns: 1fr; }
+.sliderRound {
+  width: 40px;
+  height: 20px;
+  background: #334155;
+  border-radius: 20px;
+  position: relative;
+  transition: .3s;
+}
+
+.sliderRound:before {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: .3s;
+}
+
+.switchContainer input:checked + .sliderRound { background: #2563eb; }
+.switchContainer input:checked + .sliderRound:before { transform: translateX(20px); }
+.switchLabel { font-size: 13px; color: #e2e8f0; font-weight: 500; }
+
+.patunganBox {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.inputPeopleGroup { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #94a3b8; }
+
+.counterControl {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(15, 23, 42, 0.6);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.counterControl button { background: none; border: none; color: #ffffff; font-size: 18px; cursor: pointer; padding: 0 4px; }
+.counterControl span { color: #ffffff; font-weight: 600; min-width: 60px; text-align: center; }
+
+.patunganResult { display: flex; justify-content: space-between; background: rgba(37, 99, 235, 0.1); padding: 10px 14px; border-radius: 10px; font-size: 13px; }
+.patunganResult strong { color: #3b82f6; font-size: 15px; }
+
+.totalRow { display: flex; justify-content: space-between; align-items: center; }
+.totalRow span { font-size: 16px; font-weight: 600; }
+.totalPrice { font-size: 26px; font-weight: 800; color: #3b82f6; }
+
+/* KANAN PANEL (METODE GATEWAY) */
+.rightMethodPanel { padding: 48px; border-left: 1px solid rgba(255, 255, 255, 0.08); display: flex; flex-direction: column; justify-content: center; }
+.sectionTitle { font-size: 19px; font-weight: 700; margin: 0 0 24px; letter-spacing: -0.3px; }
+.methodGroupTitle { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #64748b; letter-spacing: 1px; margin-bottom: 12px; margin-top: 16px; }
+.methodForm { display: flex; flex-direction: column; gap: 20px; }
+.methodGrid { display: flex; flex-direction: column; gap: 10px; }
+
+.methodLabel {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: rgba(17, 24, 39, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.methodLabel input[type="radio"] { accent-color: #3b82f6; width: 18px; height: 18px; }
+.methodText { display: flex; flex-direction: column; gap: 3px; }
+.methodText strong { font-size: 14px; color: #ffffff; }
+.methodText span { font-size: 12px; color: #64748b; }
+
+.activeMethod { border-color: #3b82f6; background: rgba(59, 130, 246, 0.08); }
+.payBtn { width: 100%; padding: 15px; background: #2563eb; color: #ffffff; border: none; border-radius: 14px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.2s; margin-top: 14px; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25); }
+.payBtn:hover { background: #1d4ed8; }
+
+/* PANEL STRUKTUR KODE STEP 2 */
+.instructionText { font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 20px; }
+.qrisWrapper { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.qrisBox { background: white; padding: 20px; border-radius: 18px; display: flex; flex-direction: column; align-items: center; gap: 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+.qrisBranding { color: #0f172a; font-size: 11px; font-weight: 800; letter-spacing: 0.5px; }
+
+.vaNumberBox { display: flex; justify-content: space-between; align-items: center; background: #0f172a; padding: 16px 20px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 24px; }
+.vaNumber { font-size: 18px; font-weight: 700; font-family: monospace; color: #3b82f6; letter-spacing: 1px; }
+.copyBtn { background: rgba(59, 130, 246, 0.15); border: 1px solid #3b82f6; color: #3b82f6; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+
+.vaInstructions h4 { font-size: 14px; font-weight: 600; margin-bottom: 10px; color: #ffffff; }
+.vaInstructions ol { padding-left: 18px; margin: 0; display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: #94a3b8; line-height: 1.5; }
+
+.countdownBox { display: flex; justify-content: space-between; align-items: center; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); padding: 12px 16px; border-radius: 12px; margin-top: 24px; font-size: 13px; }
+.countdownTimer { color: #ef4444; font-size: 16px; font-weight: 700; }
+
+.actionButtons { display: grid; grid-template-columns: 1fr 1.2fr; gap: 12px; margin-top: 24px; }
+.backBtn { background: none; border: 1px solid rgba(255,255,255,0.15); color: #94a3b8; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 500; cursor: pointer; }
+.checkStatusBtn { background: #10b981; border: none; color: white; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2); }
+
+@media (max-width: 850px) {
+  .glassPaymentCard { grid-template-columns: 1fr; }
+  .rightMethodPanel { border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 36px; }
+  .leftSummaryPanel { padding: 36px; }
 }

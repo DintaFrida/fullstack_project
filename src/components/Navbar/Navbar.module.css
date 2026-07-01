@@ -1,95 +1,200 @@
-/* ================================================
-   Navbar.module.css — Floating Glassmorphism Fixed
-   ================================================ */
-
+/* Container pembungkus luar agar Navbar melayang di atas banner */
 .navWrapper {
-  position: sticky;
-  top: 16px;
-  z-index: 100;
-  padding: 0 1.5rem;
-  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 1rem 2rem;
+  box-sizing: border-box;
 }
 
+/* Batang utama Navbar (Kapsul Glassmorphism) */
 .navbar {
-  pointer-events: all;
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
-  height: 58px;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.5rem 2rem; /* Ukuran padding dikecilkan agar navbar ramping */
+  border-radius: 100px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 0 1.25rem;
-  /* Transparan gelap transparan mengikuti gambar referensi */
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 99px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  height: 60px; /* Dikunci tingginya agar stabil */
+  box-sizing: border-box;
 }
 
+/* Brand Logo */
 .logo {
-  font-size: 1.1rem;
-  font-weight: 800;
   color: #ffffff;
-  letter-spacing: -0.3px;
-  white-space: nowrap;
+  font-size: 1.4rem;
+  font-weight: 800;
+  text-decoration: none;
+  letter-spacing: -0.5px;
 }
 
+/* Menu Navigasi Tengah */
 .navLinks {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 2rem;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
 .navLink {
-  padding: 6px 14px;
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 0.875rem;
-  font-weight: 600;
-  border-radius: 99px;
-  transition: all 0.2s ease;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
 
-.navLink:hover, .navLinkActive {
+.navLink:hover {
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.15);
 }
 
+.navLinkActive {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Sektor Kanan (Auth Group) */
 .authGroup {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
 }
 
-.btnLogin {
-  padding: 6px 16px;
+.guestGroup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Pembungkus komponen ketika user berhasil login */
+.loggedInWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Jarak antara Info Akun dan Tombol Keluar */
+}
+
+/* Tombol Profil (Avatar + Nama) */
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
   color: #ffffff;
-  font-size: 0.85rem;
-  font-weight: 700;
-  border-radius: 99px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  transition: all 0.2s ease;
+  padding: 0.35rem 1rem 0.35rem 0.4rem;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background 0.2s ease;
 }
 
-.btnLogin:hover {
-  background: rgba(255, 255, 255, 0.1);
+.userInfo:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Bulatan Avatar di Navbar */
+.userAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  overflow: hidden;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.userName {
+  font-size: 0.9rem;
+  font-weight: 500;
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Tombol Keluar Merah */
+.btnLogout {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  padding: 0.45rem 1.2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btnLogout:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+/* Tombol Tamu (Masuk & Daftar) */
+.btnLogin {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
 }
 
 .btnRegister {
-  padding: 6px 16px;
+  background: #2563eb;
   color: #ffffff;
-  font-size: 0.85rem;
-  font-weight: 700;
-  border-radius: 99px;
-  background: #2563eb; /* Warna tombol biru aksen sesuai referensi */
-  transition: all 0.2s ease;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.5rem 1.2rem;
+  border-radius: 50px;
+  transition: background 0.2s;
 }
 
 .btnRegister:hover {
-  filter: brightness(1.1);
+  background: #1d4ed8;
+}
+
+/* Hambuger (Mobile) */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.bar {
+  width: 22px;
+  height: 2px;
+  background-color: #ffffff;
+  transition: 0.3s;
+}
+
+/* Media Query Responsif */
+@media (max-width: 768px) {
+  .navLinks, .authGroup {
+    display: none;
+  }
+  .hamburger {
+    display: flex;
+  }
 }

@@ -8,7 +8,7 @@ import Lapangan   from "./pages/Lapangan/Lapangan";
 import Jadwal     from "./pages/Jadwal/Jadwal";
 import Booking    from "./pages/Booking/Booking";
 import Profile    from "./pages/Profile/Profile";
-import Pembayaran from "./pages/Pembayaran/Pembayaran";
+import Pembayaran from "./pages/Pembayaran/pembayaran"; 
 import NotFound   from "./pages/NotFound/NotFound";
 
 // Halaman Auth
@@ -16,7 +16,7 @@ import Login    from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 
 // Guard Route
-import PrivateRoute      from "./components/PrivateRoute/PrivateRoute";
+import PrivateRoute        from "./components/PrivateRoute/PrivateRoute";
 import ProtectedAdminRoute from "./components/ProtectedRoute/ProtectedAdminRoute";
 
 // Context
@@ -25,7 +25,7 @@ import { LapanganProvider } from "./context/LapanganContext";
 
 // Halaman Admin
 import AdminLogin    from "./pages/admin/AdminLogin";
-import Dashboard     from "./pages/admin/Dashboard";
+import Dashboard     from "./pages/admin/Dashboard"; // Menimpa Dashboard lama untuk manajemen Ketentuan Sprint
 import AdminLapangan from "./pages/admin/AdminLapangan";
 import AdminJadwal   from "./pages/admin/AdminJadwal";
 import AdminBooking  from "./pages/admin/AdminBooking";
@@ -66,19 +66,29 @@ function App() {
           {/* ===== Halaman Admin ===== */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={
-            <ProtectedAdminRoute><Dashboard /></ProtectedAdminRoute>
+            <ProtectedAdminRoute>
+              <Dashboard />
+            </ProtectedAdminRoute>
           } />
           <Route path="/admin/lapangan" element={
-            <ProtectedAdminRoute><AdminLapangan /></ProtectedAdminRoute>
+            <ProtectedAdminRoute>
+              <AdminLapangan />
+            </ProtectedAdminRoute>
           } />
           <Route path="/admin/jadwal" element={
-            <ProtectedAdminRoute><AdminJadwal /></ProtectedAdminRoute>
+            <ProtectedAdminRoute>
+              <AdminJadwal />
+            </ProtectedAdminRoute>
           } />
           <Route path="/admin/booking" element={
-            <ProtectedAdminRoute><AdminBooking /></ProtectedAdminRoute>
+            <ProtectedAdminRoute>
+              <AdminBooking />
+            </ProtectedAdminRoute>
           } />
           <Route path="/admin/user" element={
-            <ProtectedAdminRoute><AdminUser /></ProtectedAdminRoute>
+            <ProtectedAdminRoute>
+              <AdminUser />
+            </ProtectedAdminRoute>
           } />
 
           {/* ===== 404 ===== */}

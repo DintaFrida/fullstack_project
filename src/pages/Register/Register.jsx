@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Ditambahkan untuk navigasi otomatis setelah daftar
 import styles from './Register.module.css';
 import Navbar from '../../components/Navbar/Navbar'; 
 import bgFotoLapangan from '../../assets/lapangandashboard.jpg'; 
 
 const Register = () => {
+  const navigate = useNavigate(); // Inisialisasi navigasi react-router
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -20,13 +22,29 @@ const Register = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (formData.password !== formData.confirmPassword) {
       alert("Password dan Konfirmasi Password tidak cocok!");
       return;
     }
-    console.log('Mendaftar dengan:', formData);
+
+    try {
+      // SIAPKAN INTEGRASI KE BACKEND UTKMU
+      // Ganti URL di bawah dengan endpoint register backend asli kamu jika sudah siap, misal: http://localhost:5000/api/auth/register
+      console.log('Mengirim data pendaftaran:', formData);
+
+      // Simulasi Berhasil Mendaftar (Ganti dengan logika fetch/axios nanti)
+      alert(`Pendaftaran Akun Berhasil!\nSelamat bergabung di KickOff, ${formData.name}.`);
+      
+      // Alihkan paksa pengguna ke halaman login setelah menekan OK pada alert
+      navigate('/login');
+
+    } catch (error) {
+      console.error("Gagal mendaftar:", error);
+      alert("Terjadi kesalahan pada server. Coba beberapa saat lagi.");
+    }
   };
 
   return (
@@ -146,9 +164,7 @@ const Register = () => {
             </form>
 
           </div>
-
         </div>
-
       </div>
     </div>
   );

@@ -1,52 +1,77 @@
-import { useState, useEffect, useContext } from "react";
-import AdminLayout from "../../components/AdminLayout/AdminLayout";
-import http from "../../utils/constant/http";
+import React, { useState } from 'react';
+import styles from './Dashboard.module.css';
+import { useNavigate } from 'react-router-dom';
 
-function Dashboard() {
-  const [stats, setStats] = useState({ lapangan: 0, jadwal: 0, booking: 0, user: 0 });
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const [l, j, b, u] = await Promise.all([
-          http.get("/lapangan"),
-          http.get("/jadwal"),
-          http.get("/booking"),
-          http.get("/users"),
-        ]);
-        setStats({
-          lapangan: l.data?.data?.length || l.data?.length || 0,
-          jadwal:   j.data?.data?.length || j.data?.length || 0,
-          booking:  b.data?.data?.length || b.data?.length || 0,
-          user:     u.data?.data?.length || u.data?.length || 0,
-        });
-      } catch (err) {
-        console.error("Gagal memuat statistik", err);
-      }
-    };
-    fetchStats();
-  }, []);
-
-  const cards = [
-    { label: "Total Lapangan", value: stats.lapangan, icon: "ti-building-stadium", color: "#3b82f6" },
-    { label: "Total Jadwal",   value: stats.jadwal,   icon: "ti-calendar-time",    color: "#8b5cf6" },
-    { label: "Total Booking",  value: stats.booking,  icon: "ti-ticket",           color: "#f59e0b" },
-    { label: "Total User",     value: stats.user,     icon: "ti-users",            color: "#10b981" },
-  ];
+const Dashboard = () => {
+  const navigate = useNavigate();
+  
+  const [sprints, setSprints] = useState([
+    { id: 1, nama: "Sprint Weekend Pagi", durasi: "2 Jam", ketentuan: "DP minimal 50%, pembatalan maks H-1 sebelum pemakaian slot.", harga: "Rp 300.000" },
+    { id: 2, nama: "Sprint Weekday Malam", durasi: "1 Jam", ketentuan: "Wajib bayar lunas di muka melalui transfer, no-refund jika batal.", harga: "Rp 150.000" }
+  ]);
 
   return (
-    <AdminLayout>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "1rem", marginBottom: "1.5rem" }}>
-        {cards.map((c) => (
-          <div key={c.label} style={{ background: "#fff", border: "1px solid #e9ecef", borderRadius: "10px", padding: "1.25rem" }}>
-            <i className={`ti ${c.icon}`} style={{ fontSize: "24px", color: c.color }}></i>
-            <p style={{ fontSize: "12px", color: "#6c757d", margin: "8px 0 4px" }}>{c.label}</p>
-            <p style={{ fontSize: "28px", fontWeight: "600" }}>{c.value}</p>
+    <div className={styles.adminWrapper}>
+      <aside className={styles.sidebar}>
+        <div className={styles.brand}>KickOff App Admin</div>
+        <nav className={styles.adminNav}>
+          <button className={styles.activeNavLink} onClick={() => navigate('/admin/dashboard')}>Dashboard</button>
+          <button onClick={() => navigate('/admin/lapangan')}>Lapangan</button>
+          <button onClick={() => navigate('/admin/jadwal')}>Jadwal</button>
+          <button onClick={() => navigate('/admin/booking')}>Booking</button>
+          <button onClick={() => navigate('/admin/user')}>User</button>
+        </nav>
+        <button className={styles.logoutBtn} onClick={() => navigate('/login')}>Logout</button>
+      </aside>
+
+      <main className={styles.mainContent}>
+        <header className={styles.mainHeader}>
+          <h2>Dashboard</h2>
+          <div className={styles.rightHeaderGroup}>
+            <div className={styles.profileCard}>
+              <div className={styles.avatarCircle}>DF</div>
+              <span className={styles.profileName}>Dinta Fridayanti</span>
+            </div>
           </div>
-        ))}
-      </div>
-    </AdminLayout>
+        </header>
+
+        <div className={styles.tableCard}>
+          <div className={styles.tableHeaderSection}>
+            <h3>Manajemen Ketentuan Sprint</h3>
+            <button className={styles.addBtn}>+ Tambah Ketentuan</button>
+          </div>
+
+          <table className={styles.adminTable}>
+            <thead>
+              <tr>
+                <th>NAMA PAKET SPRINT</th>
+                <th>DURASI</th>
+                <th>KETENTUAN & ATURAN</th>
+                <th>HARGA SLOT</th>
+                <th>AKSI</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sprints.map((item) => (
+                <tr key={item.id}>
+                  <td className={styles.boldText}>{item.nama}</td>
+                  <td><span className={styles.statusBadge}>{item.durasi}</span></td>
+                  <td>{item.ketentuan}</td>
+                  <td className={styles.priceText}>{item.harga}</td>
+                  <td>
+                    <div className={styles.actionGroup}>
+                      <button className={styles.editBtn}>Edit</button>
+                      <button className={styles.deleteBtn}>Hapus</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
   );
-}
+};
 
 export default Dashboard;

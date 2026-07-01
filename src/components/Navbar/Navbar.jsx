@@ -1,29 +1,31 @@
-import { useState, useContext } from "react";  // ← tambah useContext
+import { useState, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
-import { AuthContext } from "../../context/AuthContext";  // ← tambah import
+import { AuthContext } from "../../context/AuthContext";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
-  // ← GANTI: ambil dari context, bukan localStorage langsung
   const { token, user, logout } = useContext(AuthContext);
   const isLoggedIn = !!token;
+
+  // Mencari nama user secara dinamis dari berbagai kemungkinan nama field dari backend
+  const namaLengkap = user?.nama || user?.name || user?.username || "User";
+  const inisialHuruf = namaLengkap.charAt(0).toUpperCase();
 
   const isActive = (path) =>
     path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
 
+  // Link menu utama di bagian tengah navbar
   const navLinks = [
-    { to: "/",         label: "Home" },
+    { to: "/", label: "Home" },
     { to: "/lapangan", label: "Lapangan" },
-    { to: "/jadwal",   label: "Jadwal" },
-    { to: "/booking",  label: "Booking" },
-    { to: "/profile",  label: "Profile" },
+    { to: "/jadwal", label: "Jadwal" },
+    { to: "/booking", label: "Booking" },
   ];
 
-  // ← GANTI: cukup panggil logout() dari context
   function handleLogout() {
     logout();
     navigate("/login");
@@ -33,18 +35,18 @@ function Navbar() {
   return (
     <div className={styles.navWrapper}>
       <nav className={styles.navbar}>
-
-        {/* Logo */}
+        
+        {/* Sektor Kiri: Logo */}
         <Link to="/" className={styles.logo}>
           KickOff
         </Link>
 
-        {/* Links — desktop */}
+        {/* Sektor Tengah: Links (Desktop) */}
         <ul className={styles.navLinks}>
           {navLinks.map((link) => (
             <li key={link.to}>
-              <Link
-                to={link.to}
+              <Link 
+                to={link.to} 
                 className={`${styles.navLink} ${isActive(link.to) ? styles.navLinkActive : ""}`}
               >
                 {link.label}
@@ -53,31 +55,33 @@ function Navbar() {
           ))}
         </ul>
 
-        {/* Auth group — desktop */}
+        {/* Sektor Kanan: Kontrol Autentikasi */}
         <div className={styles.authGroup}>
           {isLoggedIn ? (
-            <>
+            <div className={styles.loggedInWrapper}>
               <Link to="/profile" className={styles.userInfo}>
                 <div className={styles.userAvatar}>
-                  {(user?.nama || user?.name || "U").charAt(0).toUpperCase()}
+                  {user?.profilePic ? (
+                    <img src={user.profilePic} alt="Profile" className={styles.avatarImg} />
+                  ) : (
+                    inisialHuruf
+                  )}
                 </div>
-                <span className={styles.userName}>
-                  {user?.nama || user?.name || "User"}
-                </span>
+                <span className={styles.userName}>{namaLengkap}</span>
               </Link>
               <button className={styles.btnLogout} onClick={handleLogout}>
                 Keluar
               </button>
-            </>
+            </div>
           ) : (
-            <>
-              <Link to="/login"    className={styles.btnLogin}>Masuk</Link>
+            <div className={styles.guestGroup}>
+              <Link to="/login" className={styles.btnLogin}>Masuk</Link>
               <Link to="/register" className={styles.btnRegister}>Daftar</Link>
-            </>
+            </div>
           )}
         </div>
 
-        {/* Hamburger — mobile */}
+        {/* Hamburger Menu (Mobile Only) */}
         <button
           className={styles.hamburger}
           onClick={() => setMenuOpen(!menuOpen)}
@@ -90,7 +94,7 @@ function Navbar() {
 
       </nav>
 
-      {/* Mobile dropdown */}
+      {/* Dropdown Menu Mobile */}
       {menuOpen && (
         <div className={styles.mobileMenu}>
           {navLinks.map((link) => (
@@ -103,25 +107,24 @@ function Navbar() {
               {link.label}
             </Link>
           ))}
+          {isLoggedIn && (
+            <Link to="/profile" className={styles.mobileLink} onClick={() => setMenuOpen(false)}>
+              Profile Saya
+            </Link>
+          )}
           <div className={styles.mobileDivider} />
           {isLoggedIn ? (
-            <>
-              <div className={styles.mobileUser}>
-                Halo, <strong>{user?.nama || user?.name || "User"}</strong>
-              </div>
-              <button className={styles.mobileLinkLogout} onClick={handleLogout}>
+            <div className={styles.mobileUserArea}>
+              <span className={styles.mobileUserText}>Halo, {namaLengkap}</span>
+              <button className={styles.mobileBtnLogout} onClick={handleLogout}>
                 Keluar
               </button>
-            </>
+            </div>
           ) : (
-            <>
-              <Link to="/login" className={styles.mobileLink} onClick={() => setMenuOpen(false)}>
-                Masuk
-              </Link>
-              <Link to="/register" className={styles.mobileLinkRegister} onClick={() => setMenuOpen(false)}>
-                Daftar
-              </Link>
-            </>
+            <div className={styles.mobileAuthButtons}>
+              <Link to="/login" className={styles.mobileLink} onClick={() => setMenuOpen(false)}>Masuk</Link>
+              <Link to="/register" className={styles.mobileLinkRegister} onClick={() => setMenuOpen(false)}>Daftar</Link>
+            </div>
           )}
         </div>
       )}

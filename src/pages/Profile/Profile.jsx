@@ -1,197 +1,81 @@
-import { useState, useEffect } from "react";
-import UploadFoto from "../../components/UploadFoto/UploadFoto";
-import { getBookingByUser, deleteBooking } from "../../utils/constant/bookingApi";
-import styles from "./Profile.module.css";
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
+import Navbar from '../../components/Navbar/Navbar';
+import styles from './Profile.module.css';
 
-function Profile() {
-  // Ambil data user dari localStorage (disimpan saat login)
-  const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+const Profile = () => {
+  const { user } = useContext(AuthContext);
+  const [profileImage, setProfileImage] = useState(null);
 
-  const [user] = useState({
-    nama:      storedUser.nama      || storedUser.name  || "User",
-    email:     storedUser.email     || "-",
-    role:      storedUser.role      || "Member",
-    bergabung: storedUser.createdAt
-      ? new Date(storedUser.createdAt).toLocaleDateString("id-ID", { month: "long", year: "numeric" })
-      : "2026",
-  });
+  const namaUser = user?.nama || user?.name || "User";
+  const emailUser = user?.email || "dinta@gmail.com";
+  const inisial = namaUser.charAt(0).toUpperCase();
 
-  const [activeTab, setActiveTab]   = useState("profil");
-  const [riwayat, setRiwayat]       = useState([]);
-  const [loadingRiwayat, setLoadingRiwayat] = useState(false);
-  const [errorRiwayat, setErrorRiwayat]     = useState("");
-
-  useEffect(() => {
-    if (activeTab === "riwayat") {
-      fetchRiwayat();
+  // Fungsi untuk handle ganti foto
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result);
+        alert("Foto profil berhasil dipilih! (Simulasi: Dalam aplikasi nyata, ini akan dikirim ke server)");
+      };
+      reader.readAsDataURL(file);
     }
-  }, [activeTab]);
-
-  async function fetchRiwayat() {
-    try {
-      setLoadingRiwayat(true);
-      setErrorRiwayat("");
-      const response = await getBookingByUser();
-      setRiwayat(response.data.data || response.data);
-    } catch (err) {
-      setErrorRiwayat("Gagal memuat riwayat booking.");
-      console.error(err);
-    } finally {
-      setLoadingRiwayat(false);
-    }
-  }
-
-  async function handleBatalBooking(id) {
-    if (!window.confirm("Yakin ingin membatalkan booking ini?")) return;
-    try {
-      await deleteBooking(id);
-      setRiwayat((prev) => prev.filter((b) => b.id_booking !== id && b.id !== id));
-    } catch (err) {
-      alert("Gagal membatalkan booking.");
-      console.error(err);
-    }
-  }
+  };
 
   return (
-    <div className={styles.page}>
+    <div className={styles.pageWrapper}>
+      <Navbar />
+      
+      <div className={styles.profileContainer}>
+        <div className={styles.profileCard}>
+          
+          <div className={styles.profileHeader}>
+            <div className={styles.avatarWrapper}>
+              {/* Lingkaran Foto / Huruf */}
+              <div className={styles.avatarBig}>
+                {profileImage ? (
+                  <img src={profileImage} alt="Profile" className={styles.previewImage} />
+                ) : (
+                  inisial
+                )}
+              </div>
+              
+              {/* Tombol Kamera untuk Upload */}
+              <label htmlFor="upload-photo" className={styles.cameraIcon}>
+                <input 
+                  type="file" 
+                  id="upload-photo" 
+                  accept="image/*" 
+                  onChange={handleImageChange} 
+                  hidden 
+                />
+                📷
+              </label>
+            </div>
 
-      {/* Hero banner */}
-      <div className={styles.heroBanner}>
-        <div className={styles.heroOverlay} />
-        <div className={styles.heroContent}>
-          <div className={styles.avatarWrapper}>
-            <div className={styles.avatar}>
-              {user.nama.charAt(0).toUpperCase()}
+            <h2 className={styles.mainName}>{namaUser}</h2>
+            <p className={styles.subEmail}>{emailUser}</p>
+            <span className={styles.badgeMember}>Premium Member</span>
+          </div>
+
+          <div className={styles.infoSection}>
+            <div className={styles.infoBox}>
+              <label>Nama Lengkap</label>
+              <p>{namaUser}</p>
+            </div>
+            <div className={styles.infoBox}>
+              <label>Email</label>
+              <p>{emailUser}</p>
             </div>
           </div>
-          <h1 className={styles.heroName}>{user.nama}</h1>
-          <p className={styles.heroEmail}>{user.email}</p>
-          <span className={styles.heroBadge}>{user.role}</span>
+
+          <button className={styles.saveBtn}>Simpan Perubahan</button>
         </div>
-      </div>
-
-      {/* Tab navigation */}
-      <div className={styles.tabRow}>
-        {["profil", "foto", "riwayat"].map((tab) => (
-          <button
-            key={tab}
-            className={`${styles.tabBtn} ${activeTab === tab ? styles.tabActive : ""}`}
-            onClick={() => setActiveTab(tab)}
-          >
-            {tab === "profil"  && "Profil Saya"}
-            {tab === "foto"    && "Foto Profil"}
-            {tab === "riwayat" && "Riwayat Booking"}
-          </button>
-        ))}
-      </div>
-
-      {/* Tab content */}
-      <div className={styles.tabContent}>
-
-        {/* Profil tab */}
-        {activeTab === "profil" && (
-          <div className={styles.card}>
-            <h2 className={styles.cardTitle}>Informasi Akun</h2>
-            <div className={styles.infoGrid}>
-              <div className={styles.infoItem}>
-                <span className={styles.infoLabel}>Nama Lengkap</span>
-                <span className={styles.infoValue}>{user.nama}</span>
-              </div>
-              <div className={styles.infoItem}>
-                <span className={styles.infoLabel}>Email</span>
-                <span className={styles.infoValue}>{user.email}</span>
-              </div>
-              <div className={styles.infoItem}>
-                <span className={styles.infoLabel}>Role</span>
-                <span className={styles.infoValue}>
-                  <span className={styles.roleBadge}>{user.role}</span>
-                </span>
-              </div>
-              <div className={styles.infoItem}>
-                <span className={styles.infoLabel}>Bergabung Sejak</span>
-                <span className={styles.infoValue}>{user.bergabung}</span>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Foto tab */}
-        {activeTab === "foto" && (
-          <div className={styles.card}>
-            <h2 className={styles.cardTitle}>Upload Foto Profil</h2>
-            <p className={styles.cardDesc}>
-              Upload foto profil kamu. Format yang didukung: JPG, PNG. Ukuran maksimal 2MB.
-            </p>
-            <UploadFoto />
-          </div>
-        )}
-
-        {/* Riwayat tab */}
-        {activeTab === "riwayat" && (
-          <div className={styles.card}>
-            <h2 className={styles.cardTitle}>Riwayat Booking</h2>
-
-            {loadingRiwayat && (
-              <p className={styles.loadingText}>Memuat riwayat booking...</p>
-            )}
-
-            {errorRiwayat && (
-              <div className={styles.alertError}>
-                {errorRiwayat}
-                <button className={styles.retryBtn} onClick={fetchRiwayat}>
-                  Coba Lagi
-                </button>
-              </div>
-            )}
-
-            {!loadingRiwayat && !errorRiwayat && riwayat.length === 0 && (
-              <p className={styles.emptyText}>Belum ada riwayat booking.</p>
-            )}
-
-            {!loadingRiwayat && riwayat.length > 0 && (
-              <div className={styles.riwayatList}>
-                {riwayat.map((item) => {
-                  const id       = item.id_booking || item.id;
-                  const lapangan = item.lapangan?.nama_lapangan || item.nama_lapangan || "-";
-                  const tanggal  = item.tanggal
-                    ? new Date(item.tanggal).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })
-                    : "-";
-                  const jam    = item.jam || "-";
-                  const status = item.status || "aktif";
-
-                  return (
-                    <div key={id} className={styles.riwayatItem}>
-                      <div className={styles.riwayatInfo}>
-                        <span className={styles.riwayatId}>#{id}</span>
-                        <span className={styles.riwayatLapangan}>{lapangan}</span>
-                        <span className={styles.riwayatDetail}>{tanggal} — {jam}</span>
-                      </div>
-                      <div className={styles.riwayatActions}>
-                        <span className={`${styles.riwayatBadge} ${
-                          status === "aktif" ? styles.badgeAktif : styles.badgeSelesai
-                        }`}>
-                          {status === "aktif" ? "Aktif" : "Selesai"}
-                        </span>
-                        {status === "aktif" && (
-                          <button
-                            className={styles.btnBatal}
-                            onClick={() => handleBatalBooking(id)}
-                          >
-                            Batalkan
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        )}
-
       </div>
     </div>
   );
-}
+};
 
 export default Profile;
