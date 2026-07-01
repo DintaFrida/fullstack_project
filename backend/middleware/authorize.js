@@ -1,13 +1,12 @@
-const authorize = (...roles) => {
+module.exports = (...allowedRoles) => {
   return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
+    // Pastikan req.user sudah ada (berkat middleware auth.js sebelumnya)
+    if (!req.user || !allowedRoles.includes(req.user.role)) {
       return res.status(403).json({
         status: "error",
-        message: "Akses ditolak"
+        message: "Akses dilarang: Anda tidak memiliki hak akses untuk fitur ini"
       });
     }
     next();
   };
 };
-
-module.exports = authorize;

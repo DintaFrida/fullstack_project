@@ -1,16 +1,16 @@
 const express = require("express");
 const router = express.Router();
-
-const {
-  tambahPembayaran,
-  getPembayaran,
-  updatePembayaran,
-  deletePembayaran
+const { 
+  tambahPembayaran, 
+  getPembayaran, 
+  updatePembayaran, 
+  deletePembayaran 
 } = require("../controllers/pembayaranController");
 
-router.post("/", tambahPembayaran);
-router.get("/", getPembayaran);
-router.put("/:id", updatePembayaran);
-router.delete("/:id", deletePembayaran); // 🔥 INI PENTING
+// Semua rute ini otomatis tersambung di bawah prefix /api/pembayaran di server.js
+router.post("/", tambahPembayaran);       // POST /api/pembayaran (Tambah transaksi baru)
+router.get("/", getPembayaran);           // GET /api/pembayaran (Lihat semua riwayat pembayaran)
+router.put("/:id", updatePembayaran);     // PUT /api/pembayaran/:id (Ubah data/status transaksi)
+router.delete("/:id", deletePembayaran);  // DELETE /api/pembayaran/:id (Hapus data pembayaran)
 
 module.exports = router;
