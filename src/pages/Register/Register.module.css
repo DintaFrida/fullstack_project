@@ -1,88 +1,210 @@
-.page { min-height: 100vh; display: flex; flex-direction: column; background: var(--bg-light); }
-.authNav { display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; background: #fff; border-bottom: 1px solid var(--border); }
-.authNavLogo { font-size: 1.2rem; font-weight: 800; color: var(--primary); }
-.authNavBack { font-size: 0.85rem; font-weight: 600; color: var(--text-body); transition: color var(--transition); }
-.authNavBack:hover { color: var(--primary); }
-.wrapper { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem 1.5rem; }
-.card { display: grid; grid-template-columns: 1fr 1fr; width: 100%; max-width: 860px; min-height: 560px; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); }
-
-/* ✅ Panel kiri: ganti dark navy → gradien pastel teal-lavender */
-.leftPanel {
-  background: linear-gradient(145deg, var(--primary), var(--secondary));
+.pageContainer {
+  width: 100%;
+  min-height: 100vh;
   position: relative;
-  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.darkOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 15, 26, 0.75); /* Sedikit disesuaikan biar pas gelapnya */
+  z-index: 1;
+}
+
+.contentWrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1050px;
+  margin: auto auto;
+  padding: 140px 24px 60px;
+}
+
+/* BOX KACA DENGAN BLUR DAN TRANSPARANSI OPTIMAL */
+.glassRegisterCard {
+  background: rgba(15, 23, 42, 0.65); /* Ditingkatkan dari 0.45 ke 0.65 agar lebih solid di depan foto */
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.65);
+  border-radius: 24px;
+  padding: 54px;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 54px;
+}
+
+.leftBrandPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.logoWrapper {
   display: flex;
   align-items: center;
-  padding: 3rem;
+  gap: 8px;
+  margin-bottom: 24px;
 }
 
-.panelContent { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 1.25rem; }
-
-/* ✅ Logo: ganti primary-light → putih supaya kontras di bg pastel */
-.panelLogo    { font-size: 1.25rem; font-weight: 800; color: #fff; }
-.panelTitle   { font-size: 2rem; font-weight: 800; color: #fff; line-height: 1.2; }
-.panelDesc    { font-size: 0.9rem; color: rgba(255,255,255,0.85); line-height: 1.65; max-width: 240px; }
-.benefits     { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-.benefits li  { font-size: 0.875rem; color: rgba(255,255,255,0.9); font-weight: 500; }
-
-.panelDecor   { position: absolute; inset: 0; pointer-events: none; }
-
-/* ✅ Dekorasi circle: ganti merah → putih transparan lembut */
-.circle1 { position: absolute; bottom: -70px; left: -50px; width: 220px; height: 220px; border-radius: 50%; background: rgba(255,255,255,0.12); }
-.circle2 { position: absolute; top: -30px; right: -30px; width: 140px; height: 140px; border-radius: 50%; background: rgba(255,255,255,0.18); }
-
-.rightPanel   { background: #fff; display: flex; align-items: center; padding: 3rem; }
-.formWrapper  { width: 100%; display: flex; flex-direction: column; gap: 1.75rem; }
-.formHeader   { display: flex; flex-direction: column; gap: 0.4rem; }
-.formTitle    { font-size: 1.75rem; font-weight: 800; color: var(--text-dark); }
-.formSubtitle { font-size: 0.9rem; color: var(--text-body); }
-.formLink     { color: var(--primary-dark); font-weight: 600; }
-.formLink:hover { text-decoration: underline; }
-
-/* ✅ Error box: ganti merah keras → pink pastel */
-.errorBox {
-  background: var(--accent-pink);
-  border: 1px solid #FFB5C8;
-  color: #8B3A5A;
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius-sm);
-  font-size: 0.875rem;
-  font-weight: 500;
+.brandIcon {
+  color: #3b82f6;
+  font-weight: 800;
+  font-size: 24px;
 }
 
-.form  { display: flex; flex-direction: column; gap: 1.1rem; }
-.field { display: flex; flex-direction: column; gap: 0.5rem; }
-.label { font-size: 0.85rem; font-weight: 600; color: var(--text-dark); }
-.input { padding: 0.75rem 1rem; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 0.95rem; font-family: var(--font); color: var(--text-dark); background: var(--bg-light); outline: none; transition: border-color var(--transition), box-shadow var(--transition); }
+.logoText {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
 
-/* ✅ Focus ring: ganti merah → teal pastel */
-.input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(126,200,200,0.2); background: #fff; }
-.input::placeholder { color: var(--text-muted); }
+.welcomeTitle {
+  font-size: 38px;
+  font-weight: 800;
+  margin: 0 0 18px 0;
+  line-height: 1.2;
+}
 
-/* ✅ Submit button: gradien teal→lavender + shadow pastel */
-.submitBtn {
-  margin-top: 0.5rem;
-  padding: 0.85rem;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: #fff;
-  font-size: 0.95rem;
-  font-weight: 700;
+.welcomeDesc {
+  font-size: 14px;
+  color: #94a3b8;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* SISI KANAN */
+.rightFormPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  padding-left: 54px;
+  position: relative;
+}
+
+/* Posisi taktis lapangan sepak bola samar */
+.fieldSvgBg {
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  transform: translateY(-50%);
+  width: 260px;
+  opacity: 0.4; /* Opacity dinaikkan supaya garis lapangannya terlihat mantap */
+  pointer-events: none;
+  z-index: 1;
+}
+
+.registerForm {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputGroup {
+  width: 100%;
+}
+
+/* Input group khusus password untuk meletakkan tombol mata absolut di kanan */
+.inputGroupRelative {
+  width: 100%;
+  position: relative;
+}
+
+.inputField {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(17, 24, 39, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+/* Beri sedikit ruang padding kanan pada input field password agar text tidak tertutup ikon mata */
+.inputGroupRelative .inputField {
+  padding-right: 46px;
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: #2563eb;
+  background: rgba(17, 24, 39, 0.85);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* TOMBOL EYE (MATA) STYLE */
+.eyeButton {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
   border: none;
-  border-radius: var(--radius-md);
+  color: #94a3b8;
   cursor: pointer;
-  font-family: var(--font);
-  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: color 0.2s;
 }
-.submitBtn:hover:not(:disabled) {
-  filter: brightness(1.07);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(196,181,253,0.4);
-}
-.submitBtn:disabled { opacity: 0.7; cursor: not-allowed; }
 
-@media (max-width: 640px) {
-  .card { grid-template-columns: 1fr; max-width: 420px; }
-  .leftPanel { min-height: 180px; padding: 2rem; }
-  .panelTitle { font-size: 1.4rem; }
-  .rightPanel { padding: 2rem; }
+.eyeButton:hover {
+  color: #ffffff;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 14px;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.submitBtn:hover {
+  background: #1d4ed8;
+}
+
+@media (max-width: 850px) {
+  .glassRegisterCard {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 36px 24px;
+  }
+  .rightFormPanel {
+    border-left: none;
+    padding-left: 0;
+  }
+  .welcomeTitle {
+    font-size: 30px;
+  }
+  .fieldSvgBg {
+    width: 180px;
+    opacity: 0.2;
+  }
 }

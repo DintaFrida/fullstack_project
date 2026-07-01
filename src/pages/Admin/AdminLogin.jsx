@@ -20,7 +20,7 @@ function AdminLogin() {
     setLoading(true);
 
     try {
-      const response = await http.post("/admin/login", formData); // sesuaikan endpoint
+      const response = await http.post("/auth/admin/login", formData);
       const result = response.data;
 
       if (result.token) {
@@ -30,6 +30,10 @@ function AdminLogin() {
         setError("Login gagal. Cek email dan password.");
       }
     } catch (err) {
+      console.log("FULL ERROR:", err);
+      console.log("RESPONSE:", err.response);
+      console.log("MESSAGE:", err.response?.data?.message);
+      alert(JSON.stringify(err.response?.data));
       setError(err.response?.data?.message || "Gagal login, coba lagi.");
     } finally {
       setLoading(false);

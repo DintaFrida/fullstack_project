@@ -1,159 +1,157 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import http from "../../utils/constant/http";
-import styles from "./Register.module.css";
+import React, { useState } from 'react';
+import styles from './Register.module.css';
+import Navbar from '../../components/Navbar/Navbar'; 
+import bgFotoLapangan from '../../assets/lapangandashboard.jpg'; 
 
-function Register() {
+const Register = () => {
   const [formData, setFormData] = useState({
-    nama: "",
-    email: "",
-    password: "",
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
   });
-  const [error, setError]     = useState("");
-  const [loading, setLoading] = useState(false);
-  const navigate              = useNavigate();
 
-  const handleChange = (e) => {
+  // State untuk toggle sembunyikan/tampilkan password
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    if (!formData.email || !formData.password) {
-      setError("Email dan password wajib diisi!");
-      setLoading(false);
+    if (formData.password !== formData.confirmPassword) {
+      alert("Password dan Konfirmasi Password tidak cocok!");
       return;
     }
-
-    try {
-      const payload = {
-        nama:     formData.nama,
-        email:    formData.email,
-        password: formData.password,
-        role:     "user",
-      };
-
-      const response = await http.post("/auth/register", payload);
-
-      if (response.status === 201 || response.status === 200) {
-        alert("Pendaftaran berhasil! Silakan login.");
-        navigate("/login");
-      }
-    } catch (err) {
-      if (err.response?.data?.message) {
-        setError(err.response.data.message);
-      } else {
-        setError("Gagal mendaftar. Email mungkin sudah digunakan.");
-      }
-    } finally {
-      setLoading(false);
-    }
+    console.log('Mendaftar dengan:', formData);
   };
 
   return (
-    <div className={styles.page}>
+    <div className={styles.pageContainer} style={{ backgroundImage: `url(${bgFotoLapangan})` }}>
+      <Navbar />
+      <div className={styles.darkOverlay}></div>
 
-      {/* Auth Navbar Mini */}
-      <div className={styles.authNav}>
-        <Link to="/" className={styles.authNavLogo}>KickOff</Link>
-        <Link to="/" className={styles.authNavBack}>← Kembali ke Beranda</Link>
-      </div>
-
-      <div className={styles.wrapper}>
-        <div className={styles.card}>
-
-          {/* Panel Kiri */}
-          <div className={styles.leftPanel}>
-            <div className={styles.panelDecor}>
-              <div className={styles.circle1} />
-              <div className={styles.circle2} />
+      <div className={styles.contentWrapper}>
+        <div className={styles.glassRegisterCard}>
+          
+          {/* KOLOM KIRI */}
+          <div className={styles.leftBrandPanel}>
+            <div className={styles.logoWrapper}>
+              <span className={styles.brandIcon}>//</span>
+              <span className={styles.logoText}>KickOff</span>
             </div>
-            <div className={styles.panelContent}>
-              <div className={styles.panelLogo}>KickOff</div>
-              <h2 className={styles.panelTitle}>
-                Bergabung<br />Sekarang!
-              </h2>
-              <p className={styles.panelDesc}>
-                Daftar gratis dan mulai booking lapangan futsal favoritmu.
-                Mudah, cepat, dan bisa kapan saja.
-              </p>
-            </div>
+            <h1 className={styles.welcomeTitle}>Bergabung<br />Sekarang!</h1>
+            <p className={styles.welcomeDesc}>
+              Daftar gratis dan mulai booking lapangan futsal favoritmu dengan mudah. Cukup satu akun untuk semua pesanan.
+            </p>
           </div>
 
-          {/* Panel Kanan - Form Register */}
-          <div className={styles.rightPanel}>
-            <div className={styles.formWrapper}>
-              <div className={styles.formHeader}>
-                <h1 className={styles.formTitle}>Buat Akun</h1>
-                <p className={styles.formSubtitle}>
-                  Sudah punya akun?{" "}
-                  <Link to="/login" className={styles.formLink}>
-                    Masuk di sini
-                  </Link>
-                </p>
+          {/* KOLOM KANAN */}
+          <div className={styles.rightFormPanel}>
+            
+            {/* Ornamen Taktis Lapangan yang Mempercantik Sisi Kanan */}
+            <div className={styles.fieldSvgBg}>
+              <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="190" height="290" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" rx="8"/>
+                <line x1="5" y1="150" x2="195" y2="150" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" />
+                <circle cx="100" cy="150" r="35" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" />
+                <path d="M 5 60 A 45 45 0 0 0 50 15 L 5 15 Z" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" fill="none"/>
+                <path d="M 195 60 A 45 45 0 0 1 150 15 L 195 15 Z" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" fill="none"/>
+                <path d="M 5 240 A 45 45 0 0 1 50 285 L 5 285 Z" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" fill="none"/>
+                <path d="M 195 240 A 45 45 0 0 0 150 285 L 195 285 Z" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" fill="none"/>
+              </svg>
+            </div>
+
+            <form onSubmit={handleSubmit} className={styles.registerForm}>
+              <div className={styles.inputGroup}>
+                <input 
+                  type="text" 
+                  name="name"
+                  className={styles.inputField}
+                  placeholder="Nama Lengkap"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                />
               </div>
 
-              {error && <div className={styles.errorBox}>⚠️ {error}</div>}
+              <div className={styles.inputGroup}>
+                <input 
+                  type="email" 
+                  name="email"
+                  className={styles.inputField}
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
 
-              <form onSubmit={handleSubmit} className={styles.form}>
-                <div className={styles.field}>
-                  <label className={styles.label}>Nama Lengkap</label>
-                  <input
-                    type="text"
-                    name="nama"
-                    value={formData.nama}
-                    onChange={handleChange}
-                    className={styles.input}
-                    placeholder="Nama lengkap kamu"
-                    autoComplete="name"
-                  />
-                </div>
-
-                <div className={styles.field}>
-                  <label className={styles.label}>Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={styles.input}
-                    placeholder="nama@email.com"
-                    autoComplete="email"
-                  />
-                </div>
-
-                <div className={styles.field}>
-                  <label className={styles.label}>Password</label>
-                  <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className={styles.input}
-                    placeholder="Minimal 6 karakter"
-                    autoComplete="new-password"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className={styles.submitBtn}
-                  disabled={loading}
+              {/* Input Password + Ikon Mata */}
+              <div className={styles.inputGroupRelative}>
+                <input 
+                  type={showPassword ? "text" : "password"} 
+                  name="password"
+                  className={styles.inputField}
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  required
+                />
+                <button 
+                  type="button" 
+                  className={styles.eyeButton}
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label="Toggle password visibility"
                 >
-                  {loading ? "⏳ Memproses..." : "Daftar Sekarang →"}
+                  {showPassword ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                  )}
                 </button>
-              </form>
-            </div>
+              </div>
+
+              {/* Input Konfirmasi Password + Ikon Mata */}
+              <div className={styles.inputGroupRelative}>
+                <input 
+                  type={showConfirmPassword ? "text" : "password"} 
+                  name="confirmPassword"
+                  className={styles.inputField}
+                  placeholder="Konfirmasi Password"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                  required
+                />
+                <button 
+                  type="button" 
+                  className={styles.eyeButton}
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  aria-label="Toggle confirm password visibility"
+                >
+                  {showConfirmPassword ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                  )}
+                </button>
+              </div>
+
+              <button type="submit" className={styles.submitBtn}>
+                Daftar &rarr;
+              </button>
+            </form>
+
           </div>
 
         </div>
+
       </div>
     </div>
   );
-}
+};
 
 export default Register;

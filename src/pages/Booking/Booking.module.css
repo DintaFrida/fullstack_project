@@ -1,42 +1,284 @@
-/* ================================================
-   Booking.module.css — Pastel Edition
-   ================================================ */
+/* ==========================================================
+   Booking.module.css — Sleek Navy Panel & Glass Schedule
+   ========================================================== */
 
-.page { padding: 0.5rem 0 3rem; }
+.page {
+  width: 100%;
+  background-color: #0b0f19;
+  min-height: 100vh;
+  color: #ffffff;
+}
 
+/* ── 1. HERO HEADER ── */
 .hero {
+  width: 100%;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  padding: 120px 20px 40px;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(11, 15, 25, 0.3) 0%,
+    rgba(11, 15, 25, 0.9) 100%
+  );
+  z-index: 1;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
   text-align: center;
-  padding: 3rem 1rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
+  max-width: 800px;
 }
 
-.eyebrow {
+.heroBadge {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #38bdf8;
   font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--primary-dark);
-  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 99px;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  letter-spacing: 1px;
 }
 
-.title {
-  font-size: clamp(1.75rem, 3.5vw, 2.4rem);
+.heroTitle {
+  font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 800;
-  color: var(--text-dark);
-  letter-spacing: -0.5px;
-  margin: 0;
 }
 
-.desc {
-  font-size: 1rem;
-  color: var(--text-body);
-  max-width: 420px;
+.heroDesc {
+  font-size: 0.95rem;
+  color: #94a3b8;
+  max-width: 500px;
 }
 
-.formWrapper {
-  max-width: 560px;
+/* Transisi Bayangan */
+.shadowTransition {
+  height: 80px;
+  margin-top: -80px;
+  position: relative;
+  z-index: 3;
+  background: linear-gradient(to bottom, rgba(11, 15, 25, 0) 0%, #0b0f19 100%);
+}
+
+/* ── 2. LAYOUT KONTEN UTAMA ── */
+.bookingContainer {
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 20px 24px 100px;
+  position: relative;
+  z-index: 4;
+}
+
+.bookingLayout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 2.5rem;
+  align-items: flex-start;
+}
+
+.sideTitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #f8fafc;
+}
+
+/* Grid Slot */
+.slotGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Kartu Slot Waktu */
+.slotCard {
+  background: #151b2c;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 14px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slotCard:hover:not(.slotCardDisabled) {
+  transform: translateY(-3px);
+  border-color: rgba(56, 189, 248, 0.3);
+  background: #1e263d;
+}
+
+.slotSelected {
+  border-color: #2563eb !important;
+  background: rgba(37, 99, 235, 0.15) !important;
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.2);
+}
+
+.slotCardDisabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: #0f131f;
+}
+
+.slotHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.slotDay {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.statusText {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 99px;
+}
+
+.txtTersedia {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+
+.txtPenuh {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+}
+
+.slotTime {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+
+.slotFooter {
+  font-size: 0.8rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dot {
+  color: #334155;
+}
+
+/* ── 3. PANEL RIGKASAN SEBELAH KANAN ── */
+.stickyPanel {
+  position: sticky;
+  top: 100px;
+  background: linear-gradient(135deg, rgba(21, 27, 44, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  padding: 30px 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.panelTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #ffffff;
+}
+
+.summaryDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.summaryRow span {
+  color: #94a3b8;
+}
+
+.summaryRow strong {
+  color: #ffffff;
+}
+
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 8px 0;
+}
+
+/* Tombol Aksi */
+.actionBtn {
+  width: 100%;
+  padding: 14px;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+}
+
+.actionBtn:hover {
+  background: #1d4ed8;
+}
+
+.actionBtn:active {
+  transform: scale(0.98);
+}
+
+/* Panel Kosong */
+.emptyPanel {
+  text-align: center;
+  padding: 40px 10px;
+}
+
+.emptyIcon {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  opacity: 0.4;
+}
+
+.emptyPanel p {
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+  .bookingLayout {
+    grid-template-columns: 1fr;
+  }
+  .stickyPanel {
+    position: static;
+  }
 }

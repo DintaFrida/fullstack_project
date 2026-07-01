@@ -1,101 +1,93 @@
-/* ================================================
-   Home.module.css — Hero Background Photo Edition
-   ================================================ */
+/* ==========================================================
+   Home.module.css — Luxury Navy Dimension & Fixed Hero Image
+   ========================================================== */
 
 .page {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
+  width: 100%;
+  /* Menggunakan warna Deep Navy berdimensi mewah */
+  background-color: #0b0f19;
 }
 
-/* ── Hero ── */
+/* ── Hero Section ── */
 .hero {
-  position: relative;
-  min-height: 92vh;
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* Foto lapangan futsal dari unsplash */
-  background-image: url('https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=1600&q=80');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  position: relative;
+  padding: 140px 20px 80px; 
 }
 
-/* Overlay gradient pastel gelap supaya teks terbaca */
+/* Efek Lapisan Kaca di Atas Gambar */
 .heroOverlay {
   position: absolute;
   inset: 0;
+  /* Gradien gelap transparan tipis agar gambar lapangan asli tetap menyala terang */
   background: linear-gradient(
-    160deg,
-    rgba(15, 144, 128, 0.72) 0%,
-    rgba(124, 58, 237, 0.65) 100%
+    180deg,
+    rgba(11, 15, 25, 0.2) 0%, 
+    rgba(11, 15, 25, 0.45) 100%
   );
+  z-index: 1;
 }
 
 .heroContent {
   position: relative;
   z-index: 2;
   text-align: center;
-  padding: 2rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
-  max-width: 680px;
+  gap: 1.5rem;
+  max-width: 850px;
+  width: 100%;
 }
 
 .heroBadge {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   color: #fff;
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 0.5px;
   padding: 6px 18px;
   border-radius: 99px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .heroTitle {
-  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-size: clamp(2.2rem, 5.5vw, 3.6rem);
   font-weight: 800;
-  color: #fff;
+  color: #ffffff;
   line-height: 1.2;
   letter-spacing: -0.5px;
-  margin: 0;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
 }
 
 .heroDesc {
   font-size: 1.05rem;
-  color: rgba(255, 255, 255, 0.88);
-  max-width: 460px;
-  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 550px;
+  line-height: 1.6;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Search bar */
+/* Search Bar */
 .searchBar {
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 520px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
+  max-width: 540px;
+  background: #ffffff;
   border-radius: 99px;
-  padding: 6px 6px 6px 18px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  padding: 6px 6px 6px 20px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
   gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-.searchIcon {
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
 }
 
 .searchInput {
@@ -104,258 +96,164 @@
   outline: none;
   background: transparent;
   font-size: 0.95rem;
-  font-family: var(--font);
-  color: var(--text-dark);
+  color: #1e293b;
 }
-.searchInput::placeholder { color: var(--text-muted); }
 
 .searchBtn {
-  padding: 8px 22px;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  padding: 10px 26px;
+  background: #2563eb;
   color: #fff;
   font-weight: 700;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   border: none;
   border-radius: 99px;
   cursor: pointer;
-  font-family: var(--font);
-  transition: all var(--transition);
-  flex-shrink: 0;
+  transition: background 0.2s ease;
 }
 .searchBtn:hover {
-  filter: brightness(1.08);
-  transform: translateY(-1px);
+  background: #1d4ed8;
 }
 
-/* Stats */
+/* Stats Row */
 .statsRow {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  padding: 1rem 2rem;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(8px);
+  gap: 2rem;
+  padding: 12px 32px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-radius: 99px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  margin-top: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .statItem {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
 }
 
 .statNum {
   font-size: 1.4rem;
   font-weight: 800;
-  color: #fff;
+  color: #ffffff;
 }
 
 .statLabel {
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.6);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .statDivider {
   width: 1px;
-  height: 32px;
-  background: rgba(255, 255, 255, 0.3);
+  height: 28px;
+  background: rgba(255, 255, 255, 0.2);
 }
 
-/* ── How it Works ── */
+/* ── Transisi Dimensi Gelap (Memisahkan Hero dan Konten Bawah) ── */
+.shadowTransition {
+  height: 120px;
+  margin-top: -120px;
+  position: relative;
+  z-index: 3;
+  background: linear-gradient(to bottom, rgba(11, 15, 25, 0) 0%, #0b0f19 100%);
+}
+
+/* ── Bagian Konten Bawah (Navy Eksklusif) ── */
 .howSection {
-  padding: 5rem 1.5rem;
+  padding: 60px 20px 100px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.5);
+  max-width: 1140px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 4;
 }
 
 .sectionEyebrow {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--primary-dark);
+  color: #38bdf8; /* Aksen warna biru muda cerah */
   text-transform: uppercase;
-  margin-bottom: 0.5rem;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
 }
 
 .sectionTitle {
-  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
   font-weight: 800;
-  color: var(--text-dark);
-  margin-bottom: 2.5rem;
-  letter-spacing: -0.3px;
+  color: #ffffff;
+  margin-bottom: 50px;
 }
 
 .stepsRow {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+  gap: 1.5rem;
+  flex-wrap: wrap; 
 }
 
+/* Kartu Transparan Navy Berdimensi (Glassmorphism Deep Blue) */
 .stepCard {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 2rem 1.5rem;
-  width: 220px;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  padding: 40px 28px;
+  width: 300px;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  transition: all var(--transition);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
+
 .stepCard:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--primary-light);
+  transform: translateY(-8px);
+  border-color: rgba(56, 189, 248, 0.35); /* Glow biru muda saat dihover */
+  box-shadow: 0 20px 40px rgba(56, 189, 248, 0.1);
 }
 
 .stepNum {
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   font-weight: 800;
-  color: var(--secondary-dark);
-  letter-spacing: 1px;
-  margin-bottom: 0.75rem;
-  background: var(--secondary-light);
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
   display: inline-block;
-  padding: 4px 12px;
+  padding: 4px 14px;
   border-radius: 99px;
+  margin-bottom: 22px;
 }
 
 .stepTitle {
-  font-size: 0.95rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  color: var(--text-dark);
-  margin-bottom: 0.5rem;
+  color: #ffffff;
+  margin-bottom: 14px;
 }
 
 .stepDesc {
-  font-size: 0.83rem;
-  color: var(--text-body);
+  font-size: 0.9rem;
+  color: #94a3b8; /* Warna teks abu kebiruan yang soft */
   line-height: 1.6;
 }
 
 .stepArrow {
-  font-size: 1.5rem;
-  color: var(--text-muted);
-  flex-shrink: 0;
+  font-size: 1.8rem;
+  color: rgba(56, 189, 248, 0.2);
+  font-weight: 300;
 }
 
-/* ── Feature Grid ── */
-.featSection {
-  padding: 5rem 1.5rem;
-  text-align: center;
-}
-
-.featGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.25rem;
-  max-width: 860px;
-  margin: 0 auto;
-}
-
-.featCard {
-  background: rgba(255, 255, 255, 0.75);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 1.75rem 1.5rem;
-  text-align: left;
-  transition: all var(--transition);
-}
-.featCard:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-sm);
-  border-color: var(--secondary);
-}
-
-.featTitle {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--text-dark);
-  margin-bottom: 0.4rem;
-}
-
-.featDesc {
-  font-size: 0.85rem;
-  color: var(--text-body);
-  line-height: 1.65;
-}
-
-/* ── CTA ── */
-.ctaSection {
-  margin: 0 1.5rem 4rem;
-  padding: 3.5rem 2rem;
-  background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
-  border-radius: var(--radius-lg);
-  text-align: center;
-  border: 1px solid var(--border);
-}
-
-.ctaTitle {
-  font-size: clamp(1.4rem, 3vw, 1.9rem);
-  font-weight: 800;
-  color: var(--text-dark);
-  margin-bottom: 0.5rem;
-}
-
-.ctaDesc {
-  font-size: 1rem;
-  color: var(--text-body);
-  margin-bottom: 1.75rem;
-}
-
-.ctaActions {
-  display: flex;
-  gap: 0.75rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.btnPrimary {
-  display: inline-block;
-  padding: 0.8rem 2rem;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: #fff;
-  font-weight: 700;
-  font-size: 0.95rem;
-  border-radius: var(--radius-md);
-  text-decoration: none;
-  transition: all var(--transition);
-  box-shadow: 0 4px 14px rgba(126, 200, 200, 0.35);
-}
-.btnPrimary:hover {
-  filter: brightness(1.07);
-  transform: translateY(-2px);
-}
-
-.btnOutline {
-  display: inline-block;
-  padding: 0.8rem 2rem;
-  background: transparent;
-  color: var(--secondary-dark);
-  font-weight: 700;
-  font-size: 0.95rem;
-  border-radius: var(--radius-md);
-  border: 2px solid var(--secondary);
-  text-decoration: none;
-  transition: all var(--transition);
-}
-.btnOutline:hover {
-  background: var(--secondary-light);
-  transform: translateY(-2px);
-}
-
-/* ── Responsive ── */
-@media (max-width: 640px) {
-  .hero { min-height: 100svh; }
-  .statsRow { gap: 1rem; padding: 0.75rem 1.25rem; }
-  .stepArrow { display: none; }
-  .stepsRow { flex-direction: column; align-items: center; }
-  .stepCard { width: 100%; max-width: 320px; }
-  .ctaSection { margin: 0 1rem 3rem; padding: 2rem 1.25rem; }
-  .searchBar { max-width: 100%; }
+@media (max-width: 900px) {
+  .stepArrow {
+    transform: rotate(90deg);
+    margin: 8px 0;
+  }
 }

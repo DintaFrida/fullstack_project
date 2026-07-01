@@ -1,148 +1,95 @@
-import { useState, useContext } from "react";  // ← tambah useContext
-import { Link, useNavigate } from "react-router-dom";
-import http from "../../utils/constant/http";
-import styles from "./Login.module.css";
-import { AuthContext } from "../../context/AuthContext";  // ← tambah import
+import React, { useState } from 'react';
+import styles from './Login.module.css';
 
-function Login() {
-  const { login } = useContext(AuthContext);  // ← ambil fungsi login dari context
+// 1. IMPORT NAVBAR GLOBAL KAMU (Sesuaikan path folder navbar jika berbeda)
+import Navbar from '../../components/Navbar/Navbar'; 
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const [error, setError]     = useState("");
-  const [loading, setLoading] = useState(false);
-  const navigate              = useNavigate();
+// 2. IMPORT FOTO BACKGROUND YANG SAMA SEPERTI DI HOME
+import bgFotoLapangan from '../../assets/lapangandashboard.jpg'; 
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-    setError("");
-  };
+const Login = () => {
+  const [email, setEmail] = useState('test@gmail.com');
+  const [password, setPassword] = useState('***********');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    if (!formData.email || !formData.password) {
-      setError("Email dan password wajib diisi!");
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const response = await http.post("/auth/login", formData);
-      const result   = response.data;
-
-      if (result.token) {
-        console.log("Response login:", result);
-        login(result.token, result.user || result.data || {});
-        navigate("/");
-      } else {
-        setError("Token tidak ditemukan dalam respons server.");
-      }
-    } catch (err) {
-      if (err.response?.data?.message) {
-        setError(err.response.data.message);
-      } else {
-        setError("Gagal masuk. Periksa koneksi atau akun Anda.");
-      }
-    } finally {
-      setLoading(false);
-    }
+    console.log('Login dengan:', email);
   };
 
   return (
-    <div className={styles.page}>
+    // Container utama pembungkus seluruh halaman
+    <div className={styles.pageContainer} style={{ backgroundImage: `url(${bgFotoLapangan})` }}>
+      
+      {/* TAMPILKAN NAVBAR DI ATAS AGAR TIDAK KOSONGAN */}
+      <Navbar />
 
-      {/* Auth Navbar Mini */}
-      <div className={styles.authNav}>
-        <Link to="/" className={styles.authNavLogo}>KickOff</Link>
-        <Link to="/" className={styles.authNavBack}>← Kembali ke Beranda</Link>
-      </div>
+      {/* Overlay Gelap pembungkus latar belakang */}
+      <div className={styles.darkOverlay}></div>
 
-      <div className={styles.wrapper}>
-        <div className={styles.card}>
-
-          {/* Panel Kiri */}
-          <div className={styles.leftPanel}>
-            <div className={styles.panelDecor}>
-              <div className={styles.circle1} />
-              <div className={styles.circle2} />
+      {/* Konten Form yang posisinya otomatis turun di bawah Navbar */}
+      <div className={styles.contentWrapper}>
+        
+        <div className={styles.glassLoginCard}>
+          
+          {/* SEKTOR KIRI: TEKS SELAMAT DATANG */}
+          <div className={styles.leftBrandPanel}>
+            <div className={styles.logoWrapper}>
+              <span className={styles.brandIcon}>//</span>
+              <span className={styles.logoText}>KickOff</span>
             </div>
-            <div className={styles.panelContent}>
-              <div className={styles.panelLogo}>KickOff</div>
-              <h2 className={styles.panelTitle}>
-                Selamat Datang<br />Kembali!
-              </h2>
-              <p className={styles.panelDesc}>
-                Masuk untuk booking lapangan, cek jadwal,
-                dan kelola pemesananmu.
-              </p>
-            </div>
+            
+            <h1 className={styles.welcomeTitle}>Selamat Datang<br />Kembali!</h1>
+            <p className={styles.welcomeDesc}>
+              Masuk untuk booking lapangan, cek jadwal, dan kelola pemesananmu dengan mudah dan cepat.
+            </p>
           </div>
 
-          {/* Panel Kanan */}
-          <div className={styles.rightPanel}>
-            <div className={styles.formWrapper}>
-              <div className={styles.formHeader}>
-                <h1 className={styles.formTitle}>Masuk</h1>
-                <p className={styles.formSubtitle}>
-                  Belum punya akun?{" "}
-                  <Link to="/register" className={styles.formLink}>
-                    Daftar di sini
-                  </Link>
-                </p>
+          {/* SEKTOR KANAN: INPUT FORM & WATERMARK LAPANGAN SAMAR */}
+          <div className={styles.rightFormPanel}>
+            
+            <div className={styles.fieldSvgBg}>
+              <svg viewBox="0 0 200 300" fill="none">
+                <rect x="10" y="10" width="180" height="280" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" rx="4"/>
+                <line x1="10" y1="150" x2="190" y2="150" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+                <circle cx="100" cy="150" r="30" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+              </svg>
+            </div>
+
+            <form onSubmit={handleSubmit} className={styles.loginForm}>
+              <div className={styles.inputGroup}>
+                <input 
+                  type="email" 
+                  className={styles.inputField}
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
               </div>
 
-              {error && <div className={styles.errorBox}>{error}</div>}
+              <div className={styles.inputGroup}>
+                <input 
+                  type="password" 
+                  className={styles.inputField}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
 
-              <form onSubmit={handleSubmit} className={styles.form}>
-                <div className={styles.field}>
-                  <label className={styles.label}>Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={styles.input}
-                    placeholder="nama@email.com"
-                    autoComplete="email"
-                    disabled={loading}
-                  />
-                </div>
+              <button type="submit" className={styles.submitBtn}>
+                Masuk
+              </button>
+            </form>
 
-                <div className={styles.field}>
-                  <label className={styles.label}>Password</label>
-                  <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className={styles.input}
-                    placeholder="Masukkan password"
-                    autoComplete="current-password"
-                    disabled={loading}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className={styles.submitBtn}
-                  disabled={loading}
-                >
-                  {loading ? "Memproses..." : "Masuk"}
-                </button>
-              </form>
-            </div>
           </div>
 
         </div>
+
       </div>
     </div>
   );
-}
+};
 
 export default Login;

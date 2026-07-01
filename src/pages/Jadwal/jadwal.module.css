@@ -1,152 +1,274 @@
-/* ================================================
-   Jadwal.module.css — Pastel Edition
-   ================================================ */
+.pageContainer {
+  width: 100%;
+  min-height: 100vh; /* Memastikan background foto memenuhi 100% tinggi layar monitor */
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Membuat background terkunci saat di-scroll agar rapi */
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+}
 
-.page { padding: 0.5rem 0 3rem; }
+/* Overlay gelap transparan tebal yang menutupi seluruh background foto secara full */
+.darkOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 15, 26, 0.78); /* Menggelapkan background agar teks putih kontras */
+  z-index: 1;
+}
 
-/* ── Hero ── */
-.hero {
-  text-align: center;
-  padding: 3rem 1rem 2.5rem;
+/* Wrapper konten utama agar berada di atas lapisan overlay */
+.contentWrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 140px 24px 60px; /* Jarak atas disesuaikan dengan tinggi Navbar kamu */
+}
+
+/* HERO TITLE SECTION */
+.heroSection {
+  margin-bottom: 32px;
+}
+
+.heroBadge {
+  background: rgba(147, 51, 234, 0.15);
+  color: #c084fc;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 16px;
+  border-radius: 99px;
+  letter-spacing: 1px;
+  border: 1px solid rgba(147, 51, 234, 0.3);
+}
+
+.heroTitle {
+  font-size: 34px;
+  font-weight: 800;
+  margin: 16px 0 8px;
+  letter-spacing: -0.5px;
+}
+
+.heroDesc {
+  font-size: 14px;
+  color: #94a3b8;
+  max-width: 600px;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* STRUKTUR DUA KOLOM UTAMA */
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr 340px; /* Kolom kiri fleksibel, kolom kanan 340px untuk ringkasan */
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* PANEL UTAMA KIRI (Slot Waktu + Lapangan Taktis Berjajar) */
+.leftMainPanel {
+  background: rgba(15, 23, 42, 0.45); /* Transparan gelap menyatu dengan background */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.innerFlexContainer {
+  display: grid;
+  grid-template-columns: 1fr 200px; /* Sektor kartu slot, sektor kanan khusus skema lapangan */
+  gap: 24px;
+}
+
+.panelTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 20px;
+  letter-spacing: -0.3px;
+}
+
+/* GRID KARTU SLOT JADWAL */
+.timeGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Membagi kartu menjadi 2 kolom persis seperti referensi */
+  gap: 16px;
+}
+
+.timeCard {
+  background: rgba(17, 24, 39, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.timeCard:hover:not(.cardDisabled) {
+  border-color: #9333ea;
+  background: rgba(23, 37, 84, 0.5);
+  transform: translateY(-2px);
+}
+
+.cardActive {
+  border-color: #9333ea !important;
+  background: rgba(147, 51, 234, 0.15) !important;
+  box-shadow: 0 0 15px rgba(147, 51, 234, 0.2);
+}
+
+.cardDisabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  border-color: rgba(239, 68, 68, 0.2) !important;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.dayTag {
+  font-size: 12px;
+  font-weight: 700;
+  color: #94a3b8;
+}
+
+.statusLabel {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 99px;
+}
+
+.statusGreen { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+.statusRed { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+
+.clockTime {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+
+.cardFooter {
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* SEKTOR SKEMA LAPANGAN TAKTIS (SVG) */
+.tacticalFieldBlock {
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  padding-left: 24px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.dotPattern {
+  position: absolute;
+  top: 10px;
+  left: 24px;
+  width: 32px;
+  height: 32px;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px);
+  background-size: 8px 8px;
+}
+
+.fieldSvgWrapper {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 16px 12px;
+}
+
+.fieldSvg {
+  width: 100%;
+  height: auto;
+  opacity: 0.4; /* Transparan tipis menyatu elegan di background */
+}
+
+/* KANAN: RINGKASAN BOOKING PREMIUM GLASSMORPHISM */
+.glassSummaryCard {
+  background: rgba(15, 23, 42, 0.45); /* Background transparan tipis */
+  backdrop-filter: blur(20px); /* Efek blur kaca super tebal tembus pandang */
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.summaryHeader {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.75rem;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 16px;
 }
 
-.eyebrow {
-  font-size: 0.75rem;
+.summaryTitle {
+  font-size: 18px;
   font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--primary-dark);
-  text-transform: uppercase;
-}
-
-.title {
-  font-size: clamp(1.75rem, 3.5vw, 2.4rem);
-  font-weight: 800;
-  color: var(--text-dark);
-  letter-spacing: -0.5px;
   margin: 0;
 }
 
-.desc {
-  font-size: 1rem;
-  color: var(--text-body);
-  max-width: 420px;
+.calendarIcon {
+  font-size: 20px;
+  opacity: 0.6;
 }
 
-/* Summary pills */
-.summaryRow {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.75rem 1.5rem;
-  background: rgba(255,255,255,0.7);
-  border: 1px solid var(--border);
-  border-radius: 99px;
-  font-size: 0.83rem;
-  font-weight: 600;
-  color: var(--text-body);
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.summaryItem {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-.summaryDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  display: inline-block;
-  flex-shrink: 0;
-}
-.summaryDivider {
-  width: 1px;
-  height: 16px;
-  background: var(--border);
-}
-
-/* Filter */
-.filterRow {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.filterBtn {
-  padding: 0.45rem 1.1rem;
-  border-radius: 99px;
-  border: 1.5px solid var(--border);
-  background: #fff;
-  color: var(--text-body);
-  font-size: 0.83rem;
-  font-weight: 600;
-  font-family: var(--font);
-  cursor: pointer;
-  transition: all var(--transition);
-}
-.filterBtn:hover {
-  border-color: var(--primary);
-  color: var(--primary-dark);
-  background: var(--primary-light);
-}
-.filterActive {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: #fff !important;
-  border-color: transparent !important;
-  box-shadow: 0 2px 10px rgba(126,200,200,0.3);
-}
-
-/* ── Grid ── */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
-  padding: 0 0.5rem;
-}
-
-/* Legend */
-.legend {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 2rem;
-  flex-wrap: wrap;
-}
-.legendItem {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-.legendDot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  display: inline-block;
-}
-.dotTersedia { background: #2A7A5A; }
-.dotPenuh    { background: #8B3A5A; }
-
-/* State box */
-.stateBox {
+.summaryDetails {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 1.5rem;
-  gap: 1rem;
-  text-align: center;
-  color: var(--text-body);
+  gap: 16px;
 }
-.stateBox span { font-size: 2.5rem; }
 
-/* Responsive */
-@media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+.detailItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.detailLabel { color: #94a3b8; }
+.detailValue { font-weight: 600; color: #f8fafc; }
+
+.actionBtn {
+  width: 100%;
+  padding: 14px;
+  background: #2563eb; /* Biru cerah sesuai tombol referensi */
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.actionBtn:hover {
+  background: #1d4ed8;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+}
+
+/* RESPONSIVE LAYOUT UNTUK HP */
+@media (max-width: 968px) {
+  .gridContainer { grid-template-columns: 1fr; }
+  .innerFlexContainer { grid-template-columns: 1fr; }
+  .tacticalFieldBlock { display: none; } /* Lapangan taktis disembunyikan di HP */
+  .timeGrid { grid-template-columns: 1fr; }
+}

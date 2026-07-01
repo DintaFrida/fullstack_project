@@ -1,172 +1,172 @@
-/* ================================================
-   Login.module.css — Pastel Edition (serasi Register)
-   ================================================ */
-
-.page {
-  min-height: 100vh;
+.pageContainer {
+  width: 100%;
+  min-height: 100vh; /* Foto otomatis memenuhi layar monitor ke bawah */
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  background: var(--bg-light);
 }
 
-.authNav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 2rem;
-  background: #fff;
-  border-bottom: 1px solid var(--border);
-}
-.authNavLogo {
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: var(--primary-dark);
-}
-.authNavBack {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-body);
-  transition: color var(--transition);
-}
-.authNavBack:hover { color: var(--primary); }
-
-.wrapper {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 1.5rem;
-}
-
-.card {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+/* Lapisan hitam transparan agar text input dan brand lebih menyala */
+.darkOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 860px;
-  min-height: 520px;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-lg);
+  height: 100%;
+  background: rgba(10, 15, 26, 0.78);
+  z-index: 1;
 }
 
-/* ✅ Panel kiri: gradien pastel teal-lavender */
-.leftPanel {
-  background: linear-gradient(145deg, var(--primary), var(--secondary));
+/* Wrapper Konten Utama di bawah Navbar */
+.contentWrapper {
   position: relative;
-  overflow: hidden;
+  z-index: 2;
+  width: 100%;
+  max-width: 1000px;
+  margin: auto auto; /* Menjaga posisi Card Login tepat di tengah layar secara vertikal & horizontal */
+  padding: 120px 24px 60px; /* Padding atas disesuaikan supaya pas di bawah Navbar */
+}
+
+/* BOX KACA UTAMA (GLASSMORPHISM) */
+.glassLoginCard {
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  border-radius: 24px;
+  padding: 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Membagi kiri dan kanan dengan rapi */
+  gap: 48px;
+}
+
+/* KOLOM KIRI */
+.leftBrandPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.logoWrapper {
   display: flex;
   align-items: center;
-  padding: 3rem;
+  gap: 8px;
+  margin-bottom: 24px;
 }
 
-.panelContent {
+.brandIcon {
+  color: #3b82f6;
+  font-weight: 800;
+  font-size: 24px;
+}
+
+.logoText {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.welcomeTitle {
+  font-size: 36px;
+  font-weight: 800;
+  margin: 0 0 16px 0;
+  line-height: 1.2;
+}
+
+.welcomeDesc {
+  font-size: 14px;
+  color: #94a3b8;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* KOLOM KANAN (FORM INPUT) */
+.rightFormPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  padding-left: 48px;
+  position: relative;
+}
+
+.fieldSvgBg {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 160px;
+  opacity: 0.05; /* Efek garis taktis lapangan samar di background form */
+  pointer-events: none;
+}
+
+.loginForm {
+  width: 100%;
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 20px;
 }
 
-.panelLogo  { font-size: 1.25rem; font-weight: 800; color: #fff; }
-.panelTitle { font-size: 2rem; font-weight: 800; color: #fff; line-height: 1.2; }
-.panelDesc  {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.65;
-  max-width: 240px;
+/* INPUT COMPONENT */
+.inputField {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(17, 24, 39, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 14px;
+  transition: all 0.2s ease;
 }
 
-.panelDecor { position: absolute; inset: 0; pointer-events: none; }
-
-/* ✅ Dekorasi circle putih transparan */
-.circle1 {
-  position: absolute;
-  bottom: -70px; left: -50px;
-  width: 220px; height: 220px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
-}
-.circle2 {
-  position: absolute;
-  top: -30px; right: -30px;
-  width: 140px; height: 140px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.18);
-}
-
-.rightPanel {
-  background: #fff;
-  display: flex;
-  align-items: center;
-  padding: 3rem;
-}
-
-.formWrapper  { width: 100%; display: flex; flex-direction: column; gap: 1.75rem; }
-.formHeader   { display: flex; flex-direction: column; gap: 0.4rem; }
-.formTitle    { font-size: 1.75rem; font-weight: 800; color: var(--text-dark); }
-.formSubtitle { font-size: 0.9rem; color: var(--text-body); }
-.formLink     { color: var(--primary-dark); font-weight: 600; }
-.formLink:hover { text-decoration: underline; }
-
-/* ✅ Error box pastel pink */
-.errorBox {
-  background: var(--accent-pink);
-  border: 1px solid #FFB5C8;
-  color: #8B3A5A;
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius-sm);
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.form  { display: flex; flex-direction: column; gap: 1.25rem; }
-.field { display: flex; flex-direction: column; gap: 0.5rem; }
-.label { font-size: 0.85rem; font-weight: 600; color: var(--text-dark); }
-
-.input {
-  padding: 0.75rem 1rem;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 0.95rem;
-  font-family: var(--font);
-  color: var(--text-dark);
-  background: var(--bg-light);
+.inputField:focus {
   outline: none;
-  transition: border-color var(--transition), box-shadow var(--transition);
+  border-color: #2563eb;
+  background: rgba(17, 24, 39, 0.8);
 }
-/* ✅ Focus ring teal pastel */
-.input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(126, 200, 200, 0.2);
-  background: #fff;
-}
-.input::placeholder { color: var(--text-muted); }
-.input:disabled { opacity: 0.6; cursor: not-allowed; }
 
-/* ✅ Submit button gradien teal-lavender */
+/* BUTTON MASUK */
 .submitBtn {
-  margin-top: 0.5rem;
-  padding: 0.85rem;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: #fff;
-  font-size: 0.95rem;
-  font-weight: 700;
+  width: 100%;
+  padding: 14px;
+  background: #2563eb; /* Biru solid premium cerah sesuai contoh */
+  color: #ffffff;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  font-family: var(--font);
-  transition: all var(--transition);
+  margin-top: 8px;
+  transition: background 0.2s;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
 }
-.submitBtn:hover:not(:disabled) {
-  filter: brightness(1.07);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(196, 181, 253, 0.4);
-}
-.submitBtn:disabled { opacity: 0.7; cursor: not-allowed; }
 
-@media (max-width: 640px) {
-  .card { grid-template-columns: 1fr; max-width: 420px; }
-  .leftPanel { min-height: 160px; padding: 2rem; }
-  .panelTitle { font-size: 1.35rem; }
-  .rightPanel { padding: 2rem; }
+.submitBtn:hover {
+  background: #1d4ed8;
+}
+
+/* RESPONSIVE LAYOUT UNTUK HP */
+@media (max-width: 768px) {
+  .glassLoginCard {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 32px 24px;
+  }
+  .rightFormPanel {
+    border-left: none;
+    padding-left: 0;
+  }
+  .welcomeTitle {
+    font-size: 28px;
+  }
 }

@@ -1,58 +1,55 @@
-:root {
-  --primary:        #7EC8C8;   /* teal pastel */
-  --primary-dark:   #5AABAB;   /* teal sedikit gelap */
-  --primary-light:  #B8E8E8;   /* teal sangat muda */
+/* ==========================================================
+   src/index.css - Global Reset & Base Layout
+   ========================================================== */
 
-  --secondary:      #C4B5FD;   /* lavender pastel */
-  --secondary-dark: #9F86E8;   /* lavender sedikit gelap */
-  --secondary-light:#EDE9FE;   /* lavender sangat muda */
-
-  --accent-pink:    #FFB5C8;   /* pink pastel */
-  --accent-peach:   #FFDAB9;   /* peach pastel */
-  --accent-mint:    #B5EAD7;   /* mint pastel */
-  --accent-yellow:  #FFF3B0;   /* kuning pastel */
-  --accent-sky:     #BAE6FD;   /* sky blue pastel */
-
-  --text-dark:      #3D3D5C;   /* ungu gelap, bukan hitam */
-  --text-body:      #6B6B8D;
-  --text-muted:     #A8A8C0;
-
-  --bg:             #FAFBFF;
-  --bg-light:       #F3F0FF;
-  --bg-card:        #FFFFFF;
-
-  --border:         #E8E4F4;
-  --shadow-sm:      0 2px 12px rgba(196,181,253,0.2);
-  --shadow-md:      0 6px 24px rgba(126,200,200,0.25);
-  --shadow-lg:      0 16px 48px rgba(159,134,232,0.2);
-
-  --radius-sm:  10px;
-  --radius-md:  16px;
-  --radius-lg:  24px;
-  --font:       'Segoe UI', system-ui, sans-serif;
-  --transition: 0.2s ease;
+/* 1. Reset Dasar untuk Semua Elemen */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  font-family: var(--font);
-  color: var(--text-body);
-  background: var(--bg);
-  -webkit-font-smoothing: antialiased;
-}
-
-a { text-decoration: none; color: inherit; }
-button { cursor: pointer; font-family: var(--font); }
-
-h1, h2, h3 {
-  color: var(--text-dark);
-  font-weight: 800;
-}
-
+/* 2. Pengaturan Root & Body Layout */
+html, 
+body, 
 #root {
   width: 100%;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  /* Menggunakan warna dasar gelap agar serasi dengan nuansa hero overlay */
+  background-color: #0b0b12; 
+  color: #ffffff;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  /* Mencegah munculnya scrollbar horizontal yang merusak layout */
+  overflow-x: hidden; 
+}
+
+/* 3. Reset untuk Elemen Link/Navigasi */
+a {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+}
+
+/* 4. Reset Default untuk List (Jika digunakan pada Navbar) */
+ul, ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* 5. Reset Input Global (Untuk Search Bar) */
+input, button {
+  font-family: inherit;
+}
+
+/* 6. Utility Variables (Opsional, untuk konsistensi warna aksen) */
+:root {
+  --primary: #2563eb;
+  --secondary: #818cf8;
+  --transition: 0.25s ease;
 }

@@ -1,47 +1,42 @@
-import { Link } from "react-router-dom";
-import styles from "./Footer.module.css";
+import React from 'react';
+import styles from './Footer.module.css';
 
-function Footer() {
-  const year = new Date().getFullYear();
-
+const Footer = () => {
   return (
-    <footer className={styles.footer}>
-      <div className={styles.inner}>
-
-        {/* Brand */}
-        <div className={styles.brand}>
-          <span className={styles.brandName}>KickOff</span>
-          <p className={styles.brandDesc}>
-            Platform booking lapangan futsal online. Mudah, cepat,
-            dan bisa kapan saja.
-          </p>
+    <footer className={styles.footerContainer}>
+      <div className={styles.footerContent}>
+        
+        <div className={styles.footerBrand}>
+          <h2>KickOff</h2>
+          <p>Platform booking lapangan futsal online. Mudah, cepat, dan bisa kapan saja.</p>
         </div>
 
-        {/* Nav links */}
-        <div className={styles.linkGroup}>
-          <span className={styles.linkTitle}>Menu</span>
-          <Link to="/"         className={styles.link}>Home</Link>
-          <Link to="/lapangan" className={styles.link}>Lapangan</Link>
-          <Link to="/jadwal"   className={styles.link}>Jadwal</Link>
-          <Link to="/booking"  className={styles.link}>Booking</Link>
+        <div className={styles.footerLinks}>
+          <h3>Menu</h3>
+          <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/lapangan">Lapangan</a></li>
+            <li><a href="/jadwal">Jadwal</a></li>
+            <li><a href="/booking">Booking</a></li>
+          </ul>
         </div>
 
-        {/* Akun */}
-        <div className={styles.linkGroup}>
-          <span className={styles.linkTitle}>Akun</span>
-          <Link to="/profile"  className={styles.link}>Profile</Link>
-          <Link to="/login"    className={styles.link}>Masuk</Link>
-          <Link to="/register" className={styles.link}>Daftar</Link>
+        <div className={styles.footerLinks}>
+          <h3>Akun</h3>
+          <ul>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/login">Masuk</a></li>
+            <li><a href="/register">Daftar</a></li>
+          </ul>
         </div>
 
       </div>
 
-      {/* Bottom bar */}
-      <div className={styles.bottom}>
-        <span>© {year} KickOff. All rights reserved.</span>
+      <div className={styles.footerCopyright}>
+        &copy; 2026 KickOff. All rights reserved.
       </div>
     </footer>
   );
-}
+};
 
 export default Footer;

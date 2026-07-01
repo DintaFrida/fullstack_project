@@ -1,88 +1,78 @@
-/* ================================================
-   Footer.module.css — Pastel Edition
-   ================================================ */
-
-.footer {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  margin-top: 4rem;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+.footerContainer {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.7); /* Mengubah dari biru terang ke Navy gelap transparan */
+  backdrop-filter: blur(16px);       /* Memberikan efek kaca buram yang mewah */
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08); /* Garis pembatas tipis di atas footer */
+  padding: 60px 24px 30px;
+  color: #ffffff;
+  position: relative;
+  z-index: 10;
+  box-sizing: border-box;
+  margin-top: auto; /* Memastikan footer tetap di paling bawah halaman */
 }
 
-.inner {
-  max-width: 1200px;
+/* Bagian pembungkus konten di dalam footer (Grid Layout) */
+.footerContent {
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 3rem 2rem 2rem;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 2rem;
+  grid-template-columns: 1.5fr 1fr 1fr; /* Kiri agak lebar untuk brand, kanan untuk menu */
+  gap: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Garis tipis sebelum copyright */
 }
 
-/* Brand */
-.brand {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.brandName {
-  font-size: 1.25rem;
+/* Sektor Brand (KickOff) */
+.footerBrand h2 {
+  font-size: 24px;
   font-weight: 800;
-  color: #fff;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+  color: #ffffff;
 }
 
-.brandDesc {
-  font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.65;
-  max-width: 260px;
+.footerBrand p {
+  font-size: 14px;
+  color: #94a3b8; /* Warna teks penjelasan dibuat abu-abu soft */
+  line-height: 1.6;
+  max-width: 320px;
 }
 
-/* Link groups */
-.linkGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.linkTitle {
-  font-size: 0.78rem;
+/* Sektor Navigasi Link Menu & Akun */
+.footerLinks h3 {
+  font-size: 15px;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.6);
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 0.25rem;
+  margin-bottom: 20px;
+  color: #3b82f6; /* Warna judul kolom menu menggunakan aksen biru kickoff */
 }
 
-.link {
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.85);
+.footerLinks ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footerLinks a {
+  font-size: 14px;
+  color: #94a3b8;
   text-decoration: none;
-  transition: color var(--transition);
-  width: fit-content;
-}
-.link:hover {
-  color: #fff;
+  transition: color 0.2s ease;
 }
 
-/* Bottom bar */
-.bottom {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1.25rem 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.6);
+.footerLinks a:hover {
+  color: #ffffff; /* Efek hover saat link disentuh mouse */
+}
+
+/* Sektor Copyright di paling bawah */
+.footerCopyright {
   text-align: center;
-}
-
-/* Responsive */
-@media (max-width: 640px) {
-  .inner {
-    grid-template-columns: 1fr 1fr;
-    padding: 2rem 1.25rem 1.5rem;
-  }
-  .brand { grid-column: 1 / -1; }
-  .bottom { padding: 1rem 1.25rem; }
+  padding-top: 24px;
+  font-size: 13px;
+  color: #64748b;
 }

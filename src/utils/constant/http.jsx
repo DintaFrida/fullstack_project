@@ -7,11 +7,12 @@ const http = axios.create({
   },
 });
 
-// INTERCEPTOR: Otomatis menyisipkan token ke setiap request
-// jika token tersedia di localStorage
 http.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const isAdminRoute = window.location.pathname.startsWith("/admin");
+    const token = isAdminRoute
+      ? localStorage.getItem("adminToken")
+      : localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -22,14 +23,18 @@ http.interceptors.request.use(
   }
 );
 
-// INTERCEPTOR RESPONSE: Handle token expired / unauthorized
 http.interceptors.response.use(
   (response) => response,
   (error) => {
+    const isAdminRoute = window.location.pathname.startsWith("/admin");
     if (error.response?.status === 401) {
-      // Token expired atau tidak valid — hapus token dan arahkan ke login
-      localStorage.removeItem("token");
-      window.location.href = "/login";
+      if (isAdminRoute) {
+        localStorage.removeItem("adminToken");
+        window.location.href = "/admin/login";
+      } else {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+      }
     }
     return Promise.reject(error);
   }
