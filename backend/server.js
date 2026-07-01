@@ -6,12 +6,15 @@ const app     = express();
 app.use(cors());
 app.use(express.json());
 
-// routes
-app.use("/api/auth",     require("./routes/authRoutes"));
-app.use("/api/booking",  require("./routes/bookingRoutes"));
-app.use("/api/lapangan", require("./routes/lapanganRoutes")); 
-app.use("/api/jadwal",   require("./routes/jadwalRoutes"));  
-app.use("/api/users",    require("./routes/userRoutes"));    
+// Routes (Disesuaikan 100% dengan isi folder routes kamu)
+app.use("/api/auth",       require("./routes/auth"));
+app.use("/api/booking",    require("./routes/booking"));
+app.use("/api/lapangan",   require("./routes/lapangan")); 
+app.use("/api/jadwal",     require("./routes/jadwal"));  
+app.use("/api/pembayaran", require("./routes/pembayaran"));
+
+// Mengarahkan rute users ke file api.js yang ada di folder kamu
+app.use("/api/users",      require("./routes/api"));    
 
 app.get("/", (req, res) => {
   res.send("API jalan");
