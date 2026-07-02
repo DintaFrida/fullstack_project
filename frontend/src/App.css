@@ -1,3 +1,6 @@
+/* @import HARUS di baris pertama */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 /* ================================
    GLOBAL RESET & BASE
 ================================ */
@@ -6,11 +9,6 @@
   margin: 0;
   padding: 0;
 }
-
-/* ================================
-   FONT - Inter (Professional)
-================================ */
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 body {
   font-family: 'Inter', sans-serif;
