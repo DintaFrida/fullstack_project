@@ -1,64 +1,56 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
-
-// Import AuthContext Global untuk mengaktifkan status login
-import { AuthContext } from '../../context/AuthContext'; 
-
-// Import Navbar Global
-import Navbar from '../../components/Navbar/Navbar'; 
-
-// Import Foto Background Lapangan
-import bgFotoLapangan from '../../assets/lapangandashboard.jpg'; 
+import { AuthContext } from '../../context/AuthContext';
+import Navbar from '../../components/Navbar/Navbar';
+import bgFotoLapangan from '../../assets/lapangandashboard.jpg';
+import http from '../../utils/constant/http';
 
 const Login = () => {
   const navigate = useNavigate();
-  const auth = useContext(AuthContext); 
+  const { login } = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    setError('');
+    setLoading(true);
+
     try {
-      console.log('Mencoba login dengan:', email);
-      
-      // 1. Jalankan fungsi login dari AuthContext kamu
-      let loggedInUser = null;
-      if (auth && typeof auth.login === 'function') {
-        loggedInUser = await auth.login(email, password);
-      } else if (auth && typeof auth.setIsAuthenticated === 'function') {
-        auth.setIsAuthenticated(true);
-      }
-      
-      alert("Login Berhasil! Selamat datang di KickOff.");
-      
-      // 2. LOGIKA REDIRECT: Cek apakah yang login adalah Admin atau User Biasa
-      if (email === "admin@kickoff.com" || loggedInUser?.role === "admin" || loggedInUser?.user?.role === "admin") {
-        // Jika email admin atau role terdeteksi admin, arahkan ke dashboard admin
-        navigate('/admin/dashboard'); 
+      const response = await http.post('/auth/login', { email, password });
+      const result = response.data;
+
+      if (result.token) {
+        login(result.token, result.user);
+        alert("Login Berhasil! Selamat datang di KickOff.");
+
+        if (result.user?.role === 'admin') {
+          navigate('/admin/dashboard');
+        } else {
+          navigate('/');
+        }
       } else {
-        // Jika user biasa, arahkan ke halaman utama/home
-        navigate('/'); 
+        setError('Login gagal. Cek email dan password.');
       }
-      
-    } catch (error) {
-      console.error("Login Error:", error);
-      alert("Email atau password salah / Gagal terhubung ke server!");
+    } catch (err) {
+      setError(err.response?.data?.message || 'Email atau password salah!');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className={styles.pageContainer} style={{ backgroundImage: `url(${bgFotoLapangan})` }}>
-      {/* Navbar di atas background */}
       <Navbar />
       <div className={styles.darkOverlay}></div>
 
       <div className={styles.contentWrapper}>
         <div className={styles.glassLoginCard}>
-          
-          {/* SEKTOR KIRI: Branding Panel */}
+
           <div className={styles.leftBrandPanel}>
             <div className={styles.logoWrapper}>
               <span className={styles.brandIcon}>//</span>
@@ -70,7 +62,6 @@ const Login = () => {
             </p>
           </div>
 
-          {/* SEKTOR KANAN: Form Input */}
           <div className={styles.rightFormPanel}>
             <div className={styles.fieldSvgBg}>
               <svg viewBox="0 0 200 300" fill="none">
@@ -80,10 +71,16 @@ const Login = () => {
               </svg>
             </div>
 
+            {error && (
+              <div style={{ background: '#fee2e2', color: '#991b1b', padding: '10px', borderRadius: '6px', marginBottom: '1rem', fontSize: '13px' }}>
+                {error}
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className={styles.loginForm}>
               <div className={styles.inputGroup}>
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   className={styles.inputField}
                   placeholder="Email"
                   value={email}
@@ -93,8 +90,8 @@ const Login = () => {
               </div>
 
               <div className={styles.inputGroup}>
-                <input 
-                  type="password" 
+                <input
+                  type="password"
                   className={styles.inputField}
                   placeholder="Password"
                   value={password}
@@ -103,8 +100,8 @@ const Login = () => {
                 />
               </div>
 
-              <button type="submit" className={styles.submitBtn}>
-                Masuk
+              <button type="submit" className={styles.submitBtn} disabled={loading}>
+                {loading ? 'Memproses...' : 'Masuk'}
               </button>
             </form>
           </div>

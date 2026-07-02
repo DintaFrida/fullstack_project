@@ -4,15 +4,15 @@ const router = express.Router();
 // =======================
 // CONTROLLERS
 // =======================
-const { register, login } = require("../controllers/authController");
-const { uploadFoto } = require("../controllers/userController"); // <-- 1. Tambah import ini
+const { register, login, adminLogin } = require("../controllers/authcontroller"); // ← sesuaikan nama file
+const { uploadFoto } = require("../controllers/userController");
 
 // =======================
 // MIDDLEWARE
 // =======================
 const authMiddleware = require("../middleware/auth");
 const authorize = require("../middleware/authorize");
-const uploadSingleImage = require("../middleware/upload"); // <-- 2. Tambah import ini
+const uploadSingleImage = require("../middleware/upload");
 
 // =======================
 // AUTH ROUTES
@@ -21,8 +21,11 @@ const uploadSingleImage = require("../middleware/upload"); // <-- 2. Tambah impo
 // Register user / admin
 router.post("/register", register);
 
-// Login (Otomatis mendeteksi user atau admin dari database)
+// Login user
 router.post("/login", login);
+
+// Login admin ← tambah ini
+router.post("/admin/login", adminLogin);
 
 // =======================
 // PROTECTED ROUTE (USER)
@@ -35,12 +38,12 @@ router.get("/profile", authMiddleware, (req, res) => {
   });
 });
 
-// Upload foto profil (Wajib login + Proses file gambar lewat key bernama 'foto')
+// Upload foto profil
 router.post(
   "/upload-foto",
   authMiddleware,
-  uploadSingleImage("foto"), // <-- 3. Saring file gambar dari field "foto" di Postman
-  uploadFoto                 // <-- 4. Catat nama filenya ke database MySQL
+  uploadSingleImage("foto"),
+  uploadFoto
 );
 
 // =======================

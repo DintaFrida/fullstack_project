@@ -1,44 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styles from './Booking.module.css';
-// Menggunakan gambar lapangan home sebagai latar belakang header agar konsisten
 import lapanganImg from '../../assets/lapangandashboard.jpg';
+import http from '../../utils/constant/http';
+import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Booking = () => {
-  // Contoh data jadwal/slot waktu yang terstruktur dari screenshot kamu
-  const [slotJadwal, setSlotJadwal] = useState([
-    {
-      id: 1,
-      hari: "Senin",
-      waktu: "17:00 - 18:00",
-      durasi: "1 Jam",
-      kategori: "Futsal",
-      status: "Tersedia"
-    },
-    {
-      id: 2,
-      hari: "Senin",
-      waktu: "19:00 - 20:00",
-      durasi: "1 Jam",
-      kategori: "Futsal",
-      status: "Penuh"
-    },
-    {
-      id: 3,
-      hari: "Selasa",
-      waktu: "20:00 - 21:00",
-      durasi: "1 Jam",
-      kategori: "Futsal",
-      status: "Tersedia"
-    }
-  ]);
-
+  const { token } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [jadwal, setJadwal] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    const fetchJadwal = async () => {
+      try {
+        const res = await http.get('/jadwal');
+        setJadwal(res.data?.data || res.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchJadwal();
+  }, []);
+
+  const handleBooking = async () => {
+    if (!selectedSlot) return;
+    setSubmitting(true);
+    try {
+      await http.post('/booking', {
+        id_user: token ? JSON.parse(atob(token.split('.')[1])).id : null,
+        id_jadwal: selectedSlot.id_jadwal,
+        tanggal_booking: new Date().toISOString().split('T')[0],
+        status: 'menunggu'
+      });
+      alert('Booking berhasil!');
+      navigate('/pembayaran'); // ← diubah dari '/' ke '/pembayaran'
+    } catch (err) {
+      alert(err.response?.data?.message || 'Gagal booking, coba lagi.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className={styles.page}>
-      {/* 1. HERO HEADER BOOKING */}
-      <section 
-        className={styles.hero} 
+      <section
+        className={styles.hero}
         style={{ backgroundImage: `url(${lapanganImg})` }}
       >
         <div className={styles.heroOverlay}></div>
@@ -51,67 +62,61 @@ const Booking = () => {
         </div>
       </section>
 
-      {/* TRANSISI GRADASI DIMENSI */}
       <div className={styles.shadowTransition}></div>
 
-      {/* 2. AREA UTAMA JADWAL */}
       <section className={styles.bookingContainer}>
         <div className={styles.bookingLayout}>
-          
-          {/* SISI KIRI: DAFTAR SLOT JADWAL */}
+
           <div className={styles.scheduleSide}>
             <h2 className={styles.sideTitle}>Pilih Slot Waktu</h2>
-            
-            <div className={styles.slotGrid}>
-              {slotJadwal.map((slot) => (
-                <div 
-                  key={slot.id} 
-                  className={`${styles.slotCard} ${selectedSlot?.id === slot.id ? styles.slotSelected : ''} ${slot.status === 'Penuh' ? styles.slotCardDisabled : ''}`}
-                  onClick={() => slot.status === 'Tersedia' && setSelectedSlot(slot)}
-                >
-                  <div className={styles.slotHeader}>
-                    <span className={styles.slotDay}>{slot.hari}</span>
-                    <span className={`${styles.statusText} ${slot.status === 'Tersedia' ? styles.txtTersedia : styles.txtPenuh}`}>
-                      {slot.status}
-                    </span>
+            {loading ? (
+              <p>Memuat jadwal...</p>
+            ) : (
+              <div className={styles.slotGrid}>
+                {jadwal.map((slot) => (
+                  <div
+                    key={slot.id_jadwal}
+                    className={`${styles.slotCard} ${selectedSlot?.id_jadwal === slot.id_jadwal ? styles.slotSelected : ''}`}
+                    onClick={() => setSelectedSlot(slot)}
+                  >
+                    <div className={styles.slotHeader}>
+                      <span className={styles.slotDay}>{slot.nama_lapangan}</span>
+                      <span className={styles.txtTersedia}>Tersedia</span>
+                    </div>
+                    <div className={styles.slotTime}>{slot.jam_mulai} - {slot.jam_selesai}</div>
+                    <div className={styles.slotFooter}>
+                      <span>{slot.tanggal?.split('T')[0]}</span>
+                    </div>
                   </div>
-                  
-                  <div className={styles.slotTime}>{slot.waktu}</div>
-                  
-                  <div className={styles.slotFooter}>
-                    <span>{slot.durasi}</span>
-                    <span className={styles.dot}>•</span>
-                    <span>{slot.kategori}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* SISI KANAN: PANEL KONFIRMASI BOOKING (GLASSMORPHISM) */}
           <div className={styles.panelSide}>
             <div className={styles.stickyPanel}>
               <h3 className={styles.panelTitle}>Detail Ringkasan</h3>
-              
               {selectedSlot ? (
                 <div className={styles.summaryDetails}>
                   <div className={styles.summaryRow}>
-                    <span>Hari</span>
-                    <strong>{selectedSlot.hari}</strong>
+                    <span>Lapangan</span>
+                    <strong>{selectedSlot.nama_lapangan}</strong>
                   </div>
                   <div className={styles.summaryRow}>
-                    <span>Jam Main</span>
-                    <strong>{selectedSlot.waktu}</strong>
+                    <span>Tanggal</span>
+                    <strong>{selectedSlot.tanggal?.split('T')[0]}</strong>
                   </div>
                   <div className={styles.summaryRow}>
-                    <span>Kategori</span>
-                    <strong>{selectedSlot.kategori} ({selectedSlot.durasi})</strong>
+                    <span>Jam</span>
+                    <strong>{selectedSlot.jam_mulai} - {selectedSlot.jam_selesai}</strong>
                   </div>
-                  
                   <div className={styles.divider}></div>
-                  
-                  <button className={styles.actionBtn}>
-                    Booking Sekarang &rarr;
+                  <button
+                    className={styles.actionBtn}
+                    onClick={handleBooking}
+                    disabled={submitting}
+                  >
+                    {submitting ? 'Memproses...' : 'Booking Sekarang →'}
                   </button>
                 </div>
               ) : (

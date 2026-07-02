@@ -16,8 +16,8 @@ import Login    from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 
 // Guard Route
-import PrivateRoute        from "../../src/components/PrivateRoute/PrivateRoute";
-import ProtectedAdminRoute from "../../src/components/ProtectedRoute/ProtectedAdminRoute";
+import PrivateRoute        from "./components/PrivateRoute/PrivateRoute";
+import ProtectedAdminRoute from "./components/ProtectedRoute/ProtectedAdminRoute";
 
 // Context
 import { AuthProvider }     from "./context/AuthContext";
